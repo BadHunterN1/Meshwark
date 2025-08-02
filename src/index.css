@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+	--font-display: "Tektur", Arial, sans-serif;
+	--background-color: hsl(220, 33%, 98%);
+	--main-color: hsl(213, 98%, 60%);
+	--secondary-color: hsl(140, 68%, 60%);
+	--gradient-primary: linear-gradient(
+		135deg,
+		hsl(142 76% 36%),
+		hsl(166 76% 46%)
+	);
+	--gradient-accent: linear-gradient(
+		135deg,
+		hsl(195 100% 85%),
+		hsl(210 100% 90%)
+	);
+	--outer-radius: 24px;
+	--inner-radius: 16px;
+}
+
+@layer base {
+	* {
+		box-sizing: border-box;
+		outline: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	html {
+		font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+			"Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+		@apply scroll-smooth;
+	}
+
+	body {
+		overflow-x: hidden !important;
+		margin: 0;
+		padding: 0;
+		background-color: var(--background-color);
+		position: relative;
+		color: hsl(215, 23%, 26%);
+		caret-color: var(--main-color);
+	}
+
+	::-webkit-scrollbar {
+		@apply w-2;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: var(--main-color);
+		@apply rounded;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background-color: #b93d13;
+	}
+
+	img {
+		max-width: 100%;
+	}
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+}
+
+@layer utilities {
+	.wrapper {
+		@apply w-full 2xl:w-[1460px] px-4 mx-auto rounded-[var(--outer-radius)];
+	}
+}
