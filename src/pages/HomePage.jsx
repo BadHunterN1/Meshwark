@@ -1,3 +1,9 @@
+import Hero from "../components/Home Sections/Hero";
+
 export default function HomePage() {
-	return <div className="wrapper">HomePage</div>;
+	return (
+		<>
+			<Hero />
+		</>
+	);
 }
