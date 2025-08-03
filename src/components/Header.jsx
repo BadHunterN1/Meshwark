@@ -1,4 +1,4 @@
-import { AlignJustify, X } from "lucide-react";
+import { AlignJustify, MapPin, X } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,9 +6,9 @@ export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
-		<nav className="bg-[#f5fbff] px-6 py-4 flex items-center justify-between rtl relative">
+		<nav className="container bg-sky-50 px-6 py-4 flex items-center justify-between relative">
 			<div className="flex items-center gap-2">
-				<img src="/logo.png" alt="Logo" className="w-6 h-6" />
+				<MapPin className="size-7 text-white p-1 rounded-sm bg-(image:--gradient-secondary)" />
 				<span className="font-semibold text-gray-800">مشوارك</span>
 			</div>
 
@@ -25,7 +25,7 @@ export default function Header() {
 				</Link>
 				<Link
 					to={"signout"}
-					className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition">
+					className="bg-[var(--main-color)] text-white rounded-md px-4 py-2 hover:bg-[var(--secondary-color)] transition">
 					إنشاء حساب
 				</Link>
 			</div>
@@ -57,7 +57,7 @@ export default function Header() {
 						<li>
 							<Link
 								to={"signout"}
-								className="w-full bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition">
+								className="w-full bg-[var(--main-color)] text-white rounded-md px-4 py-2 hover:bg-[var(--secondary-color)] transition">
 								إنشاء حساب
 							</Link>
 						</li>
