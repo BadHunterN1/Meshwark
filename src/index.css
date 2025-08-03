@@ -28,8 +28,7 @@
 	}
 
 	html {
-		font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-			"Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+		font-family: "Cairo", system-ui, sans-serif;
 		@apply scroll-smooth;
 	}
 
@@ -75,7 +74,4 @@
 }
 
 @layer utilities {
-	.wrapper {
-		@apply w-full 2xl:w-[1460px] px-4 mx-auto rounded-[var(--outer-radius)];
-	}
 }
