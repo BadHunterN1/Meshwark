@@ -16,7 +16,7 @@ const futureItems = [
 
 function Future() {
   return (
-    <section className='text-center container mx-auto '>
+    <section className='text-center container mx-auto py-16 '>
 
      <h1 className='text-[40px] font-medium mb-3'>لماذا تختار تطبيقنا ؟</h1>
      <p className='mb-15 font-medium text-[20px] text-[#838584]'>نقدم لك افضل تجربه نقل فى المنصوره مع ميزات حصريه تجعل رحلتك اسهل واسرع</p>
