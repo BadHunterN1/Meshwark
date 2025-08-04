@@ -5,16 +5,12 @@
 	--background-color: hsl(220, 33%, 98%);
 	--main-color: hsl(213, 98%, 60%);
 	--secondary-color: hsl(140, 68%, 60%);
-	--gradient-primary: linear-gradient(
-		135deg,
-		hsl(142 76% 36%),
-		hsl(166 76% 46%)
-	);
-	--gradient-accent: linear-gradient(
-		135deg,
-		hsl(195 100% 85%),
-		hsl(210 100% 90%)
-	);
+	--gradient-primary: linear-gradient(135deg,
+			hsl(142 76% 36%),
+			hsl(166 76% 46%));
+	--gradient-accent: linear-gradient(135deg,
+			hsl(195 100% 85%),
+			hsl(210 100% 90%));
 	--outer-radius: 24px;
 	--inner-radius: 16px;
 }
@@ -63,6 +59,7 @@
 	img {
 		max-width: 100%;
 	}
+
 	input[type="number"]::-webkit-inner-spin-button,
 	input[type="number"]::-webkit-outer-spin-button {
 		-webkit-appearance: none;
@@ -72,6 +69,29 @@
 	input[type="number"] {
 		-moz-appearance: textfield;
 	}
+
+	.yellow {
+		color: yellow;
+	}
+
+	.grey {
+		color: rgba(128, 128, 128, 0.534);
+	}
+
+	.testmonials {
+		background-image: linear-gradient(135deg,
+				#1F8FFD,
+				#48DB83);
+	}
+
+	.testmonial-card {
+		transition: all 0.5s ease-in-out;
+	}
+
+	.testmonial-card:hover {
+		transform: scale(1.1);
+	}
+
 }
 
 @layer utilities {

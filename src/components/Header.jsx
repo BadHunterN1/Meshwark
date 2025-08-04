@@ -1,3 +1,4 @@
+import Testmonials from "./Home Sections/Testmonials";
 export default function Header() {
 	return (
 		<header>
