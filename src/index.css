@@ -1,16 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-	--font-display: "Tektur", Arial, sans-serif;
 	--background-color: hsl(220, 33%, 98%);
 	--main-color: hsl(213, 98%, 60%);
 	--secondary-color: hsl(140, 68%, 60%);
-	--gradient-primary: linear-gradient(135deg,
-			hsl(142 76% 36%),
-			hsl(166 76% 46%));
-	--gradient-accent: linear-gradient(135deg,
-			hsl(195 100% 85%),
-			hsl(210 100% 90%));
+	--gradient-primary: linear-gradient(
+		135deg,
+		hsl(142 76% 36%),
+		hsl(166 76% 46%)
+	);
+	--gradient-accent: linear-gradient(
+		135deg,
+		hsl(195 100% 85%),
+		hsl(210 100% 90%)
+	);
+	--gradient-secondary: linear-gradient(
+		135deg,
+		hsl(210 100% 56%),
+		hsl(210 100% 70%)
+	);
 	--outer-radius: 24px;
 	--inner-radius: 16px;
 }
@@ -24,8 +32,7 @@
 	}
 
 	html {
-		font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-			"Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+		font-family: "Cairo", system-ui, sans-serif;
 		@apply scroll-smooth;
 	}
 
@@ -95,7 +102,7 @@
 }
 
 @layer utilities {
-	.wrapper {
-		@apply w-full 2xl:w-[1460px] px-4 mx-auto rounded-[var(--outer-radius)];
+	.container {
+		@apply w-full mx-auto px-2;
 	}
 }
