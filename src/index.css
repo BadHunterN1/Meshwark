@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @theme {
 	--background-color: hsl(220, 33%, 98%);
 	--main-color: hsl(213, 98%, 60%);
@@ -21,7 +22,9 @@
 	);
 	--outer-radius: 24px;
 	--inner-radius: 16px;
-}
+
+	}
+
 
 @layer base {
 	* {
