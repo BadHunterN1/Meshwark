@@ -1,4 +1,4 @@
-import { SearchIcon } from "../../assets/Images/Icons";
+import { SearchIcon } from "../../../assets/Images/Icons";
 import InputField from "./InputField";
 function SearchBox() {
     return (
