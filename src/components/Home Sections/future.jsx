@@ -14,20 +14,21 @@ const futureItems = [
 ]
 
 
+
 function Future() {
   return (
-    <section className='text-center container mx-auto py-16 '>
+    <section className='text-center container mx-auto py-18 '>
 
-     <h1 className='text-[40px] font-medium mb-3'>لماذا تختار تطبيقنا ؟</h1>
+     <h1 className='text-[40px] font-semibold mb-3'>لماذا تختار تطبيقنا ؟</h1>
      <p className='mb-15 font-medium text-[20px] text-[#838584]'>نقدم لك افضل تجربه نقل فى المنصوره مع ميزات حصريه تجعل رحلتك اسهل واسرع</p>
       
-     <div className='grid   md:grid-cols-3 gap-5  place-items-center mx-auto xl:px-30 '>
+     <div className='grid   md:grid-cols-3 gap-9  place-items-center mx-auto xl:px-30  '>
        {futureItems.map((item, index) => (
-      <div key={index} className=' h-full  w-full  bg-white py-7 px-[30px] rounded-lg shadow-md'>
+      <div key={index} className=' h-full  w-full  bg-white py-7 px-[30px] rounded-lg shadow-md  transition delay-100 ease-in-out duration-300 hover:scale-106  hover:bg-gradient-to-b from-[#EAF4FF] to-[#eaf7ff] hover:shadow-2xl group  bg-gr'>
        <div className={`  mx-auto text-white w-16 h-16 flex items-center justify-center mb-4 rounded-xl `} style={item.style} >
     {item.i}
   </div> 
-        <h1 className='my-3 font-semibold text-[27px]'> {item.h1} </h1>
+        <h1 className='my-3 font-bold text-[27px] group-hover:text-[#20ace3]'> {item.h1} </h1>
         <p className='text-[#838584] text-[17px] my-2'> {item.p} </p>
       </div>
         ))}
