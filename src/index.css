@@ -66,6 +66,7 @@
 	img {
 		max-width: 100%;
 	}
+
 	input[type="number"]::-webkit-inner-spin-button,
 	input[type="number"]::-webkit-outer-spin-button {
 		-webkit-appearance: none;
@@ -75,6 +76,29 @@
 	input[type="number"] {
 		-moz-appearance: textfield;
 	}
+
+	.yellow {
+		color: yellow;
+	}
+
+	.grey {
+		color: rgba(128, 128, 128, 0.534);
+	}
+
+	.testmonials {
+		background-image: linear-gradient(135deg,
+				#1F8FFD,
+				#48DB83);
+	}
+
+	.testmonial-card {
+		transition: all 0.5s ease-in-out;
+	}
+
+	.testmonial-card:hover {
+		transform: scale(1.1);
+	}
+
 }
 
 @layer utilities {
