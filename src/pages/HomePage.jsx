@@ -1,15 +1,13 @@
+import Future from "../components/Home Sections/future";
 import Hero from "../components/Home Sections/Hero";
-import Login from "../components/Home Sections/Login";
-import MiniMap from "../components/Home Sections/Minimap";
-import Register from "../components/Home Sections/Register";
+import Testmonials from "../components/Home Sections/Testmonials";
 
 export default function HomePage() {
 	return (
 		<>
+		<Future/>
 			<Hero />
-			<MiniMap/>
-			<Register/>
-			<Login/>
+			<Testmonials />
 		</>
 	);
 }
