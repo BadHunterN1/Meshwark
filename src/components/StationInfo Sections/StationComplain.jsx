@@ -3,8 +3,8 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 export default function StationComplain() {
 	return (
-		<div className="flex items-center justify-between gap-2 p-6 bg-white rounded-2xl w-full">
-			<form className="flex w-1/2 flex-col gap-4">
+		<div className="flex flex-col sm:flex-row items-center justify-between gap-2 p-6 bg-white rounded-2xl w-full">
+			<form className="flex w-full sm:w-1/2 flex-col gap-4">
 				<h2 className="text-2xl font-bold">اكتب رأيك عننا</h2>
 				<input
 					id="email-address"
@@ -23,7 +23,7 @@ export default function StationComplain() {
 					className="w-full rounded-md bg-gray-50 px-3.5 py-2 text-base text-gray-800 border border-gray-200 focus:border-blue-500 focus:outline-none resize-none transition-colors duration-200"></textarea>
 				<Button title={"إرسال"} />
 			</form>
-			<div className="flex-1">
+			<div className="w-full sm:w-fit">
 				<h2 className="text-2xl font-bold text-gray-800 mb-6">تواصل معنا</h2>
 				<div className="space-y-4">
 					<div className="flex items-center gap-3">
