@@ -2,7 +2,7 @@ import { Quote } from "lucide-react"
 import { Star } from "lucide-react"
 const TestmonialCard = ({p, emoji, name, title, record, description }) => {
     return (
-        <section className='testmonial-card p-2 rounded-lg container bg-white/30 backdrop-invert backdrop-opacity-10 sm:my-2 md:my-2 md:mx-auto lg:mx-2'>
+        <section className='testmonial-card p-2 rounded-lg bg-white/30 backdrop-invert backdrop-opacity-10 sm:my-2 md:my-2 md:mx-auto lg:mx-4'>
             <Quote size={40} color="#ffffff" className="bg-white/30 backdrop-invert backdrop-opacity-10 p-1 rounded-lg"/>
             <section className="flex justify-center yellow p-5 stars">
                 <Star fill="yellow"/><Star fill="yellow"/><Star fill="yellow"/><Star fill="yellow"/><Star fill="yellow"/>
