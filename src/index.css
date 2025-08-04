@@ -110,6 +110,102 @@
 	.testmonial-card:hover {
 		transform: scale(1.1);
 	}
+	/* hero section */
+	.hero {
+		background-image: url("Images/HomePage/background.jpg");
+		background-size: cover;
+		position: relative;
+		min-height: calc(100vh - 72px);
+	}
+	.hero .container {
+		padding-top: 60px;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-image: var(--hero-overlay-gradient);
+		color: white;
+	}
+	.hero .container h1 {
+		font-size: 4.5rem;
+		font-weight: bold;
+		max-width: 16ch;
+		text-wrap: wrap;
+		text-align: center;
+		margin:auto;
+		line-height: 1;
+	}
+	.hero .container h1 span {
+		color:hsl(var(--h1-text-glow));
+	}
+	.hero .container .main-heading > p {
+		font-size: 1.5rem;
+		line-height: 2rem;
+		width: fit-content;
+		margin: 30px auto;
+	}
+	.hero .container .search-box {
+		padding: 20px;
+		background: rgba(255, 255, 255, 0.25);
+		border-radius: 16px;
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(15px);
+		-webkit-backdrop-filter: blur(15px);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+	}
+	.hero .container .search-inputs {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 25px;
+	}
+	.hero .container .search-inputs .input {
+		width: 300px;
+		display: flex;
+		padding: 5px 10px;
+		background: rgba(255, 255, 255, -0.54);
+		border-radius: 6px;
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(3.7px);
+		-webkit-backdrop-filter: blur(3.7px);
+		border: .5px solid white;
+		color: white;
+		transition: .2s;
+		box-sizing: border-box;
+	}
+	.hero .container .search-inputs .input:focus-within {
+		border:3px solid white;
+		outline: 3px solid hsl(var(--blue-color));
+	}
+	.hero .container .search-inputs .input svg {
+		color:hsl(var(--muted-foreground));
+	}
+	.hero .container .search-inputs input {
+		color: white;
+	}
+	.hero .container .search-box button {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--hero-button-main-color);
+		border-radius: 6px;
+		padding: 10px 5px;
+		font-weight: 400;
+		cursor: pointer;
+		transition: .5s;
+		font-weight: bold;
+	}
+	.hero .container .search-box button:hover {
+		transform: scale(1.05);
+		background-color: var(--hero-button-glow-color);
+	}
+	.hero .container .hero-info {
+		margin-top: 100px;
+	}
 
 }
 
