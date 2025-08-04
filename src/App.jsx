@@ -5,6 +5,8 @@ import { queryClient } from "./config/query";
 import RootLayout from "./pages/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 
+
+
 const router = createBrowserRouter([
 	{
 		path: "/",
