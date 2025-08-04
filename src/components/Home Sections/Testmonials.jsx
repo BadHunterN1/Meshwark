@@ -51,7 +51,7 @@ const Testmonials = () => {
         <section className='testmonials text-center  p-8 text-white'>
             <h2 className=" text-4xl font-bold">ماذا يقول طلاب المنصورة؟</h2>
             <p className="my-3">اراء حقيقية من طلاب جامعة المنصورة الذين يستخدمون التطبيق يوميا</p>
-            <section className="testmonial-cards md:flex p-3" >
+            <section className="testmonial-cards lg:flex p-3" >
                 {
                     testmonials.map(testmonial => {
                         return (
