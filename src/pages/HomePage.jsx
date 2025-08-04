@@ -1,17 +1,13 @@
+import Future from "../components/Home Sections/future";
 import Hero from "../components/Home Sections/Hero";
-import TripRoat from "../components/Trip/TripRoat";
-
-
-
+import Testmonials from "../components/Home Sections/Testmonials";
 
 export default function HomePage() {
 	return (
 		<>
+		<Future/>
 			<Hero />
-
-			<TripRoat/>
-		
-
+			<Testmonials />
 		</>
 	);
 }
