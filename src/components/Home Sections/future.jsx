@@ -24,7 +24,7 @@ function Future() {
       
      <div className='grid   md:grid-cols-3 gap-9  place-items-center mx-auto xl:px-30  '>
        {futureItems.map((item, index) => (
-      <div key={index} className=' h-full  w-full  bg-white py-7 px-[30px] rounded-lg shadow-md  transition delay-100 ease-in-out duration-300 hover:scale-106  hover:bg-gradient-to-b from-[#EAF4FF] to-[#eaf7ff] hover:shadow-xl group  bg-gr'>
+      <div key={index} className=' h-full  w-full  bg-white py-7 px-[30px] rounded-lg shadow-md  transition delay-100 ease-in-out duration-300 hover:scale-106  hover:bg-gradient-to-b from-[#EAF4FF] to-[#eaf7ff] hover:shadow-xl group '>
        <div className={`  mx-auto text-white w-16 h-16 flex items-center justify-center mb-4 rounded-xl `} style={item.style} >
     {item.i}
   </div> 
