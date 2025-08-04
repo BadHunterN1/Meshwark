@@ -208,6 +208,31 @@
 	.hero .container .hero-info {
 		margin-top: 100px;
 	}
+	/* mediaquries */
+	@media(max-width: 767px) {
+		.hero .container .main-heading h1 {
+			font-size: 2rem;
+		}
+		.hero .container .main-heading p {
+			font-size: 1rem;
+			text-align: center;
+			margin-top: 10px;
+		}
+		.hero .container .search-box {
+			max-width: 100%;
+			width: 80%;
+		}
+		.hero .container .search-inputs {
+			flex-direction: column;
+		}
+		.hero .container .search-inputs .input {
+			width: 100%;
+		}
+		.hero .container .hero-info {
+			text-align: center;
+			margin-top: 40px;
+		}
+	}
 
 }
 
