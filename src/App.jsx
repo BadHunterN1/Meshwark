@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { queryClient } from './config/query';
 import UserContextProvider from './Context/UserContext';
 import ErrorPage from './pages/ErrorPage';
-import FavouritePage from './pages/FavouritePage';
+import FavouritePage from './pages/FavoritePage';
 import HomePage from './pages/HomePage';
 import Login from './pages/LoginPage';
 import Register from './pages/RegisterPage';
