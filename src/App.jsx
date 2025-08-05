@@ -3,13 +3,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import HomePage from "./pages/HomePage";
 import TripPage from "./pages/TripPage";
-import FavouritePage from "./pages/FavouritePage";
+import FavoritePage from "./pages/FavoritePage";
 import RootLayout from "./pages/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 import StationInfo from "./pages/StationInfo";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
-import Vision from "./pages/Vision/Vision";
+import Vision from "./pages/VisionPage";
 import UserContextProvider from "./Context/UserContext";
 const router = createBrowserRouter([
 	{
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
 				path: "trip",
 			},
 			{
-				element: <FavouritePage />,
+				element: <FavoritePage />,
 				path: "favourite",
 			},
 			{
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "vision",
-				element: <Vision /> 
+				element: <Vision />,
 			},
 		],
 	},
