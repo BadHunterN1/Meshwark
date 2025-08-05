@@ -16,6 +16,7 @@ export default function Header() {
 				<Link to={"/"}>الرئيسية</Link>
 				<a href="#">البحث عن المسارات</a>
 				<Link to={"stations"}>المحطات</Link>
+				<Link to={"vision"}>رؤيتنا</Link>
 				<Link to={"favourite"}>المفضلة</Link>
 			</ul>
 
