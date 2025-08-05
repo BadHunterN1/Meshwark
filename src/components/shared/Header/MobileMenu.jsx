@@ -6,7 +6,7 @@ import { UserContext } from '../../../Context/UserContext';
 const mobileNavigationItems = [
     { to: '/', label: 'الرئيسية' },
     { to: '/routes', label: 'المسارات' },
-    { to: '/favorite', label: 'المفضلة' },
+    { to: '/favourite', label: 'المفضلة' },
     { to: '/vision', label: 'الرؤية' },
     { to: '/help', label: 'المساعدة' },
     { to: '/about', label: 'عن التطبيق' },

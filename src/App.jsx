@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { queryClient } from './config/query';
 import UserContextProvider from './Context/UserContext';
 import ErrorPage from './pages/ErrorPage';
-import FavoritePage from './pages/FavoritePage';
+import FavouritePage from './pages/FavouritePage';
 import HomePage from './pages/HomePage';
 import Login from './pages/LoginPage';
 import Register from './pages/RegisterPage';
@@ -32,8 +32,8 @@ const router = createBrowserRouter([
                 path: 'trip',
             },
             {
-                element: <FavoritePage />,
-                path: 'favorite',
+                element: <FavouritePage />,
+                path: 'favourite',
             },
             {
                 element: <Login />,
