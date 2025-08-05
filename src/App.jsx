@@ -9,7 +9,7 @@ import ErrorPage from "./pages/ErrorPage";
 import StationInfo from "./pages/StationInfo";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
-import UserContextProvider from "./Context/UserContext"
+import UserContextProvider from "./Context/UserContext";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -47,9 +47,10 @@ function App() {
 	return (
 		<UserContextProvider>
 			<QueryClientProvider client={queryClient}>
-			  <RouterProvider router={router} />
-		  </QueryClientProvider>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
 		</UserContextProvider>
-		
 	);
 }
+
+export default App;
