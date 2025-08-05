@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 @theme {
 	--background-color: hsl(220, 33%, 98%);
 	--main-color: hsl(213, 98%, 60%);
@@ -23,14 +22,17 @@
 	--outer-radius: 24px;
 	--inner-radius: 16px;
 	--h1-text-glow: 142 69% 70%;
-	--hero-overlay-gradient: linear-gradient(135deg, hsla(210, 100%, 56%, 0.75), hsla(142, 69%, 58%, 0.75));
+	--hero-overlay-gradient: linear-gradient(
+		135deg,
+		hsla(210, 100%, 56%, 0.75),
+		hsla(142, 69%, 58%, 0.75)
+	);
 	--muted-foreground: 215 16% 47%;
 	--border: 214 32% 91%;
 	--blue-color: 210 100% 56%;
 	--hero-button-main-color: hsl(142 69% 58%);
 	--hero-button-glow-color: hsl(142 69% 70%);
-	}
-
+}
 
 @layer base {
 	* {
@@ -55,7 +57,6 @@
 		caret-color: var(--main-color);
 	}
 	:root {
-		
 	}
 
 	::-webkit-scrollbar {
@@ -98,9 +99,7 @@
 	}
 
 	.testmonials {
-		background-image: linear-gradient(135deg,
-				#1F8FFD,
-				#48DB83);
+		background-image: linear-gradient(135deg, #1f8ffd, #48db83);
 	}
 
 	.testmonial-card {
@@ -110,8 +109,7 @@
 	.testmonial-card:hover {
 		transform: scale(1.1);
 	}
- 
-	
+
 	/* hero section */
 	.hero {
 		background-image: url("assets/Images/HomePage/background.jpg");
@@ -119,7 +117,6 @@
 		position: relative;
 	}
 	.hero .holder {
-		padding-top: 60px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -129,19 +126,17 @@
 		color: white;
 		min-height: calc(100vh - 72px);
 	}
-	@media(min-width: 991px) {
-	}
 	.hero .holder h1 {
 		font-size: 4.5rem;
 		font-weight: bold;
 		max-width: 17ch;
 		text-wrap: wrap;
 		text-align: center;
-		margin:auto;
+		margin: auto;
 		line-height: 1;
 	}
 	.hero .holder h1 span {
-		color:hsl(var(--h1-text-glow));
+		color: hsl(var(--h1-text-glow));
 	}
 	.hero .holder .main-heading > p {
 		font-size: 1.5rem;
@@ -150,6 +145,7 @@
 		margin: 30px auto;
 	}
 	.hero .holder .search-box {
+		width: 50%;
 		padding: 20px;
 		background: rgba(255, 255, 255, 0.25);
 		border-radius: 16px;
@@ -164,7 +160,7 @@
 		margin-bottom: 25px;
 	}
 	.hero .holder .search-inputs .input {
-		width: 300px;
+		width: 100%;
 		display: flex;
 		padding: 5px 10px;
 		background: rgba(255, 255, 255, -0.54);
@@ -172,17 +168,16 @@
 		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 		backdrop-filter: blur(3.7px);
 		-webkit-backdrop-filter: blur(3.7px);
-		border: .5px solid white;
+		border: 0.5px solid white;
 		color: white;
-		transition: .2s;
+		transition: 0.2s;
 		box-sizing: border-box;
 	}
 	.hero .holder .search-inputs .input:focus-within {
-		border:3px solid white;
 		outline: 3px solid hsl(var(--blue-color));
 	}
 	.hero .holder .search-inputs .input svg {
-		color:hsl(var(--muted-foreground));
+		color: hsl(var(--muted-foreground));
 	}
 	.hero .holder .search-inputs input {
 		color: white;
@@ -197,7 +192,7 @@
 		padding: 10px 5px;
 		font-weight: 400;
 		cursor: pointer;
-		transition: .5s;
+		transition: 0.5s;
 		font-weight: bold;
 	}
 	.hero .holder .search-box button:hover {
@@ -208,12 +203,12 @@
 		margin-top: 60px;
 	}
 	/* mediaquries */
-	@media(max-width: 767px) {
+	@media (max-width: 767px) {
 		.hero .holder {
 			min-height: calc(100vh - 60px);
 		}
 	}
-	@media(max-width: 991px) {
+	@media (max-width: 991px) {
 		.hero .holder .main-heading h1 {
 			font-size: 2rem;
 		}
@@ -223,7 +218,6 @@
 			margin-top: 10px;
 		}
 		.hero .holder .search-box {
-			max-width: 100%;
 			width: 80%;
 		}
 		.hero .holder .search-inputs {
@@ -234,10 +228,9 @@
 		}
 		.hero .holder .hero-info {
 			text-align: center;
-			margin-top: 40px
+			margin-top: 40px;
 		}
 	}
-
 }
 
 @layer utilities {
