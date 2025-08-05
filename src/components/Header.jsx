@@ -1,6 +1,7 @@
 import { AlignJustify, MapPin, X } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,11 +14,39 @@ export default function Header() {
       </div>
 
       <ul className="hidden md:flex gap-8 text-gray-500 font-medium">
-        <Link to={"/"}>الرئيسية</Link>
+        <NavLink
+          to={"/"}
+          className={({ isActive }) =>
+            isActive ? "text-green-600 font-semibold" : "text-gray-600"
+          }
+        >
+          الرئيسية
+        </NavLink>
 
-        <Link to={"vision"}>الرؤية</Link>
-        <Link to={"favourite"}>المفضلة</Link>
-        <Link to={"contact"}>تواصل معنا</Link>
+        <NavLink
+          to={"vision"}
+          className={({ isActive }) =>
+            isActive ? "text-green-600 font-semibold" : "text-gray-600"
+          }
+        >
+          الرؤية
+        </NavLink>
+        <NavLink
+          to={"favourite"}
+          className={({ isActive }) =>
+            isActive ? "text-green-600 font-semibold" : "text-gray-600"
+          }
+        >
+          المفضلة
+        </NavLink>
+        <NavLink
+          to={"contact"}
+          className={({ isActive }) =>
+            isActive ? "text-green-600 font-semibold" : "text-gray-600"
+          }
+        >
+          تواصل معنا
+        </NavLink>
       </ul>
 
       <div className="hidden md:flex items-center gap-4">
@@ -44,10 +73,42 @@ export default function Header() {
           <ul className="flex flex-col gap-4 px-6 py-4 text-gray-700 font-medium">
             <hr className="border-t border-gray-300" />
 
-            <Link to={"/"}>الرئيسية</Link>
-            <a href="#">البحث عن المسارات</a>
-            <Link to={"stations"}>المحطات</Link>
-            <Link to={"favourite"}>المفضلة</Link>
+            <NavLink
+              to={"/"}
+              className={({ isActive }) =>
+                isActive ? "text-green-600 font-semibold" : "text-gray-600"
+              }
+            >
+              الرئيسية
+            </NavLink>
+
+            <NavLink
+              href="#"
+              className={({ isActive }) =>
+                isActive ? "text-green-600 font-semibold" : "text-gray-600"
+              }
+            >
+              البحث عن المسارات
+            </NavLink>
+
+            <NavLink
+              to={"stations"}
+              className={({ isActive }) =>
+                isActive ? "text-green-600 font-semibold" : "text-gray-600"
+              }
+            >
+              المحطات
+            </NavLink>
+
+            <NavLink
+              to={"favourite"}
+              className={({ isActive }) =>
+                isActive ? "text-green-600 font-semibold" : "text-gray-600"
+              }
+            >
+              المفضلة
+            </NavLink>
+
             <hr className="border-t border-gray-300" />
 
             <li>
