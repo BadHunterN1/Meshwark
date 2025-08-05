@@ -1,3 +1,3 @@
-export default function Hero() {
-	return <div>Hero</div>;
-}
+				export default function Hero() {
+					return;
+				}
