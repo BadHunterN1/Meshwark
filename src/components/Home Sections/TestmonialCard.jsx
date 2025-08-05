@@ -1,12 +1,13 @@
-import { Quote } from "lucide-react"
-import { Star } from "lucide-react"
+import { Quote } from "lucide-react";
+import { Star } from "lucide-react";
+
 const TestmonialCard = ({p, emoji, name, title, record, description }) => {
     return (
         <section className='testmonial-card p-2 rounded-lg bg-white/30 backdrop-invert backdrop-opacity-10 my-2 md:my-2 mx-4'>
             <Quote size={40} color="#ffffff" className="bg-white/30 backdrop-invert backdrop-opacity-10 p-1 rounded-lg"/>
-            <section className="flex justify-center yellow p-5 stars">
+            <div className="flex justify-center yellow p-5 stars">
                 <Star fill="yellow"/><Star fill="yellow"/><Star fill="yellow"/><Star fill="yellow"/><Star fill="yellow"/>
-            </section>
+            </div>
             <p className="p-3 text-xl">
                 {p}
             </p>
@@ -26,7 +27,7 @@ const TestmonialCard = ({p, emoji, name, title, record, description }) => {
                 {description}
             </p>
         </section>
-    )
-}
+    );
+};
 
-export default TestmonialCard
+export default TestmonialCard;

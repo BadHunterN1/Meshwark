@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Record = ({h4, p }) => {
     return (
         <section className='record sm:grid-cols-1'>
@@ -10,7 +8,7 @@ const Record = ({h4, p }) => {
                 {p}
             </p>
         </section>
-    )
-}
+    );
+};
 
 export default Record;

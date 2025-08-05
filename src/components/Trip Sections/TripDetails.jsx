@@ -9,7 +9,6 @@ export default function TripDetails() {
         <h3 className="font-semibold  text-xl md:text-2xl leading-none p-6 ">
           تفاصيل المسار خطوة بخطوة
         </h3>
-
         <Box active num={1} />
         <Box num={2} stations={stations} />
         <Box active num={3} />
