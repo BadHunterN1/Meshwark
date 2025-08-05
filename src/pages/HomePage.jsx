@@ -1,3 +1,4 @@
+
 import Future from "../components/Home Sections/future";
 import Hero from "../components/Home Sections/Hero";
 import HeroSection from "../components/Home Sections/HeroSection/HeroSection";
@@ -10,6 +11,7 @@ export default function HomePage() {
 		<Future/>
 		<Hero />
 		<Testmonials />
+		
 		</>
 	);
 }

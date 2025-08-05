@@ -10,7 +10,7 @@ import StationInfo from "./pages/StationInfo";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
 import Vision from "./pages/Vision/Vision";
-
+import UserContextProvider from "./Context/UserContext";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -48,11 +48,14 @@ const router = createBrowserRouter([
 		],
 	},
 ]);
-
-export default function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
+function App() {
+	return (
+		<UserContextProvider>
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
+		</UserContextProvider>
+	);
 }
+
+export default App;
