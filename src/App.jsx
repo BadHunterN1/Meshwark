@@ -13,7 +13,13 @@ import StationInfo from './pages/StationInfo';
 import TripPage from './pages/TripPage';
 import Vision from './pages/VisionPage';
 
+import ContactUs from "./pages/contactUs";
 const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <RootLayout />,
+		errorElement: <ErrorPage />,
+		children: [
     {
         path: '/',
         element: <RootLayout />,
@@ -53,6 +59,8 @@ const router = createBrowserRouter([
             },
         ],
     },
+		],
+	},
 ]);
 
 function App() {
