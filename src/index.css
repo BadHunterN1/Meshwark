@@ -22,7 +22,13 @@
 	);
 	--outer-radius: 24px;
 	--inner-radius: 16px;
-
+	--h1-text-glow: 142 69% 70%;
+	--hero-overlay-gradient: linear-gradient(135deg, hsla(210, 100%, 56%, 0.75), hsla(142, 69%, 58%, 0.75));
+	--muted-foreground: 215 16% 47%;
+	--border: 214 32% 91%;
+	--blue-color: 210 100% 56%;
+	--hero-button-main-color: hsl(142 69% 58%);
+	--hero-button-glow-color: hsl(142 69% 70%);
 	}
 
 
@@ -49,13 +55,7 @@
 		caret-color: var(--main-color);
 	}
 	:root {
-		--h1-text-glow: 142 69% 70%;
-		--hero-overlay-gradient: linear-gradient(135deg, hsla(210, 100%, 56%, 0.75), hsla(142, 69%, 58%, 0.75));
-		--muted-foreground: 215 16% 47%;
-		--border: 214 32% 91%;
-		--blue-color: 210 100% 56%;
-		--hero-button-main-color: hsl(142 69% 58%);
-		--hero-button-glow-color: hsl(142 69% 70%);
+		
 	}
 
 	::-webkit-scrollbar {
@@ -114,7 +114,7 @@
 	
 	/* hero section */
 	.hero {
-		background-image: url("Images/HomePage/background.jpg");
+		background-image: url("assets/Images/HomePage/background.jpg");
 		background-size: cover;
 		position: relative;
 		min-height: calc(100vh - 72px);
