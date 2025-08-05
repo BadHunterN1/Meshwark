@@ -16,7 +16,7 @@ const TripSummary = () => {
             <div className="flex justify-between items-start flex-wrap gap-3">
                 <div className=" space-y-2">
                     <div className="text-gray-800 font-semibold text-lg">مسار الرحلة</div>
-                    <div className="text-sm text-gray-600 flex items-center flex-row-reverse gap-1">
+                         <div className="text-sm text-gray-600 flex items-center flex-row-reverse gap-1">
                         <span>محطة الجامعة الرئيسية</span>
                         <MoveLeft className="w-4 h-4 text-gray-400"/>
                         <span className="cursor-pointer">الجامعة - جيهان</span>
