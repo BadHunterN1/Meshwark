@@ -3,7 +3,7 @@ import SearchBox from "./SearchBox";
 function HeroSection() {
     return (
         <div className="hero">
-            <div className="container">
+            <div className="holder">
                 <div className="main-heading">
                     <h1>
                         اكتشف أفضل طريق <span>في المنصورة</span>
