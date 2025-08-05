@@ -1,7 +1,15 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { UserContext } from "../Context/UserContext";
 
 export default function Register() {
+	const navigate = useNavigate();
+	const [errorMsg, setErrorMsg] = useState("");
+
+	const { setUserLogin, setToken } = useContext(UserContext);
+
 	const formik = useFormik({
 		initialValues: {
 			name: "",
@@ -29,9 +37,23 @@ export default function Register() {
 		}),
 		onSubmit: (values) => {
 			let users = JSON.parse(localStorage.getItem("userRegisterData")) || [];
+
+			const alreadyExists = users.find(
+				(user) => user.email === values.email || user.phone === values.phone
+			);
+
+			if (alreadyExists) {
+				setErrorMsg("هذا الحساب مسجل بالفعل");
+				return;
+			}
+			
 			users.push(values);
 			localStorage.setItem("userRegisterData", JSON.stringify(users));
-			alert("تم التسجيل ");
+
+			setUserLogin(values.name);
+			setToken("mock-token-123"); 
+
+			navigate("/");
 		},
 	});
 
@@ -40,12 +62,17 @@ export default function Register() {
 			<form
 				onSubmit={formik.handleSubmit}
 				className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-				<h2 className="text-2xl font-bold mb-6 text-center">انشاء حساب</h2>
+				<h2 className="text-2xl font-bold mb-6 text-center">إنشاء حساب</h2>
 
+				{errorMsg && (
+					<p className="text-red-600 text-center font-medium mb-4">
+						{errorMsg}
+					</p>
+				)}
+
+				
 				<div className="mb-4">
-					<label
-						htmlFor="name"
-						className="block mb-1 text-sm font-medium text-gray-700">
+					<label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-700">
 						الاسم
 					</label>
 					<input
@@ -62,10 +89,9 @@ export default function Register() {
 					)}
 				</div>
 
+			
 				<div className="mb-4">
-					<label
-						htmlFor="email"
-						className="block mb-1 text-sm font-medium text-gray-700">
+					<label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">
 						الإيميل
 					</label>
 					<input
@@ -83,9 +109,7 @@ export default function Register() {
 				</div>
 
 				<div className="mb-4">
-					<label
-						htmlFor="phone"
-						className="block mb-1 text-sm font-medium text-gray-700">
+					<label htmlFor="phone" className="block mb-1 text-sm font-medium text-gray-700">
 						رقم الهاتف
 					</label>
 					<input
@@ -102,10 +126,9 @@ export default function Register() {
 					)}
 				</div>
 
+				
 				<div className="mb-4">
-					<label
-						htmlFor="password"
-						className="block mb-1 text-sm font-medium text-gray-700">
+					<label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">
 						كلمة المرور
 					</label>
 					<input
@@ -118,16 +141,13 @@ export default function Register() {
 						className="w-full p-2 border border-gray-300 rounded"
 					/>
 					{formik.touched.password && formik.errors.password && (
-						<p className="text-sm text-red-500 mt-1">
-							{formik.errors.password}
-						</p>
+						<p className="text-sm text-red-500 mt-1">{formik.errors.password}</p>
 					)}
 				</div>
 
+				
 				<div className="mb-6">
-					<label
-						htmlFor="confirmPassword"
-						className="block mb-1 text-sm font-medium text-gray-700">
+					<label htmlFor="confirmPassword" className="block mb-1 text-sm font-medium text-gray-700">
 						تأكيد كلمة المرور
 					</label>
 					<input
@@ -140,9 +160,7 @@ export default function Register() {
 						className="w-full p-2 border border-gray-300 rounded"
 					/>
 					{formik.touched.confirmPassword && formik.errors.confirmPassword && (
-						<p className="text-sm text-red-500 mt-1">
-							{formik.errors.confirmPassword}
-						</p>
+						<p className="text-sm text-red-500 mt-1">{formik.errors.confirmPassword}</p>
 					)}
 				</div>
 

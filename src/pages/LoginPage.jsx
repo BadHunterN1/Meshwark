@@ -1,8 +1,14 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { UserContext } from "../Context/UserContext";
 
 export default function Login() {
-	let formik = useFormik({
+	const navigate = useNavigate();
+	const { setUserLogin, setToken } = useContext(UserContext);
+
+	const formik = useFormik({
 		initialValues: {
 			email: "",
 			password: "",
@@ -22,7 +28,9 @@ export default function Login() {
 				);
 
 				if (foundUser) {
-					alert("تم تسجيل الدخول بنجاح");
+					setUserLogin(foundUser.name);
+					setToken("mock-token-123");
+					navigate("/");
 				} else {
 					alert("الإيميل أو كلمة المرور غير صحيحة");
 				}
@@ -86,6 +94,13 @@ export default function Login() {
 					className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
 					دخول
 				</button>
+
+				<p className="text-sm text-center mt-4">
+					ليس لديك حساب ؟{" "}
+					<Link to="/register" className="text-blue-600 hover:underline p-2">
+						سجل من هنا
+					</Link>
+				</p>
 			</form>
 		</div>
 	);
