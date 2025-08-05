@@ -20,30 +20,45 @@ const router = createBrowserRouter([
 		element: <RootLayout />,
 		errorElement: <ErrorPage />,
 		children: [
-			{
-				index: true,
-				element: <HomePage />,
-			},
-			{
-				element: <StationInfo />,
-				path: "station-info",
-			},
-			{
-				element: <TripPage />,
-				path: "trip",
-			},
-			{
-				element: <FavouritePage />,
-				path: "favourite",
-			},
-			{
-				element: <Login />,
-				path: "login",
-			},
-			{
-				element: <Register />,
-				path: "register",
-			},
+    {
+        path: '/',
+        element: <RootLayout />,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                index: true,
+                element: <HomePage />,
+            },
+            {
+                element: <StationInfo />,
+                path: 'station-info',
+            },
+            {
+                element: <TripPage />,
+                path: 'trip',
+            },
+            {
+                element: <FavouritePage />,
+                path: 'favourite',
+            },
+            {
+                element: <Login />,
+                path: 'login',
+            },
+            {
+                element: <Register />,
+                path: 'register',
+            },
+            {
+                path: 'vision',
+                element: <Vision />,
+            },
+            {
+                path: 'routes',
+                element: <RoutesPage />,
+            },
+        ],
+    },
 		],
 	},
 ]);
