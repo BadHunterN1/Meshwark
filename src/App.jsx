@@ -9,6 +9,7 @@ import ErrorPage from "./pages/ErrorPage";
 import StationInfo from "./pages/StationInfo";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
+import Vision from "./pages/Vision/Vision";
 import UserContextProvider from "./Context/UserContext";
 const router = createBrowserRouter([
 	{
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
 			{
 				element: <Register />,
 				path: "register",
+			},
+			{
+				path: "vision",
+				element: <Vision /> 
 			},
 		],
 	},
