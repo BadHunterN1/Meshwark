@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --background-color: hsl(220, 33%, 98%);
@@ -43,7 +43,7 @@
   }
 
   html {
-    font-family: "Cairo", system-ui, sans-serif;
+    font-family: 'Cairo', system-ui, sans-serif;
     @apply scroll-smooth;
   }
 
@@ -80,13 +80,13 @@
     max-width: 100%;
   }
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
   }
 
@@ -112,7 +112,7 @@
 
   /* hero section */
   .hero {
-    background-image: url("assets/Images/HomePage/background.jpg");
+    background-image: url('assets/Images/HomePage/background.jpg');
     background-size: cover;
     position: relative;
   }
