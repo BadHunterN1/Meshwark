@@ -65,7 +65,7 @@ export default function StationReview() {
 					rows="3"
 					placeholder="اكتب تعليقك هنا..."
 				/>
-				<Button title={"إرسال التقييم"} />
+				<Button>ارسال تقييم</Button>
 			</form>
 
 			<div className="border-t pt-5">
