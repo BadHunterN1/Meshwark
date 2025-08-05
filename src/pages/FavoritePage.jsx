@@ -1,6 +1,6 @@
-import React from "react";
-import FavouritesCards from "../components/Favorites Sections/FavoritesCards";
+import React from 'react';
+import FavouritesCards from '../components/Favorites Sections/FavoritesCards';
 
-export default function FavouritePage() {
-	return <FavouritesCards />;
+export default function FavoritePage() {
+    return <FavouritesCards />;
 }
