@@ -1,7 +1,6 @@
-import React from 'react';
-import { Star, Lightbulb, Users, Eye, Zap } from 'lucide-react';
+import { Eye, Lightbulb, Star, Users, Zap } from 'lucide-react';
 
-export default function Vision() {
+export default function AboutApp() {
     const values = [
         {
             title: 'التميّز',
@@ -33,7 +32,7 @@ export default function Vision() {
             <div className="bg-gradient-to-tr from-blue-100 to-green-100 px-4 py-16">
                 <div className="container flex flex-col items-center justify-start">
                     <h2 className="text-6xl text-blue-400 font-bold mb-20 mt-4">
-                        رؤيتنا
+                        عن التطبيق
                     </h2>
 
                     <div className="max-w-4xl w-full bg-white shadow-md rounded-xl p-4 md:p-8 flex flex-col-reverse md:flex-row-reverse items-center justify-between gap-4 md:gap-8">

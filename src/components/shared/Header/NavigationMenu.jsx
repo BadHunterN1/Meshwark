@@ -4,7 +4,6 @@ const navigationItems = [
     { to: '/', label: 'الرئيسية' },
     { to: '/routes', label: 'المسارات' },
     { to: '/favourite', label: 'المفضلة' },
-    { to: '/vision', label: 'الرؤية' },
     { to: '/help', label: 'المساعدة' },
     { to: '/about', label: 'عن التطبيق' },
 ];

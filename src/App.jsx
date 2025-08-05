@@ -2,6 +2,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { queryClient } from './config/query';
 import UserContextProvider from './Context/UserContext';
+import ContactUs from './pages/ContactUs';
 import ErrorPage from './pages/ErrorPage';
 import FavouritePage from './pages/FavouritePage';
 import HomePage from './pages/HomePage';
@@ -9,11 +10,9 @@ import Login from './pages/LoginPage';
 import Register from './pages/RegisterPage';
 import RootLayout from './pages/RootLayout';
 import RoutesPage from './pages/RoutesPage';
-import StationInfo from './pages/StationInfo';
-import TripPage from './pages/TripPage';
-import Vision from './pages/VisionPage';
 
-import ContactUs from './pages/contactUs';
+import AboutApp from './pages/AboutApp';
+
 const router = createBrowserRouter([
     {
         path: '/',
@@ -25,17 +24,22 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                element: <StationInfo />,
-                path: 'station-info',
-            },
-            {
-                element: <TripPage />,
-                path: 'trip',
+                path: 'routes',
+                element: <RoutesPage />,
             },
             {
                 element: <FavouritePage />,
                 path: 'favourite',
             },
+            {
+                path: 'about',
+                element: <AboutApp />,
+            },
+            {
+                element: <ContactUs />,
+                path: 'help',
+            },
+
             {
                 element: <Login />,
                 path: 'login',
@@ -43,14 +47,6 @@ const router = createBrowserRouter([
             {
                 element: <Register />,
                 path: 'register',
-            },
-            {
-                path: 'vision',
-                element: <Vision />,
-            },
-            {
-                path: 'routes',
-                element: <RoutesPage />,
             },
         ],
     },
