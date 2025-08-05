@@ -7,39 +7,47 @@ import FavouritePage from "./pages/FavouritePage";
 import RootLayout from "./pages/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 import StationInfo from "./pages/StationInfo";
+import Login from "./pages/LoginPage";
+import Register from "./pages/RegisterPage";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        element: <StationInfo />,
-        path: "station-info",
-      },
-      {
-        element: <TripPage />,
-        path: "trip",
-      },
-      {
-        element: <FavouritePage />,
-        path: "favourite",
-      },
-    ],
-  },
+	{
+		path: "/",
+		element: <RootLayout />,
+		errorElement: <ErrorPage />,
+		children: [
+			{
+				index: true,
+				element: <HomePage />,
+			},
+			{
+				element: <StationInfo />,
+				path: "station-info",
+			},
+			{
+				element: <TripPage />,
+				path: "trip",
+			},
+			{
+				element: <FavouritePage />,
+				path: "favourite",
+			},
+			{
+				element: <Login />,
+				path: "login",
+			},
+			{
+				element: <Register />,
+				path: "register",
+			},
+		],
+	},
 ]);
-function App() {
-	return (
-		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
-		</QueryClientProvider>
 
-	);
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
-
-export default App;
