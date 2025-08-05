@@ -15,6 +15,7 @@ export default function TripDetails() {
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
               exercitationem praesentium nihil.
             </p>
+           
           </div>
         </div>
       </section>

@@ -47,11 +47,9 @@ function App() {
 	return (
 		<UserContextProvider>
 			<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
-		</QueryClientProvider>
+			  <RouterProvider router={router} />
+		  </QueryClientProvider>
 		</UserContextProvider>
 		
 	);
 }
-
-export default App;
