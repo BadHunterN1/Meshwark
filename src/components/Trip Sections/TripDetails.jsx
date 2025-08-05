@@ -15,6 +15,10 @@ export default function TripDetails() {
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
               exercitationem praesentium nihil.
             </p>
+            <p>Hello from osama!!</p>
+            <p>Hello from osama!!</p>
+            <p>Hello from osama!!</p>
+            <p>Hello from osama!!</p>
           </div>
         </div>
       </section>
