@@ -10,6 +10,7 @@ import StationInfo from "./pages/StationInfo";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
 import UserContextProvider from "./Context/UserContext";
+import ContactUs from "./pages/contactUs";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
 			{
 				element: <Register />,
 				path: "register",
+			},
+			{
+				element: <ContactUs/>,
+				path: "contactUs",
 			},
 		],
 	},
