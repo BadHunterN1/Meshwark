@@ -1,7 +1,6 @@
 import { AlignJustify, MapPin, X } from "lucide-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,15 +21,6 @@ export default function Header() {
         >
           الرئيسية
         </NavLink>
-
-        <NavLink
-          to={"vision"}
-          className={({ isActive }) =>
-            isActive ? "text-green-600 font-semibold" : "text-gray-600"
-          }
-        >
-          الرؤية
-        </NavLink>
         <NavLink
           to={"favourite"}
           className={({ isActive }) =>
@@ -38,6 +28,14 @@ export default function Header() {
           }
         >
           المفضلة
+        </NavLink>
+        <NavLink
+          to={"vision"}
+          className={({ isActive }) =>
+            isActive ? "text-green-600 font-semibold" : "text-gray-600"
+          }
+        >
+          الرؤية
         </NavLink>
         <NavLink
           to={"contact"}
@@ -83,24 +81,6 @@ export default function Header() {
             </NavLink>
 
             <NavLink
-              href="#"
-              className={({ isActive }) =>
-                isActive ? "text-green-600 font-semibold" : "text-gray-600"
-              }
-            >
-              البحث عن المسارات
-            </NavLink>
-
-            <NavLink
-              to={"stations"}
-              className={({ isActive }) =>
-                isActive ? "text-green-600 font-semibold" : "text-gray-600"
-              }
-            >
-              المحطات
-            </NavLink>
-
-            <NavLink
               to={"favourite"}
               className={({ isActive }) =>
                 isActive ? "text-green-600 font-semibold" : "text-gray-600"
@@ -108,7 +88,23 @@ export default function Header() {
             >
               المفضلة
             </NavLink>
+            <NavLink
+              to={"vision"}
+              className={({ isActive }) =>
+                isActive ? "text-green-600 font-semibold" : "text-gray-600"
+              }
+            >
+              الرؤية
+            </NavLink>
 
+            <NavLink
+              to={"contact"}
+              className={({ isActive }) =>
+                isActive ? "text-green-600 font-semibold" : "text-gray-600"
+              }
+            >
+              تواصل معنا
+            </NavLink>
             <hr className="border-t border-gray-300" />
 
             <li>
