@@ -1,24 +1,101 @@
-import { MapPin } from "lucide-react";
+import { Footprints, MapPin, Bus, Star } from 'lucide-react';
+import Button from '../UI/Button';
+
+const stations = ['محطة المستشفى', 'محطة التحرير', 'محطة البنك الأهلي'];
 
 export default function TripDetails() {
-  return (
-    <div className="container p-6 h-50 w-50]">
-      <section className="details">
-        <h3 className="font-semibold text-2xl leading-none p-6">
-          تفاصيل المسار خطوة بخطوة
-        </h3>
-        <div class="max-w-sm rounded overflow-hidden shadow-lg border-2 rounded-l-2xlg  p-4 bg-[var(--secondary-color)]/20 border-[var(--secondary-color)]">
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-            <p class="text-gray-700 text-base">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptatibus quia, nulla! Maiores et perferendis eaque,
-              exercitationem praesentium nihil.
-            </p>
-           
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+    return (
+        <section className="container py-4">
+            <div className="p-4 shadow-2xl rounded-2xl ">
+                <h3 className="font-semibold  text-xl md:text-2xl leading-none p-6 ">
+                    تفاصيل المسار خطوة بخطوة
+                </h3>
+                <Box active num={1} />
+                <Box num={2} stations={stations} />
+                <Box active num={3} />
+            </div>
+            <div className="mt-8 ">
+                <Button>
+                    <MapPin />
+                    عرض على الخريطة
+                </Button>
+            </div>
+        </section>
+    );
 }
+
+const Box = ({ active, num, stations }) => {
+    return (
+        <>
+            <div
+                className={`box my-4 overflow-hidden border-2 rounded-2xl p-2 ${
+                    active
+                        ? 'bg-[var(--secondary-color)]/20 border-[var(--secondary-color)]'
+                        : 'border-[#eaeef6] bg-[#eaeef6]/20'
+                } `}
+            >
+                <div className="sm:m-auto px-4 py-4 flex flex-col items-start gap-4 ">
+                    <div
+                        className={` sm:flex-row  w-12 h-12 rounded-full bg-white border-2 border-[var(--main-color)] flex items-center justify-center text-[var(--main-color)]  `}
+                    >
+                        {active ? (
+                            <Footprints className=" w-20" />
+                        ) : (
+                            <Bus className="w-20" />
+                        )}
+                    </div>
+                    <div className="">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <span className="inline-flex items-center rounded-full border border-gray-300  px-2.5 py-0.5 text-xs font-semibold      ">
+                                {active ? 'مشي' : 'ميكروباص'}
+                            </span>
+                            <span className="inline-flex items-center px-2.5 py-0.5 text-sm text-gray-400   ">
+                                الخطوة {num}
+                            </span>
+                        </div>
+                        <h3 className="font-bold flex flex-wrap items-center gap-2 mb-2">
+                            امشِ إلى محطة الجامعة الرئيسية
+                        </h3>
+                        <div className="flex  gap-4 text-sm mb-3">
+                            <span className=" text-xm text-gray-400 ">
+                                المدة:
+                                <span className=" text-black inline-flex items-center px-0.5 py-0.5 text-xs font-semibold ">
+                                    دقائق
+                                </span>
+                            </span>
+
+                            <div className="mx-4 ">
+                                <span className=" text-xm text-gray-400 ">
+                                    المسافة:
+                                    <span className=" text-black inline-flex items-center px-0.5 py-0.5 text-xs font-semibold ">
+                                        متر
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div className="text-l text-gray-500 ">
+                            اتجه شمالاً من بوابة الجامعة
+                        </div>
+
+                        <div>
+                            {active ? null : (
+                                <>
+                                    <h3 className="font-semibold flex flex-wrap items-center gap-2  py-2   ">
+                                        المحطات في الطريق:
+                                    </h3>
+                                    <div className="flex  gap-2 flex-wrap">
+                                        {stations.map(station => (
+                                            <span className="text-xs inline-flex items-center rounded-full text-white px-2.5 py-0.5 font-semibold bg-[var(--secondary-color)]">
+                                                {station}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
