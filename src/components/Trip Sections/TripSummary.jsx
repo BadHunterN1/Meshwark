@@ -18,11 +18,11 @@ const TripSummary = ({ from, to, duration, distance, fee }) => {
                         <div className="text-gray-800 font-semibold text-lg">
                             مسار الرحلة
                         </div>
-                        <div className="text-sm text-gray-600 flex items-center flex-row-reverse gap-1">
+                        <div className="text-sm text-gray-600 flex items-center gap-1">
+                            <MapPin className="w-5 h-5 text-[var(--main-color)]" />
                             <span>{from?.name}</span>
                             <MoveLeft className="w-4 h-4 text-gray-400" />
                             <span className="cursor-pointer">{to?.name}</span>
-                            <MapPin className="w-5 h-5 text-[var(--main-color)]" />
                         </div>
                     </div>
                 </div>
