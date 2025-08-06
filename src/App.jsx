@@ -34,7 +34,7 @@ const router = createBrowserRouter([
             },
             {
                 element: <TripPage />,
-                path: 'trip',
+                path: 'trip/:from/:to',
             },
             {
                 element: <FavouritePage />,
