@@ -2,6 +2,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { queryClient } from './config/query';
 import UserContextProvider from './Context/UserContext';
+import ContactUs from './pages/ContactUs';
 import ErrorPage from './pages/ErrorPage';
 import FavouritePage from './pages/FavouritePage';
 import HomePage from './pages/HomePage';
@@ -11,9 +12,8 @@ import RootLayout from './pages/RootLayout';
 import RoutesPage from './pages/RoutesPage';
 import StationInfo from './pages/StationInfo';
 import TripPage from './pages/TripPage';
-import Vision from './pages/VisionPage';
+import AboutApp from './pages/AboutApp';
 
-import ContactUs from './pages/contactUs';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <HomePage />,
+            },
+            {
+                path: 'routes',
+                element: <RoutesPage />,
             },
             {
                 element: <StationInfo />,
@@ -37,20 +41,21 @@ const router = createBrowserRouter([
                 path: 'favourite',
             },
             {
+                path: 'about',
+                element: <AboutApp />,
+            },
+            {
+                element: <ContactUs />,
+                path: 'help',
+            },
+
+            {
                 element: <Login />,
                 path: 'login',
             },
             {
                 element: <Register />,
                 path: 'register',
-            },
-            {
-                path: 'vision',
-                element: <Vision />,
-            },
-            {
-                path: 'routes',
-                element: <RoutesPage />,
             },
         ],
     },
