@@ -28,7 +28,7 @@ export default function TripPage() {
     console.log(selectedStation);
 
     return (
-        <section>
+        <section className="pb-4">
             <div>
                 {selectedStation ? (
                     <>
