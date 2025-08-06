@@ -9,7 +9,8 @@ const initialRoutes = [
         duration: '2 ساعة',
         distance: '120 كم',
         price: '25 جنيه',
-        description: 'طريق سريع ومريح من المنصورة إلى القاهرة عبر الطريق الزراعي',
+        description:
+            'طريق سريع ومريح من المنصورة إلى القاهرة عبر الطريق الزراعي',
     },
     {
         id: 2,
@@ -18,7 +19,8 @@ const initialRoutes = [
         duration: '3 ساعة',
         distance: '180 كم',
         price: '35 جنيه',
-        description: 'رحلة مريحة من المنصورة إلى الإسكندرية عبر طريق القاهرة الإسكندرية',
+        description:
+            'رحلة مريحة من المنصورة إلى الإسكندرية عبر طريق القاهرة الإسكندرية',
     },
     {
         id: 3,
@@ -31,18 +33,16 @@ const initialRoutes = [
     },
 ];
 
-export default function RoutesPage() {
+export default function FavouriteCards() {
     const [searchQuery, setSearchQuery] = useState('');
     const [routes, setRoutes] = useState(initialRoutes);
     const [clickedBookmarks, setClickedBookmarks] = useState([]);
 
-    const handleBookmarkClick = (id) => {
-      
-        setClickedBookmarks((prev) => [...prev, id]);
+    const handleBookmarkClick = id => {
+        setClickedBookmarks(prev => [...prev, id]);
 
-        
         setTimeout(() => {
-            setRoutes((prev) => prev.filter(route => route.id !== id));
+            setRoutes(prev => prev.filter(route => route.id !== id));
         }, 150);
     };
 
@@ -96,25 +96,32 @@ export default function RoutesPage() {
                                         </span>
                                     </div>
                                     <button
-                                         onClick={() => handleBookmarkClick(route.id)}
-                                         className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
->
-                                         <Bookmark  
-                                           className={`w-7 h-7 transition-all duration-300 ${
-                                           clickedBookmarks.includes(route.id)
-                                           ? 'text-white stroke-blue-600 fill-white'
-                                           : 'text-blue-600 fill-blue-600'  }`} />
-                                                                     
-    
+                                        onClick={() =>
+                                            handleBookmarkClick(route.id)
+                                        }
+                                        className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
+                                    >
+                                        <Bookmark
+                                            className={`w-7 h-7 transition-all duration-300 ${
+                                                clickedBookmarks.includes(
+                                                    route.id
+                                                )
+                                                    ? 'text-white stroke-blue-600 fill-white'
+                                                    : 'text-blue-600 fill-blue-600'
+                                            }`}
+                                        />
                                     </button>
-
-                                    </div>
+                                </div>
 
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-lg font-semibold">
-                                        <span className="text-gray-800">{route.from}</span>
+                                        <span className="text-gray-800">
+                                            {route.from}
+                                        </span>
                                         <ArrowRight className="w-5 h-5 text-gray-400" />
-                                        <span className="text-gray-800">{route.to}</span>
+                                        <span className="text-gray-800">
+                                            {route.to}
+                                        </span>
                                     </div>
                                     <p className="text-base text-gray-600 leading-relaxed">
                                         {route.description}
@@ -131,7 +138,9 @@ export default function RoutesPage() {
                                         <div className="text-base font-medium text-gray-800">
                                             {route.duration}
                                         </div>
-                                        <div className="text-sm text-gray-500">المدة</div>
+                                        <div className="text-sm text-gray-500">
+                                            المدة
+                                        </div>
                                     </div>
                                     <div className="space-y-1">
                                         <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto">
@@ -140,16 +149,22 @@ export default function RoutesPage() {
                                         <div className="text-base font-medium text-gray-800">
                                             {route.distance}
                                         </div>
-                                        <div className="text-sm text-gray-500">المسافة</div>
+                                        <div className="text-sm text-gray-500">
+                                            المسافة
+                                        </div>
                                     </div>
                                     <div className="space-y-1">
                                         <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto">
-                                            <div className="text-white font-bold text-base">ج</div>
+                                            <div className="text-white font-bold text-base">
+                                                ج
+                                            </div>
                                         </div>
                                         <div className="text-base font-medium text-gray-800">
                                             {route.price}
                                         </div>
-                                        <div className="text-sm text-gray-500">السعر</div>
+                                        <div className="text-sm text-gray-500">
+                                            السعر
+                                        </div>
                                     </div>
                                 </div>
 

@@ -24,7 +24,7 @@ export default function TripDetails({ from, to }) {
     )?.station;
 
     const handleNavigateMap = () => {
-        navigate(`/trip/map/$`);
+        navigate(`/trip/${from}/${to}/map`);
     };
 
     return (
@@ -33,6 +33,12 @@ export default function TripDetails({ from, to }) {
                 <h3 className="font-semibold  text-xl md:text-2xl leading-none p-6 ">
                     تفاصيل المسار خطوة بخطوة
                 </h3>
+                <div className="flex flex-row gap-4 ">
+                    <Button onClick={handleNavigateMap}>
+                        <MapPin />
+                        عرض على الخريطة
+                    </Button>
+                </div>
                 <Box from={from} active num={1} />
                 <Box
                     to={to}
@@ -41,12 +47,6 @@ export default function TripDetails({ from, to }) {
                     stations={stations}
                 />
                 <Box active num={3} />
-            </div>
-            <div className="my-8 flex flex-row gap-4 ">
-                <Button onClick={handleNavigateMap}>
-                    <MapPin />
-                    عرض على الخريطة
-                </Button>
             </div>
         </section>
     );

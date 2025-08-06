@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import TripDetails from '../components/Trip Sections/TripDetails';
 import TripSummary from '../components/Trip Sections/TripSummary';
 import { useQuery } from '@tanstack/react-query';
@@ -29,6 +29,7 @@ export default function TripPage() {
 
     return (
         <section className="pb-4">
+            <Outlet context={{ selectedStation }} />
             <div>
                 {selectedStation ? (
                     <>

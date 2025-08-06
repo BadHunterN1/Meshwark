@@ -14,6 +14,7 @@ import StationInfo from './pages/StationInfo';
 import TripPage from './pages/TripPage';
 import AboutApp from './pages/AboutApp';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
+import GoogleMap from './components/Home Sections/Map';
 
 const router = createBrowserRouter([
     {
@@ -36,9 +37,19 @@ const router = createBrowserRouter([
             {
                 element: <TripPage />,
                 path: 'trip/:from/:to',
+                children: [
+                    {
+                        path: 'map',
+                        element: <GoogleMap />,
+                    },
+                ],
             },
             {
-                element: <ProtectedRoute><FavouritePage /></ProtectedRoute>,
+                element: (
+                    <ProtectedRoute>
+                        <FavouritePage />
+                    </ProtectedRoute>
+                ),
                 path: 'favourite',
             },
             {
