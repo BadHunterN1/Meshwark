@@ -8,7 +8,7 @@ function SearchBox() {
                     <InputField p="من؟" name="from" />
                     <InputField p="الي؟" name="to" />
                 </div>
-                        <button className="search">
+                        <button>
                             <SearchIcon className="search-icon" />
                             <span>
                                 ابحث عن افضل طريق
