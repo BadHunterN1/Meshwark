@@ -14,7 +14,7 @@ import StationInfo from './pages/StationInfo';
 import TripPage from './pages/TripPage';
 import AboutApp from './pages/AboutApp';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
-import GoogleMap from './components/Home Sections/Map';
+import GoogleMap from './components/Trip Sections/Map';
 
 const router = createBrowserRouter([
     {
