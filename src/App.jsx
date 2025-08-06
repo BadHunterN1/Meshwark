@@ -13,6 +13,7 @@ import RoutesPage from './pages/RoutesPage';
 import StationInfo from './pages/StationInfo';
 import TripPage from './pages/TripPage';
 import AboutApp from './pages/AboutApp';
+import ProtectedRoute from './protectedRoute/ProtectedRoute';
 
 const router = createBrowserRouter([
     {
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
                 path: 'trip',
             },
             {
-                element: <FavouritePage />,
+                element: <ProtectedRoute><FavouritePage /></ProtectedRoute>,
                 path: 'favourite',
             },
             {
