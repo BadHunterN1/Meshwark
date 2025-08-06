@@ -30,7 +30,7 @@ function SearchBox() {
         error: destinationsError,
     } = useQuery({
         queryKey: ['destinations'],
-        queryFn: () => fetchDocument('destination', 'mansoura'),
+        queryFn: () => fetchDocument('destinations', 'mansoura'),
     });
 
     const uniqueDestinations = useMemo(() => {

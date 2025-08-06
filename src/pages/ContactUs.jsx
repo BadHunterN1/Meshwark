@@ -44,7 +44,7 @@ export default function ContactUs() {
         {
             icon: <Phone className="w-8 h-8 text-white" />,
             title: 'رقم الهاتف',
-            value: '+20 123 456 7890',
+            value: '01234567890',
             bgColor: 'from-green-500 to-green-600',
         },
         {

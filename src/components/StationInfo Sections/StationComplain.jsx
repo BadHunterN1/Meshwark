@@ -76,7 +76,7 @@ export default function StationComplain() {
                         <div>
                             <p className="text-sm text-gray-600">الهاتف</p>
                             <p className="font-semibold text-gray-800">
-                                +20 123 456 7890
+                                01234567890
                             </p>
                         </div>
                     </div>
