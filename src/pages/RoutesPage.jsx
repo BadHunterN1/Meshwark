@@ -10,7 +10,6 @@ const popularRoutes = [
         distance: '120 كم',
         price: '25 جنيه',
         rating: 4.5,
-        frequency: 'كل 30 دقيقة',
         description:
             'طريق سريع ومريح من المنصورة إلى القاهرة عبر الطريق الزراعي',
     },
@@ -22,7 +21,6 @@ const popularRoutes = [
         distance: '180 كم',
         price: '35 جنيه',
         rating: 4.3,
-        frequency: 'كل ساعة',
         description:
             'رحلة مريحة من المنصورة إلى الإسكندرية عبر طريق القاهرة الإسكندرية',
     },
@@ -34,7 +32,6 @@ const popularRoutes = [
         distance: '45 كم',
         price: '15 جنيه',
         rating: 4.7,
-        frequency: 'كل 15 دقيقة',
         description: 'رحلة قصيرة ومتكررة من المنصورة إلى طنطا',
     },
     {
@@ -45,20 +42,11 @@ const popularRoutes = [
         distance: '25 كم',
         price: '10 جنيه',
         rating: 4.8,
-        frequency: 'كل 10 دقائق',
         description: 'رحلة سريعة ومتكررة من المنصورة إلى زفتى',
     },
 ];
 
-const routeCategories = [
-    { id: 'all', label: 'جميع المسارات', count: 24 },
-    { id: 'popular', label: 'الأكثر شعبية', count: 8 },
-    { id: 'cairo', label: 'إلى القاهرة', count: 6 },
-    { id: 'alexandria', label: 'إلى الإسكندرية', count: 4 },
-];
-
 export default function RoutesPage() {
-    const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredRoutes = popularRoutes.filter(route => {
@@ -73,7 +61,7 @@ export default function RoutesPage() {
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen">
             <div className="container mx-auto px-4 py-16">
                 <div className="text-center mb-20 animate-fade-in-up">
-                    <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-8">
+                    <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-4 p-2">
                         اكتشف أفضل المسارات
                     </h1>
                     <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
@@ -95,33 +83,11 @@ export default function RoutesPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 justify-center mb-16">
-                    {routeCategories.map(category => (
-                        <button
-                            key={category.id}
-                            onClick={() => setSelectedCategory(category.id)}
-                            className={`
-                px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1
-                ${
-                    selectedCategory === category.id
-                        ? 'bg-gradient-to-r from-blue-600 to-green-500 text-white'
-                        : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 border border-gray-100'
-                }
-              `}
-                        >
-                            {category.label}
-                            <span className="mr-2 text-xs bg-white/20 px-2 py-1 rounded-full">
-                                {category.count}
-                            </span>
-                        </button>
-                    ))}
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
                     {filteredRoutes.map(route => (
                         <div
                             key={route.id}
-                            className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
+                            className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                         >
                             <div className="p-6 border-b border-gray-100">
                                 <div className="flex items-center justify-between mb-4">
@@ -194,12 +160,6 @@ export default function RoutesPage() {
                                             السعر
                                         </div>
                                     </div>
-                                </div>
-
-                                <div className="text-center">
-                                    <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                                        🚌 {route.frequency}
-                                    </span>
                                 </div>
 
                                 <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">

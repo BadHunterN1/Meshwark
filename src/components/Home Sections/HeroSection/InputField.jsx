@@ -1,4 +1,4 @@
-import { SearchIcon } from "../../../assets/Images/Icons";
+import { SearchIcon } from '../../../assets/Images/Icons';
 
 function InputField(props) {
 	const listId = `${props.name}-list`;
