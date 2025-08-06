@@ -7,7 +7,7 @@ function InputField(props) {
             <label htmlFor={props.p} className="capitalize pr-2 font-bold">
                 {props.p}
             </label>
-            <div className="input">
+            <div className={`input ${props.isDisabled ? 'opacity-40' : null}`}>
                 <SearchIcon />
                 <input
                     value={props.station || ''}
@@ -19,6 +19,7 @@ function InputField(props) {
                     name={props.name}
                     list={listId}
                     id={props.name}
+                    disabled={props.isDisabled}
                     autoComplete="off"
                 />
                 <datalist id={listId}>
