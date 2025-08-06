@@ -7,9 +7,10 @@ function InputField(props) {
 			<label htmlFor={props.p} className="capitalize pr-2 font-bold">
 				{props.p}
 			</label>
-			<div className="input">
+			<div className="input w-full flex mt-1.5">
 				<SearchIcon />
 				<input
+					className="text-white w-full"
 					value={props.station}
 					onChange={(e) => props.setStation(e.target.value)}
 					placeholder={props.p}
