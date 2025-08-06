@@ -26,8 +26,8 @@ function SearchBox() {
 
     const {
         data: destinationsData,
-        // isLoading: governoratesLoading,
-        // error: destinationsDataError,
+        isLoading: destinationsLoading,
+        error: destinationsError,
     } = useQuery({
         queryKey: ['destinations'],
         queryFn: () => fetchDocument('destinations', 'mansoura'),
@@ -71,6 +71,18 @@ function SearchBox() {
         };
     }, [destinationsData]);
 
+    const isFromValid =
+        selectedOptions.from &&
+        uniqueDestinations.uniqueFrom.some(
+            dest => dest.name === selectedOptions.from
+        );
+    const isToValid =
+        selectedOptions.to &&
+        uniqueDestinations.uniqueTo.some(
+            dest => dest.name === selectedOptions.to
+        );
+    const isFormValid = isFromValid && isToValid;
+
     console.log(uniqueDestinations);
 
     return (
@@ -83,6 +95,7 @@ function SearchBox() {
                         p="من؟"
                         name="from"
                         destination={uniqueDestinations.uniqueFrom}
+                        isDisabled={destinationsLoading || destinationsError}
                     />
                     <InputField
                         station={selectedOptions.to}
@@ -90,16 +103,26 @@ function SearchBox() {
                         p="الي؟"
                         name="to"
                         destination={uniqueDestinations.uniqueTo}
+                        isDisabled={destinationsLoading || destinationsError}
                     />
                 </div>
                 <button
                     onClick={handleNavigation}
-                    disabled={!selectedOptions.from || !selectedOptions.to}
-                    className="w-full disabled:opacity-30 flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
+                    disabled={!isFormValid}
+                    className="search disabled:opacity-50 disabled:cursor-not-allowed w-full disabled:opacity-30 flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
                 >
                     <SearchIcon className="search-icon" />
                     <span>ابحث عن افضل طريق</span>
                 </button>
+                <p
+                    className={`text-center font-bold text-lg pt-2 ${destinationsError ? 'text-red-700' : null}`}
+                >
+                    {destinationsLoading
+                        ? 'جاري تحميل المحطات'
+                        : destinationsError
+                          ? 'لم نستطع تحميل المحطات الرجاء المحاولة مره اخري'
+                          : null}
+                </p>
             </form>
         </div>
     );
