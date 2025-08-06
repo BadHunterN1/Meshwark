@@ -2,8 +2,10 @@ import { Footprints, MapPin, Bus, Star } from 'lucide-react';
 import Button from '../UI/Button';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../../utils/http';
+import { useNavigate } from 'react-router-dom';
 
 export default function TripDetails({ from, to }) {
+    const navigate = useNavigate();
     const {
         data: destinationsData,
         // isLoading: governoratesLoading,
@@ -20,6 +22,11 @@ export default function TripDetails({ from, to }) {
             stationObj?.station?.fromTo?.from?.name === from &&
             stationObj?.station?.fromTo?.to?.name === to
     )?.station;
+
+    const handleNavigateMap = () => {
+        navigate(`/trip/map/$`);
+    };
+
     return (
         <section className="p-4">
             <div className="container  p-4 shadow-2xl rounded-2xl ">
@@ -37,7 +44,7 @@ export default function TripDetails({ from, to }) {
             </div>
             <div className="container ">
                 <div className="mt-8 flex flex-row gap-4 ">
-                    <Button>
+                    <Button onClick={handleNavigateMap}>
                         <MapPin />
                         عرض على الخريطة
                     </Button>
