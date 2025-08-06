@@ -10,7 +10,8 @@ import Login from './pages/LoginPage';
 import Register from './pages/RegisterPage';
 import RootLayout from './pages/RootLayout';
 import RoutesPage from './pages/RoutesPage';
-
+import StationInfo from './pages/StationInfo';
+import TripPage from './pages/TripPage';
 import AboutApp from './pages/AboutApp';
 
 const router = createBrowserRouter([
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
             {
                 path: 'routes',
                 element: <RoutesPage />,
+            },
+            {
+                element: <StationInfo />,
+                path: 'station-info',
+            },
+            {
+                element: <TripPage />,
+                path: 'trip',
             },
             {
                 element: <FavouritePage />,
