@@ -4,12 +4,13 @@ function InputField(props) {
     const listId = `${props.name}-list`;
     return (
         <div className="w-full">
-            <label htmlFor={props.p} className="capitalize pr-2 font-bold">
+            <label htmlFor={props.name} className="capitalize pr-2 font-bold">
                 {props.p}
             </label>
-            <div className={`input ${props.isDisabled ? 'opacity-40' : null}`}>
+            <div className={`input ${props.isDisabled ? 'opacity-40' : null} w-full flex mt-1.5`}>
                 <SearchIcon />
                 <input
+                    className="text-white w-full"
                     value={props.station || ''}
                     onChange={e =>
                         props.setStation(e.target.value, `${props.name}`)

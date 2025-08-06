@@ -38,7 +38,7 @@ export default function ContactUs() {
         {
             icon: <Mail className="w-8 h-8 text-white" />,
             title: 'البريد الإلكتروني',
-            value: 'support@mansouraroutes.com',
+            value: 'support@meshwark.com',
             bgColor: 'from-blue-500 to-blue-600',
         },
         {
