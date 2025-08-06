@@ -34,10 +34,10 @@ export default function TripDetails({ from, to }) {
                     تفاصيل المسار خطوة بخطوة
                 </h3>
                 <div className="flex flex-row gap-4 ">
-                    <Button onClick={handleNavigateMap}>
+                    {/* <Button onClick={handleNavigateMap}>
                         <MapPin />
                         عرض على الخريطة
-                    </Button>
+                    </Button> */}
                 </div>
                 <Box from={from} active num={1} />
                 <Box
