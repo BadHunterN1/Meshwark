@@ -28,9 +28,9 @@ function Future() {
       <h1 className='text-[40px] font-semibold mb-3'>لماذا تختار تطبيقنا ؟</h1>
       <p className='mb-15 font-medium text-[20px] text-[#838584]'>نقدم لك افضل تجربه نقل فى المنصوره مع ميزات حصريه تجعل رحلتك اسهل واسرع</p>
 
-      <div dir="ltr" className='grid lg:grid-cols-3  grid-cols-1 gap-9  place-items-center xl:px-30'>
+      <div  className='grid lg:grid-cols-3  grid-cols-1 gap-15  place-items-center xl:px-30'>
         {futureItems.map((item, index) => (
-          <div key={index} className=' container h-full  bg-white py-7 px-[30px] rounded-lg shadow-md  transition  ease-in-out duration-800 hover:scale-[1.1]  hover:bg-gradient-to-b from-[#EAF4FF] to-[#eaf7ff] hover:shadow-xl group'>
+          <div key={index} className=' h-full w-full bg-white py-7 px-[30px] rounded-lg shadow-md  transition  ease-in-out duration-800 hover:scale-[1.1]  hover:bg-gradient-to-b from-[#EAF4FF] to-[#eaf7ff] hover:shadow-xl group'>
             <div className={`mx-auto text-white w-16 h-16 flex items-center justify-center mb-4 rounded-xl `} style={item.style} >
               {item.i}
             </div>
