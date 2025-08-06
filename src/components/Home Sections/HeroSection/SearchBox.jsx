@@ -76,7 +76,7 @@ function SearchBox() {
     return (
         <div className="search-box p-5 bg-(--glass-bg) rounded-2xl max-lg:w-[80%]">
             <form>
-                <div className="search-inputs mb-6 max-lg:flex-col">
+                <div className="search-inputs mb-6 flex flex-col md:flex-row gap-4">
                     <InputField
                         station={selectedOptions.from}
                         setStation={handleChange}
@@ -92,7 +92,11 @@ function SearchBox() {
                         destination={uniqueDestinations.uniqueTo}
                     />
                 </div>
-                <button className="w-full flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]">
+                <button
+                    onClick={handleNavigation}
+                    disabled={!selectedOptions.from || !selectedOptions.to}
+                    className="w-full disabled:opacity-30 flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
+                >
                     <SearchIcon className="search-icon" />
                     <span>ابحث عن افضل طريق</span>
                 </button>
