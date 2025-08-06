@@ -1,6 +1,0 @@
-[33m987c3e6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mOsama-Refaat[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
-[33m3f37762[m HEAD@{1}: commit: Created a shared folder and divided the header and footer to seperate small components
-[33m9bf978a[m[33m ([m[1;31morigin/Osama-Refaat[m[33m)[m HEAD@{2}: commit (merge): Editer the header to control the login part
-[33ma73341d[m HEAD@{3}: pull: Fast-forward
-[33m662e189[m HEAD@{4}: checkout: moving from main to Osama-Refaat
-[33mafa574e[m[33m ([m[1;32mmain[m[33m)[m HEAD@{5}: clone: from https://github.com/BadHunterN1/Meshwark.git
