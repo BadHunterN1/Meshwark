@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, Clock, MapPin, Search, Star } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchDocument } from '../utils/http';
 const popularRoutes = [
     {
@@ -44,6 +44,7 @@ const popularRoutes = [
 
 export default function RoutesPage() {
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     const {
         data: destinationsData,
@@ -94,90 +95,110 @@ export default function RoutesPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
-                    {stations.map(stationObj => {
-                        console.log(stationObj);
+                    {stations.map((stationObj, index) => {
+                        console.log(stationObj.station.fromTo.to);
+                        const stationDetails = stationObj.station;
+                        const fromTo = stationObj.station.fromTo;
+                        const routeNumber = index + 1;
 
-                        // return (
-                        //     <div
-                        //         key={route.id}
-                        //         className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
-                        //     >
-                        //         <div className="p-6 border-b border-gray-100">
-                        //             <div className="flex items-center justify-between mb-4">
-                        //                 <div className="flex items-center gap-2">
-                        //                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
-                        //                         <MapPin className="w-4 h-4 text-white" />
-                        //                     </div>
-                        //                     <span className="text-sm text-gray-500">
-                        //                         مسار {route.id}
-                        //                     </span>
-                        //                 </div>
-                        //                 <div className="flex items-center gap-1">
-                        //                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        //                     <span className="text-sm font-medium">
-                        //                         {route.rating}
-                        //                     </span>
-                        //                 </div>
-                        //             </div>
+                        const handleNavigation = () => {
+                            navigate(
+                                `/trip/${fromTo.from.name}/${fromTo.to.name}`
+                            );
+                        };
 
-                        //             <div className="space-y-2">
-                        //                 <div className="flex items-center justify-between">
-                        //                     <span className="font-semibold text-gray-800">
-                        //                         {route.from}
-                        //                     </span>
-                        //                     <ArrowLeft className="w-4 h-4 text-gray-400" />
-                        //                     <span className="font-semibold text-gray-800">
-                        //                         {route.to}
-                        //                     </span>
-                        //                 </div>
-                        //             </div>
-                        //         </div>
+                        return (
+                            <div
+                                key={index}
+                                className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
+                            >
+                                <div className="p-6 border-b border-gray-100">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                                                <MapPin className="w-4 h-4 text-white" />
+                                            </div>
+                                            <span className="text-sm text-gray-500">
+                                                مسار {routeNumber}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                            <span className="text-sm font-medium">
+                                                {stationDetails.rating}
+                                            </span>
+                                        </div>
+                                    </div>
 
-                        //         <div className="p-6 space-y-4">
-                        //             <div className="grid grid-cols-3 gap-4 text-center">
-                        //                 <div className="space-y-1">
-                        //                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto">
-                        //                         <Clock className="w-4 h-4 text-white" />
-                        //                     </div>
-                        //                     <div className="text-sm font-medium text-gray-800">
-                        //                         {route.duration}
-                        //                     </div>
-                        //                     <div className="text-xs text-gray-500">
-                        //                         المدة
-                        //                     </div>
-                        //                 </div>
-                        //                 <div className="space-y-1">
-                        //                     <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto">
-                        //                         <MapPin className="w-4 h-4 text-white" />
-                        //                     </div>
-                        //                     <div className="text-sm font-medium text-gray-800">
-                        //                         {route.distance}
-                        //                     </div>
-                        //                     <div className="text-xs text-gray-500">
-                        //                         المسافة
-                        //                     </div>
-                        //                 </div>
-                        //                 <div className="space-y-1">
-                        //                     <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto">
-                        //                         <div className="text-white font-bold text-sm">
-                        //                             ج
-                        //                         </div>
-                        //                     </div>
-                        //                     <div className="text-sm font-medium text-gray-800">
-                        //                         {route.price}
-                        //                     </div>
-                        //                     <div className="text-xs text-gray-500">
-                        //                         السعر
-                        //                     </div>
-                        //                 </div>
-                        //             </div>
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-semibold text-gray-800">
+                                                {fromTo.from.name}
+                                            </span>
+                                            <ArrowLeft className="w-4 h-4 text-gray-400" />
+                                            <span className="font-semibold text-gray-800">
+                                                {fromTo.to.name}
+                                            </span>
+                                        </div>
+                                        <p className="text-sm text-gray-600 leading-relaxed">
+                                            اذهب من محطة {fromTo.from.name} الي
+                                            محطة {fromTo.to.name}
+                                        </p>
+                                    </div>
+                                </div>
 
-                        //             <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                        //                 عرض التفاصيل
-                        //             </button>
-                        //         </div>
-                        //     </div>
-                        // );
+                                <div className="p-6 space-y-4">
+                                    <div className="grid grid-cols-3 gap-4 text-center">
+                                        <div className="space-y-1">
+                                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto">
+                                                <Clock className="w-4 h-4 text-white" />
+                                            </div>
+                                            <div className="text-sm font-medium text-gray-800">
+                                                {stationDetails.duration} دقيقة
+                                            </div>
+                                            <div className="text-xs text-gray-500">
+                                                المدة
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto">
+                                                <MapPin className="w-4 h-4 text-white" />
+                                            </div>
+                                            <div className="text-sm font-medium text-gray-800">
+                                                {stationDetails.distance} كم
+                                            </div>
+                                            <div className="text-xs text-gray-500">
+                                                المسافة
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto">
+                                                <div className="text-white font-bold text-sm">
+                                                    ج
+                                                </div>
+                                            </div>
+                                            <div className="text-sm font-medium text-gray-800">
+                                                {
+                                                    destinationsData.microbuses
+                                                        .fee
+                                                }{' '}
+                                                ج.م
+                                            </div>
+                                            <div className="text-xs text-gray-500">
+                                                السعر
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={handleNavigation}
+                                        className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                                    >
+                                        عرض التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        );
                     })}
                 </div>
 
