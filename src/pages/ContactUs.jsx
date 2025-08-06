@@ -7,33 +7,33 @@ import {
     Phone,
     Send,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useFormik } from 'formik';
 
 export default function ContactUs() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+        },
+        validate: values => {
+            const errors = {};
+            if (!values.name) errors.name = 'الاسم مطلوب';
+            if (!values.email) errors.email = 'البريد الإلكتروني مطلوب';
+            if (!values.subject) errors.subject = 'الموضوع مطلوب';
+            if (!values.message) errors.message = 'الرسالة مطلوبة';
+            return errors;
+        },
+        onSubmit: (values, { resetForm, setSubmitting, setStatus }) => {
+            setStatus('submitted');
+            setTimeout(() => {
+                setStatus(null);
+                resetForm();
+                setSubmitting(false);
+            }, 3000);
+        },
     });
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
-    const handleChange = e => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
-            setFormData({ name: '', email: '', subject: '', message: '' });
-        }, 3000);
-    };
-
     const contactInfo = [
         {
             icon: <Mail className="w-8 h-8 text-white" />,
@@ -60,12 +60,11 @@ export default function ContactUs() {
             bgColor: 'from-orange-500 to-orange-600',
         },
     ];
-
     return (
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen">
             <div className="container mx-auto px-4 py-16">
                 <div className="text-center mb-20 animate-fade-in-up">
-                    <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-8">
+                    <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-4 p-2">
                         تواصل معنا
                     </h1>
                     <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -73,7 +72,6 @@ export default function ContactUs() {
                         خدماتنا
                     </p>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 max-w-7xl mx-auto">
                     {contactInfo.map((info, index) => (
                         <div
@@ -95,7 +93,6 @@ export default function ContactUs() {
                         </div>
                     ))}
                 </div>
-
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
                     <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 animate-fade-in-right">
                         <div className="flex items-center gap-3 mb-8">
@@ -106,8 +103,7 @@ export default function ContactUs() {
                                 أرسل لنا رسالة
                             </h2>
                         </div>
-
-                        {isSubmitted ? (
+                        {formik.status === 'submitted' ? (
                             <div className="text-center py-12 animate-fade-in">
                                 <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <CheckCircle className="w-10 h-10 text-white" />
@@ -121,7 +117,11 @@ export default function ContactUs() {
                                 </p>
                             </div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form
+                                onSubmit={formik.handleSubmit}
+                                className="space-y-6"
+                                noValidate
+                            >
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="form-group">
                                         <label className="block text-gray-700 font-medium mb-2">
@@ -130,12 +130,18 @@ export default function ContactUs() {
                                         <input
                                             type="text"
                                             name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
+                                            value={formik.values.name}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
                                             placeholder="الاسم بالكامل"
                                             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-                                            required
                                         />
+                                        {formik.touched.name &&
+                                            formik.errors.name && (
+                                                <p className="text-sm text-red-500 mt-1">
+                                                    {formik.errors.name}
+                                                </p>
+                                            )}
                                     </div>
                                     <div className="form-group">
                                         <label className="block text-gray-700 font-medium mb-2">
@@ -144,15 +150,20 @@ export default function ContactUs() {
                                         <input
                                             type="email"
                                             name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
+                                            value={formik.values.email}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
                                             placeholder="your.email@example.com"
                                             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-                                            required
                                         />
+                                        {formik.touched.email &&
+                                            formik.errors.email && (
+                                                <p className="text-sm text-red-500 mt-1">
+                                                    {formik.errors.email}
+                                                </p>
+                                            )}
                                     </div>
                                 </div>
-
                                 <div className="form-group">
                                     <label className="block text-gray-700 font-medium mb-2">
                                         الموضوع
@@ -160,32 +171,43 @@ export default function ContactUs() {
                                     <input
                                         type="text"
                                         name="subject"
-                                        value={formData.subject}
-                                        onChange={handleChange}
+                                        value={formik.values.subject}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         placeholder="ما هو موضوع الرسالة؟"
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-                                        required
                                     />
+                                    {formik.touched.subject &&
+                                        formik.errors.subject && (
+                                            <p className="text-sm text-red-500 mt-1">
+                                                {formik.errors.subject}
+                                            </p>
+                                        )}
                                 </div>
-
                                 <div className="form-group">
                                     <label className="block text-gray-700 font-medium mb-2">
                                         الرسالة
                                     </label>
                                     <textarea
                                         name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
+                                        value={formik.values.message}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         placeholder="اخبرنا المزيد عن استفسارك..."
                                         rows="5"
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white resize-none"
-                                        required
                                     ></textarea>
+                                    {formik.touched.message &&
+                                        formik.errors.message && (
+                                            <p className="text-sm text-red-500 mt-1">
+                                                {formik.errors.message}
+                                            </p>
+                                        )}
                                 </div>
-
                                 <button
                                     type="submit"
                                     className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-blue-700 hover:to-green-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-3 group"
+                                    disabled={formik.isSubmitting}
                                 >
                                     <span>إرسال الرسالة</span>
                                     <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -193,7 +215,6 @@ export default function ContactUs() {
                             </form>
                         )}
                     </div>
-
                     <div className="space-y-8 animate-fade-in-left">
                         <div className="bg-gradient-to-br from-blue-600 to-green-500 rounded-3xl p-8 text-white">
                             <h3 className="text-2xl font-bold mb-6">
@@ -243,7 +264,6 @@ export default function ContactUs() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
                             <h3 className="text-xl font-bold text-gray-800 mb-6">
                                 الأسئلة الشائعة
