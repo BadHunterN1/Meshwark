@@ -28,8 +28,8 @@ export default function TripDetails({ from, to }) {
     };
 
     return (
-        <section className="p-4">
-            <div className="container  p-4 shadow-2xl rounded-2xl ">
+        <section className="container p-2">
+            <div className="shadow-2xl p-2 rounded-2xl ">
                 <h3 className="font-semibold  text-xl md:text-2xl leading-none p-6 ">
                     تفاصيل المسار خطوة بخطوة
                 </h3>
@@ -42,13 +42,11 @@ export default function TripDetails({ from, to }) {
                 />
                 <Box active num={3} />
             </div>
-            <div className="container ">
-                <div className="mt-8 flex flex-row gap-4 ">
-                    <Button onClick={handleNavigateMap}>
-                        <MapPin />
-                        عرض على الخريطة
-                    </Button>
-                </div>
+            <div className="my-8 flex flex-row gap-4 ">
+                <Button onClick={handleNavigateMap}>
+                    <MapPin />
+                    عرض على الخريطة
+                </Button>
             </div>
         </section>
     );
@@ -58,7 +56,7 @@ const Box = ({ from, to, crossStations, active, num }) => {
     return (
         <>
             <div
-                className={`box my-4   overflow-hidden  border-2 rounded-2xl  p-2  ${
+                className={`box my-4 overflow-hidden  border-2 rounded-2xl  p-2  ${
                     active
                         ? 'bg-[var(--secondary-color)]/20 border-[var(--secondary-color)]'
                         : 'border-[#eaeef6] bg-[#eaeef6]/20'

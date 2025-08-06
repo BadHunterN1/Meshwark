@@ -35,11 +35,9 @@ const TripSummary = () => {
                             مسار الرحلة
                         </div>
                         <div className="text-sm text-gray-600 flex items-center flex-row-reverse gap-1">
-                            <span>محطة الجامعة الرئيسية</span>
+                            <span>{from?.name}</span>
                             <MoveLeft className="w-4 h-4 text-gray-400" />
-                            <span className="cursor-pointer">
-                                آخر الإستاد 
-                            </span>
+                            <span className="cursor-pointer">{to?.name}</span>
                             <MapPin className="w-5 h-5 text-[var(--main-color)]" />
                         </div>
                     </div>
