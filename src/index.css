@@ -32,7 +32,7 @@
     --blue-color: 210 100% 56%;
     --hero-button-main-color: hsl(142 69% 58%);
     --hero-button-glow-color: hsl(142 69% 70%);
-    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-bg: rgba(255, 255, 255, 0.35);
 }
 
 @layer base {
@@ -111,7 +111,7 @@
 
     /* hero section */
     .hero {
-        background-image: url('assets/Images/HomePage/background.jpg');
+        background-image: url('assets/Images/HomePage/background.webp');
         background-size: cover;
     }
     .hero .holder {

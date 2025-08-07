@@ -3,7 +3,7 @@ import TripDetails from '../components/Trip Sections/TripDetails';
 import TripSummary from '../components/Trip Sections/TripSummary';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../utils/http';
-import MissingRouteForm from '../components/Dashboard Sections/MissingRouteForm';
+import AddRoute from '../components/Dashboard/AddRoute';
 import MissingRouteUserForm from '../components/Trip Sections/MissingRouteUserForm';
 export default function TripPage() {
     const { from, to } = useParams();
@@ -21,6 +21,7 @@ export default function TripPage() {
 
     const stations = destinationsData?.microbuses?.destinations;
     const fee = destinationsData?.microbuses.fee;
+    console.log(stations);
 
     const selectedStation = (stations || []).find(
         stationObj =>
@@ -49,16 +50,14 @@ export default function TripPage() {
                             to={selectedStation.fromTo?.to.name}
                         />
                     </>
-                ) : destinationsError || !selectedStation ? (
+                ) : destinationsError ||
+                  (!selectedStation && !destinationsLoading) ? (
                     <div className="container py-8">
                         <div className="text-center text-gray-600">
                             <p className="text-4xl">
                                 لم يتم العثور على المسار المطلوب
                             </p>
-                            <MissingRouteUserForm
-                                fromDefault={from}
-                                toDefault={to}
-                            />
+                            <AddRoute fromDefault={from} toDefault={to} />
                         </div>
                     </div>
                 ) : (

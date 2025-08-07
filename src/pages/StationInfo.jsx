@@ -1,5 +1,5 @@
 import { Star } from 'lucide-react';
-import busImg from '../assets/busstation.jpg';
+import busImg from '../assets/busstation.webp';
 import StationDetails from '../components/StationInfo Sections/StationDetails';
 import StationComplain from '../components/StationInfo Sections/StationComplain';
 import StationReview from '../components/StationInfo Sections/StationReview';

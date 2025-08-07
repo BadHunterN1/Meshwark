@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
     notes: Yup.string(),
 });
 
-export default function MissingRouteForm({ fromDefault = '', toDefault = '' }) {
+export default function AddRoute({ fromDefault = '', toDefault = '' }) {
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');

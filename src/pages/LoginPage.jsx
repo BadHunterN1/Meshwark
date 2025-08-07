@@ -36,6 +36,11 @@ export default function Login() {
                     localStorage.setItem('token', `${token}`);
                     localStorage.setItem('name', `${foundUser.name}`);
                     setToken(`${token}`);
+                    // if (user.role === "admin") {
+                    //     navigate('/ManageRoutes');
+                    // } else {
+                    //     navigate('/');
+                    // }
                     navigate('/');
                 } else {
                     alert('الإيميل أو كلمة المرور غير صحيحة');

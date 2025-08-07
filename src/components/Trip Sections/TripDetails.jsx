@@ -64,7 +64,7 @@ const Box = ({ from, to, crossStations, active, num }) => {
             >
                 <div className="sm:m-auto px-4 py-4 flex flex-col sm:flex-row items-start gap-4  ">
                     <div
-                        className={`sm:flex-row  w-12 h-12 rounded-full bg-white border-2 border-[var(--main-color)] flex items-center justify-center text-[var(--main-color)]  `}
+                        className={`sm:flex-row w-12 h-12 rounded-full bg-white border-2 border-[var(--main-color)] flex items-center justify-center text-[var(--main-color)]`}
                     >
                         {active ? (
                             <Footprints className=" w-20" />
@@ -86,8 +86,8 @@ const Box = ({ from, to, crossStations, active, num }) => {
                             {num === 3
                                 ? 'الوجهة النهائية'
                                 : num === 1
-                                  ? `محطة ${from}`
-                                  : `محطة ${to}`}
+                                  ? `${from}`
+                                  : `${to}`}
                         </h3>
 
                         <div>
