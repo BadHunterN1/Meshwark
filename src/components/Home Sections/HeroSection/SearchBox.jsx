@@ -71,16 +71,8 @@ function SearchBox() {
         };
     }, [destinationsData]);
 
-    const isFromValid =
-        selectedOptions.from &&
-        uniqueDestinations.uniqueFrom.some(
-            dest => dest.name === selectedOptions.from
-        );
-    const isToValid =
-        selectedOptions.to &&
-        uniqueDestinations.uniqueTo.some(
-            dest => dest.name === selectedOptions.to
-        );
+    const isFromValid = selectedOptions.from;
+    const isToValid = selectedOptions.to;
     const isFormValid = isFromValid && isToValid;
 
     console.log(uniqueDestinations);

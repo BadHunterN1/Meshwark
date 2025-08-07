@@ -15,6 +15,8 @@ import TripPage from './pages/TripPage';
 import AboutApp from './pages/AboutApp';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
 import GoogleMap from './components/Trip Sections/Map';
+import Dashboard from './components/Dashboard Sections/DashBoard';
+import MissingRouteForm from './components/Dashboard Sections/MissingRouteForm';
 
 const router = createBrowserRouter([
     {
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
             {
                 element: <Register />,
                 path: 'register',
+            },
+            {
+                element: <Dashboard />,
+                path: 'dashboard',
             },
         ],
     },
