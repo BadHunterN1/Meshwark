@@ -3,6 +3,7 @@ import TripDetails from '../components/Trip Sections/TripDetails';
 import TripSummary from '../components/Trip Sections/TripSummary';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../utils/http';
+import MissingRouteForm from '../components/Trip Sections/MissingRouteForm';
 export default function TripPage() {
     const { from, to } = useParams();
     console.log(`${from} ${to}`);
@@ -14,6 +15,7 @@ export default function TripPage() {
     } = useQuery({
         queryKey: ['destinations'],
         queryFn: () => fetchDocument('destinations', 'mansoura'),
+        retry: 3,
     });
 
     const stations = destinationsData?.microbuses?.destinations;
@@ -46,10 +48,16 @@ export default function TripPage() {
                             to={selectedStation.fromTo?.to.name}
                         />
                     </>
-                ) : destinationsError ? (
-                    <div className="container h-screen w-full text-4xl py-8">
+                ) : destinationsError || !selectedStation ? (
+                    <div className="container py-8">
                         <div className="text-center text-gray-600">
-                            <p>لم يتم العثور على المسار المطلوب</p>
+                            <p className="text-4xl">
+                                لم يتم العثور على المسار المطلوب
+                            </p>
+                            <MissingRouteForm
+                                fromDefault={from}
+                                toDefault={to}
+                            />
                         </div>
                     </div>
                 ) : (
