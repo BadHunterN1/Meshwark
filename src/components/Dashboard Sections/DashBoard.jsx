@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchDocument } from '../../utils/http';
 
-export default function UpdateDatabase() {
+export default function Dashboard() {
     const [destinationsData, setDestinationsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -117,103 +117,108 @@ export default function UpdateDatabase() {
                                 {destinationsData?.microbuses?.destinations ? (
                                     <div className="space-y-3">
                                         {destinationsData.microbuses.destinations.map(
-                                            (station, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="bg-white rounded-lg p-4 border border-gray-200"
-                                                >
-                                                    <div className="flex justify-between items-start">
-                                                        <div className="flex-1">
-                                                            <h3 className="font-semibold text-gray-800">
-                                                                {
-                                                                    station
-                                                                        .fromTo
-                                                                        ?.from
-                                                                        ?.name
-                                                                }{' '}
-                                                                →{' '}
-                                                                {
-                                                                    station
-                                                                        .fromTo
-                                                                        ?.to
-                                                                        ?.name
-                                                                }
-                                                            </h3>
-                                                            <div className="text-sm text-gray-600 mt-1">
-                                                                <span>
-                                                                    المسافة:{' '}
+                                            (stations, index) => {
+                                                const station =
+                                                    stations.station;
+
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className="bg-white rounded-lg p-4 border border-gray-200"
+                                                    >
+                                                        <div className="flex justify-between items-start">
+                                                            <div className="flex-1">
+                                                                <h3 className="font-semibold text-gray-800">
                                                                     {
-                                                                        station.distance
+                                                                        station
+                                                                            .fromTo
+                                                                            ?.from
+                                                                            ?.name
                                                                     }{' '}
-                                                                    كم
-                                                                </span>
-                                                                <span className="mx-2">
-                                                                    |
-                                                                </span>
-                                                                <span>
-                                                                    المدة:{' '}
+                                                                    →{' '}
                                                                     {
-                                                                        station.duration
-                                                                    }{' '}
-                                                                    دقيقة
-                                                                </span>
-                                                                <span className="mx-2">
-                                                                    |
-                                                                </span>
-                                                                <span>
-                                                                    التقييم:{' '}
-                                                                    {
-                                                                        station.rating
+                                                                        station
+                                                                            .fromTo
+                                                                            ?.to
+                                                                            ?.name
                                                                     }
-                                                                </span>
+                                                                </h3>
+                                                                <div className="text-sm text-gray-600 mt-1">
+                                                                    <span>
+                                                                        المسافة:{' '}
+                                                                        {
+                                                                            station.distance
+                                                                        }{' '}
+                                                                        كم
+                                                                    </span>
+                                                                    <span className="mx-2">
+                                                                        |
+                                                                    </span>
+                                                                    <span>
+                                                                        المدة:{' '}
+                                                                        {
+                                                                            station.duration
+                                                                        }{' '}
+                                                                        دقيقة
+                                                                    </span>
+                                                                    <span className="mx-2">
+                                                                        |
+                                                                    </span>
+                                                                    <span>
+                                                                        التقييم:{' '}
+                                                                        {
+                                                                            station.rating
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                                {station.crossStations &&
+                                                                    station
+                                                                        .crossStations
+                                                                        .length >
+                                                                        0 && (
+                                                                        <div className="text-sm text-gray-500 mt-1">
+                                                                            <span>
+                                                                                المحطات
+                                                                                الوسيطة:{' '}
+                                                                            </span>
+                                                                            {station.crossStations.map(
+                                                                                (
+                                                                                    cross,
+                                                                                    idx
+                                                                                ) => (
+                                                                                    <span
+                                                                                        key={
+                                                                                            idx
+                                                                                        }
+                                                                                    >
+                                                                                        {
+                                                                                            cross
+                                                                                                .station
+                                                                                                ?.name
+                                                                                        }
+                                                                                        {idx <
+                                                                                        station
+                                                                                            .crossStations
+                                                                                            .length -
+                                                                                            1
+                                                                                            ? '، '
+                                                                                            : ''}
+                                                                                    </span>
+                                                                                )
+                                                                            )}
+                                                                        </div>
+                                                                    )}
                                                             </div>
-                                                            {station.crossStations &&
-                                                                station
-                                                                    .crossStations
-                                                                    .length >
-                                                                    0 && (
-                                                                    <div className="text-sm text-gray-500 mt-1">
-                                                                        <span>
-                                                                            المحطات
-                                                                            الوسيطة:{' '}
-                                                                        </span>
-                                                                        {station.crossStations.map(
-                                                                            (
-                                                                                cross,
-                                                                                idx
-                                                                            ) => (
-                                                                                <span
-                                                                                    key={
-                                                                                        idx
-                                                                                    }
-                                                                                >
-                                                                                    {
-                                                                                        cross
-                                                                                            .station
-                                                                                            ?.name
-                                                                                    }
-                                                                                    {idx <
-                                                                                    station
-                                                                                        .crossStations
-                                                                                        .length -
-                                                                                        1
-                                                                                        ? '، '
-                                                                                        : ''}
-                                                                                </span>
-                                                                            )
-                                                                        )}
-                                                                    </div>
-                                                                )}
-                                                        </div>
-                                                        <div className="text-xs text-gray-400">
-                                                            ID:{' '}
-                                                            {
-                                                                station.destinationId
-                                                            }
+                                                            <div className="text-xs text-gray-400">
+                                                                ID:{' '}
+                                                                {
+                                                                    station.destinationId
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            )
+                                                );
+                                            }
                                         )}
                                     </div>
                                 ) : (
@@ -242,7 +247,8 @@ export default function UpdateDatabase() {
                                             {destinationsData?.microbuses?.destinations?.reduce(
                                                 (sum, station) =>
                                                     sum +
-                                                    (station.crossStations
+                                                    (station.station
+                                                        .crossStations
                                                         ?.length || 0),
                                                 0
                                             ) || 0}
@@ -256,7 +262,8 @@ export default function UpdateDatabase() {
                                             {(
                                                 destinationsData?.microbuses?.destinations?.reduce(
                                                     (sum, station) =>
-                                                        sum + station.rating,
+                                                        sum +
+                                                        station.station.rating,
                                                     0
                                                 ) /
                                                 (destinationsData?.microbuses
