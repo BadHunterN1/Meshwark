@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc, arrayUnion, GeoPoint } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import db from '../config/firebase';
 
 export const fetchDocument = async (collectionName, documentId) => {

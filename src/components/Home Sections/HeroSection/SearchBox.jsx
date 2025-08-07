@@ -86,6 +86,7 @@ function SearchBox() {
                         setStation={handleChange}
                         p="من؟"
                         name="from"
+                        placeHolder="المنصورة"
                         destination={uniqueDestinations.uniqueFrom}
                         isDisabled={destinationsLoading || destinationsError}
                     />
@@ -93,6 +94,7 @@ function SearchBox() {
                         station={selectedOptions.to}
                         setStation={handleChange}
                         p="الي؟"
+                        placeHolder="طنطا"
                         name="to"
                         destination={uniqueDestinations.uniqueTo}
                         isDisabled={destinationsLoading || destinationsError}

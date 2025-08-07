@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchDocument } from '../../utils/http';
 
-export default function Dashboard() {
+export default function ManageRoutes() {
     const [destinationsData, setDestinationsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');

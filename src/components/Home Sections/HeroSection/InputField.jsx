@@ -7,15 +7,17 @@ function InputField(props) {
             <label htmlFor={props.name} className="capitalize pr-2 font-bold">
                 {props.p}
             </label>
-            <div className={`input ${props.isDisabled ? 'opacity-40' : null} w-full flex mt-1.5`}>
+            <div
+                className={`input ${props.isDisabled ? 'opacity-40' : null} w-full flex mt-1.5`}
+            >
                 <SearchIcon />
                 <input
-                    className="text-white w-full"
+                    className="text-gray-900 font-bold w-full"
                     value={props.station || ''}
                     onChange={e =>
                         props.setStation(e.target.value, `${props.name}`)
                     }
-                    placeholder={props.p}
+                    placeholder={props.placeHolder}
                     type="text"
                     name={props.name}
                     list={listId}

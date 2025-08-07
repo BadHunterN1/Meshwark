@@ -1,28 +1,42 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { queryClient } from './config/query';
 import UserContextProvider from './Context/UserContext';
-import ContactUs from './pages/ContactUs';
-import ErrorPage from './pages/ErrorPage';
-import FavouritePage from './pages/FavouritePage';
 import HomePage from './pages/HomePage';
-import Login from './pages/LoginPage';
-import Register from './pages/RegisterPage';
 import RootLayout from './pages/RootLayout';
-import RoutesPage from './pages/RoutesPage';
-import StationInfo from './pages/StationInfo';
-import TripPage from './pages/TripPage';
-import AboutApp from './pages/AboutApp';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
-import GoogleMap from './components/Trip Sections/Map';
-import Dashboard from './components/Dashboard Sections/DashBoard';
-import MissingRouteForm from './components/Dashboard Sections/MissingRouteForm';
+
+// Lazy load all pages except HomePage and RootLayout
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const ErrorPage = lazy(() => import('./pages/ErrorPage'));
+const FavouritePage = lazy(() => import('./pages/FavouritePage'));
+const Login = lazy(() => import('./pages/LoginPage'));
+const Register = lazy(() => import('./pages/RegisterPage'));
+const RoutesPage = lazy(() => import('./pages/RoutesPage'));
+const StationInfo = lazy(() => import('./pages/StationInfo'));
+const TripPage = lazy(() => import('./pages/TripPage'));
+const AboutApp = lazy(() => import('./pages/AboutApp'));
+const GoogleMap = lazy(() => import('./components/Trip Sections/Map'));
+const ManageRoutes = lazy(() => import('./components/Dashboard/ManageRoutes'));
+const AddRoute = lazy(() => import('./components/Dashboard/AddRoute'));
+
+// Loading component for Suspense fallback
+const LoadingSpinner = () => (
+    <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+    </div>
+);
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <RootLayout />,
-        errorElement: <ErrorPage />,
+        errorElement: (
+            <Suspense fallback={<LoadingSpinner />}>
+                <ErrorPage />
+            </Suspense>
+        ),
         children: [
             {
                 index: true,
@@ -30,52 +44,91 @@ const router = createBrowserRouter([
             },
             {
                 path: 'routes',
-                element: <RoutesPage />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <RoutesPage />
+                    </Suspense>
+                ),
             },
             {
-                element: <StationInfo />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <StationInfo />
+                    </Suspense>
+                ),
                 path: 'station-info',
             },
             {
-                element: <TripPage />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <TripPage />
+                    </Suspense>
+                ),
                 path: 'trip/:from/:to',
                 children: [
                     {
                         path: 'map',
-                        element: <GoogleMap />,
+                        element: (
+                            <Suspense fallback={<LoadingSpinner />}>
+                                <GoogleMap />
+                            </Suspense>
+                        ),
                     },
                 ],
             },
             {
                 element: (
                     <ProtectedRoute>
-                        <FavouritePage />
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <FavouritePage />
+                        </Suspense>
                     </ProtectedRoute>
                 ),
                 path: 'favourite',
             },
             {
                 path: 'about',
-                element: <AboutApp />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <AboutApp />
+                    </Suspense>
+                ),
             },
             {
-                element: <ContactUs />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <ContactUs />
+                    </Suspense>
+                ),
                 path: 'help',
             },
-
             {
-                element: <Login />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <Login />
+                    </Suspense>
+                ),
                 path: 'login',
             },
             {
-                element: <Register />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <Register />
+                    </Suspense>
+                ),
                 path: 'register',
             },
-            {
-                element: <Dashboard />,
-                path: 'dashboard',
-            },
         ],
+    },
+    {
+        element: (
+            <ProtectedRoute>
+                <Suspense fallback={<LoadingSpinner />}>
+                    <ManageRoutes />
+                </Suspense>
+            </ProtectedRoute>
+        ),
+        path: 'ManageRoutes',
     },
 ]);
 
