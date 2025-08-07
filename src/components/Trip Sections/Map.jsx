@@ -115,14 +115,32 @@ export default function GoogleMap() {
                     )}
                     {selectedStation?.startCoords?.latitude &&
                         selectedStation?.startCoords?.longitude && (
-                            <Directions
-                                user={center}
-                                from={from}
-                                destination={{
-                                    lat: selectedStation.startCoords.latitude,
-                                    lng: selectedStation.startCoords.longitude,
-                                }}
-                            />
+                            <>
+                                <Directions
+                                    user={center}
+                                    from={from}
+                                    destination={{
+                                        lat: selectedStation.startCoords
+                                            .latitude,
+                                        lng: selectedStation.startCoords
+                                            .longitude,
+                                    }}
+                                />
+                                <Directions
+                                    user={{
+                                        lat: selectedStation.startCoords
+                                            .latitude,
+                                        lng: selectedStation.startCoords
+                                            .longitude,
+                                    }}
+                                    from={from}
+                                    destination={{
+                                        lat: selectedStation.endCoords.latitude,
+                                        lng: selectedStation.endCoords
+                                            .longitude,
+                                    }}
+                                />
+                            </>
                         )}
                 </Map>
             </div>

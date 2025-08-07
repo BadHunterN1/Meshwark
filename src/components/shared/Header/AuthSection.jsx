@@ -9,6 +9,7 @@ export default function AuthSection() {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('name');
         setToken(null);
         setUserLogin('');
     };
