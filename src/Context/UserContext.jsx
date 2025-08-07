@@ -1,15 +1,25 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
 
 export let UserContext = createContext();
 
 export default function UserContextProvider({ children }) {
-	let [userLogin, setUserLogin] = useState("");
-	let [token, setToken] = useState(localStorage.getItem("token"));
-	console.log(token);
+    const [userLogin, setUserLogin] = useState('');
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [clickedBookmarks, setClickedBookmarks] = useState([]);
+    console.log(token);
 
-	return (
-		<UserContext.Provider value={{ userLogin, setUserLogin, token, setToken }}>
-			{children}
-		</UserContext.Provider>
-	);
+    return (
+        <UserContext.Provider
+            value={{
+                userLogin,
+                setUserLogin,
+                token,
+                setToken,
+                clickedBookmarks,
+                setClickedBookmarks,
+            }}
+        >
+            {children}
+        </UserContext.Provider>
+    );
 }

@@ -1,5 +1,6 @@
 import { ArrowRight, Clock, MapPin, Search, Bookmark } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '../../Context/UserContext';
 
 const initialRoutes = [
     {
@@ -35,8 +36,8 @@ const initialRoutes = [
 
 export default function FavouriteCards() {
     const [searchQuery, setSearchQuery] = useState('');
+    const { clickedBookmarks, setClickedBookmarks } = useContext(UserContext);
     const [routes, setRoutes] = useState(initialRoutes);
-    const [clickedBookmarks, setClickedBookmarks] = useState([]);
 
     const handleBookmarkClick = id => {
         setClickedBookmarks(prev => [...prev, id]);
@@ -80,100 +81,101 @@ export default function FavouriteCards() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-7xl mx-auto mb-20">
-                    {filteredRoutes.map(route => (
-                        <div
-                            key={route.id}
-                            className="flex flex-col justify-between bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
-                        >
-                            <div className="p-7 border-b border-gray-100">
-                                <div className="flex items-center justify-between mb-5">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
-                                            <MapPin className="w-5 h-5 text-white" />
+                    {filteredRoutes.length > 0 &&
+                        filteredRoutes.map(route => (
+                            <div
+                                key={route.id}
+                                className="flex flex-col justify-between bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
+                            >
+                                <div className="p-7 border-b border-gray-100">
+                                    <div className="flex items-center justify-between mb-5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
+                                                <MapPin className="w-5 h-5 text-white" />
+                                            </div>
+                                            <span className="text-base text-gray-500 font-medium">
+                                                مسار {route.id}
+                                            </span>
                                         </div>
-                                        <span className="text-base text-gray-500 font-medium">
-                                            مسار {route.id}
-                                        </span>
+                                        <button
+                                            onClick={() =>
+                                                handleBookmarkClick(route.id)
+                                            }
+                                            className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
+                                        >
+                                            <Bookmark
+                                                className={`w-7 h-7 transition-all duration-300 ${
+                                                    clickedBookmarks.includes(
+                                                        route.id
+                                                    )
+                                                        ? 'text-white stroke-blue-600 fill-white'
+                                                        : 'text-blue-600 fill-blue-600'
+                                                }`}
+                                            />
+                                        </button>
                                     </div>
-                                    <button
-                                        onClick={() =>
-                                            handleBookmarkClick(route.id)
-                                        }
-                                        className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
-                                    >
-                                        <Bookmark
-                                            className={`w-7 h-7 transition-all duration-300 ${
-                                                clickedBookmarks.includes(
-                                                    route.id
-                                                )
-                                                    ? 'text-white stroke-blue-600 fill-white'
-                                                    : 'text-blue-600 fill-blue-600'
-                                            }`}
-                                        />
-                                    </button>
+
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between text-lg font-semibold">
+                                            <span className="text-gray-800">
+                                                {route.from}
+                                            </span>
+                                            <ArrowRight className="w-5 h-5 text-gray-400" />
+                                            <span className="text-gray-800">
+                                                {route.to}
+                                            </span>
+                                        </div>
+                                        <p className="text-base text-gray-600 leading-relaxed">
+                                            {route.description}
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <div className="space-y-3">
-                                    <div className="flex items-center justify-between text-lg font-semibold">
-                                        <span className="text-gray-800">
-                                            {route.from}
-                                        </span>
-                                        <ArrowRight className="w-5 h-5 text-gray-400" />
-                                        <span className="text-gray-800">
-                                            {route.to}
-                                        </span>
-                                    </div>
-                                    <p className="text-base text-gray-600 leading-relaxed">
-                                        {route.description}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="p-7 space-y-5">
-                                <div className="grid grid-cols-3 gap-5 text-center">
-                                    <div className="space-y-1">
-                                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto">
-                                            <Clock className="w-5 h-5 text-white" />
-                                        </div>
-                                        <div className="text-base font-medium text-gray-800">
-                                            {route.duration}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            المدة
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto">
-                                            <MapPin className="w-5 h-5 text-white" />
-                                        </div>
-                                        <div className="text-base font-medium text-gray-800">
-                                            {route.distance}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            المسافة
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto">
-                                            <div className="text-white font-bold text-base">
-                                                ج
+                                <div className="p-7 space-y-5">
+                                    <div className="grid grid-cols-3 gap-5 text-center">
+                                        <div className="space-y-1">
+                                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto">
+                                                <Clock className="w-5 h-5 text-white" />
+                                            </div>
+                                            <div className="text-base font-medium text-gray-800">
+                                                {route.duration}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                المدة
                                             </div>
                                         </div>
-                                        <div className="text-base font-medium text-gray-800">
-                                            {route.price}
+                                        <div className="space-y-1">
+                                            <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto">
+                                                <MapPin className="w-5 h-5 text-white" />
+                                            </div>
+                                            <div className="text-base font-medium text-gray-800">
+                                                {route.distance}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                المسافة
+                                            </div>
                                         </div>
-                                        <div className="text-sm text-gray-500">
-                                            السعر
+                                        <div className="space-y-1">
+                                            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto">
+                                                <div className="text-white font-bold text-base">
+                                                    ج
+                                                </div>
+                                            </div>
+                                            <div className="text-base font-medium text-gray-800">
+                                                {route.price}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                السعر
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-2xl text-lg font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                                    عرض التفاصيل
-                                </button>
+                                    <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-2xl text-lg font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                        عرض التفاصيل
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { LogOut, User } from 'lucide-react';
 import { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../../Context/UserContext';
 
 const mobileNavigationItems = [
@@ -14,7 +14,6 @@ const mobileNavigationItems = [
 export default function MobileMenu({ isOpen, onClose }) {
     const { userLogin, token, setUserLogin, setToken } =
         useContext(UserContext);
-    const location = useLocation();
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -38,14 +37,12 @@ export default function MobileMenu({ isOpen, onClose }) {
             <div className="border-t border-gray-200 bg-gradient-to-b from-gray-50 to-white">
                 <ul className="flex flex-col gap-1 px-4 py-4">
                     {mobileNavigationItems.map(item => {
-                        const isActive = location.pathname === item.to;
-
                         return (
                             <li key={item.to}>
-                                <Link
+                                <NavLink
                                     to={item.to}
                                     onClick={onClose}
-                                    className={`
+                                    className={({ isActive }) => `
                     block px-4 py-3 rounded-lg transition-all duration-300
                     ${
                         isActive
@@ -55,7 +52,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                   `}
                                 >
                                     {item.label}
-                                </Link>
+                                </NavLink>
                             </li>
                         );
                     })}
@@ -83,20 +80,32 @@ export default function MobileMenu({ isOpen, onClose }) {
                         </div>
                     ) : (
                         <div className="space-y-3">
-                            <Link
+                            <NavLink
                                 to={'login'}
-                                className="block w-full text-center bg-white text-gray-700 border border-gray-300 rounded-lg px-4 py-3 hover:bg-gray-50 transition-all duration-300"
+                                className={({ isActive }) =>
+                                    `block w-full text-center border border-gray-300 rounded-lg px-4 py-3 transition-all duration-300 ${
+                                        isActive
+                                            ? 'text-white font-semibold border-b-2 bg-blue-600'
+                                            : 'text-gray-500 hover:bg-gray-50 bg-white hover:text-blue-600'
+                                    }`
+                                }
                                 onClick={onClose}
                             >
                                 تسجيل الدخول
-                            </Link>
-                            <Link
+                            </NavLink>
+                            <NavLink
                                 to={'register'}
-                                className="block w-full text-center bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg px-4 py-3 font-medium shadow-md hover:shadow-lg transition-all duration-300"
+                                className={({ isActive }) =>
+                                    `block w-full text-center border border-gray-300 rounded-lg px-4 py-3 transition-all duration-300 ${
+                                        isActive
+                                            ? 'text-white font-semibold border-b-2 bg-blue-600'
+                                            : 'text-gray-500 hover:bg-gray-50 bg-white hover:text-blue-600'
+                                    }`
+                                }
                                 onClick={onClose}
                             >
                                 إنشاء حساب
-                            </Link>
+                            </NavLink>
                         </div>
                     )}
                 </div>
