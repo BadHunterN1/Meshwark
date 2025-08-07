@@ -121,7 +121,13 @@ function SearchBox() {
                         ? 'جاري تحميل المحطات'
                         : destinationsError
                           ? 'لم نستطع تحميل المحطات الرجاء المحاولة مره اخري'
-                          : null}
+                          : !isFromValid && !isToValid
+                            ? 'الرجاء اختيار المحطات من قائمة الاختيارات'
+                            : !isFromValid
+                              ? 'الرجاء اختيار محطة من'
+                              : !isToValid
+                                ? 'الرجاء اختيار محطة الي'
+                                : null}
                 </p>
             </form>
         </div>

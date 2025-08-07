@@ -28,7 +28,7 @@ export default function TripPage() {
     console.log(selectedStation);
 
     return (
-        <section className="pb-4">
+        <section className="p-4">
             <Outlet context={{ selectedStation }} />
             <div>
                 {!destinationsLoading && selectedStation ? (
