@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import TripDetails from '../components/Trip Sections/TripDetails';
 import TripSummary from '../components/Trip Sections/TripSummary';
 import { useQuery } from '@tanstack/react-query';
@@ -9,8 +9,8 @@ export default function TripPage() {
 
     const {
         data: destinationsData,
-        // isLoading: governoratesLoading,
-        // error: destinationsDataError,
+        isLoading: destinationsLoading,
+        error: destinationsError,
     } = useQuery({
         queryKey: ['destinations'],
         queryFn: () => fetchDocument('destinations', 'mansoura'),
@@ -29,25 +29,33 @@ export default function TripPage() {
 
     return (
         <section className="pb-4">
+            <Outlet context={{ selectedStation }} />
             <div>
-                {selectedStation ? (
+                {!destinationsLoading && selectedStation ? (
                     <>
                         <TripSummary
                             from={selectedStation.fromTo?.from}
                             to={selectedStation.fromTo?.to}
-                            duration={selectedStation.duration || 0}
-                            distance={selectedStation.distance || 0}
-                            fee={fee || 0}
+                            duration={selectedStation.duration}
+                            distance={selectedStation.distance}
+                            fee={fee}
+                            id={selectedStation.destinationId}
                         />
                         <TripDetails
                             from={selectedStation.fromTo?.from.name}
                             to={selectedStation.fromTo?.to.name}
                         />
                     </>
-                ) : (
-                    <div className="container py-8">
+                ) : destinationsError ? (
+                    <div className="container h-screen w-full text-4xl py-8">
                         <div className="text-center text-gray-600">
                             <p>لم يتم العثور على المسار المطلوب</p>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="container h-screen w-full text-4xl py-8">
+                        <div className="text-center animate-pulse text-gray-600">
+                            <p>جاري تحميل المسار الرجاء الانتظار...</p>
                         </div>
                     </div>
                 )}

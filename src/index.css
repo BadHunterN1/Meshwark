@@ -32,7 +32,7 @@
     --blue-color: 210 100% 56%;
     --hero-button-main-color: hsl(142 69% 58%);
     --hero-button-glow-color: hsl(142 69% 70%);
-	--glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-bg: rgba(255, 255, 255, 0.25);
 }
 
 @layer base {
@@ -57,8 +57,6 @@
         color: hsl(215, 23%, 26%);
         caret-color: var(--main-color);
     }
-    :root {
-    }
 
     ::-webkit-scrollbar {
         @apply w-2;
@@ -74,7 +72,7 @@
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background-color: #b93d13;
+        background-color: var(--secondary-color);
     }
 
     img {
@@ -144,6 +142,21 @@
     }
     .hero .holder .search-inputs .input svg {
         color: hsl(var(--muted-foreground));
+    }
+    .wave-animation {
+        animation: wave 0.7s infinite;
+    }
+
+    @keyframes wave {
+        0% {
+            transform: rotate(0);
+        }
+        50% {
+            transform: rotate(20deg);
+        }
+        100% {
+            transform: rotate(0);
+        }
     }
 }
 

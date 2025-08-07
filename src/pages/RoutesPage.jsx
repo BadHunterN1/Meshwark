@@ -1,59 +1,57 @@
-import { ArrowRight, Clock, MapPin, Search, Star } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { ArrowLeft, BanIcon, Clock, MapPin, Search, Star } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-const popularRoutes = [
-    {
-        id: 1,
-        from: 'المنصورة',
-        to: 'القاهرة',
-        duration: '2 ساعة',
-        distance: '120 كم',
-        price: '25 جنيه',
-        rating: 4.5,
-        description:
-            'طريق سريع ومريح من المنصورة إلى القاهرة عبر الطريق الزراعي',
-    },
-    {
-        id: 2,
-        from: 'المنصورة',
-        to: 'الإسكندرية',
-        duration: '3 ساعة',
-        distance: '180 كم',
-        price: '35 جنيه',
-        rating: 4.3,
-        description:
-            'رحلة مريحة من المنصورة إلى الإسكندرية عبر طريق القاهرة الإسكندرية',
-    },
-    {
-        id: 3,
-        from: 'المنصورة',
-        to: 'طنطا',
-        duration: '45 دقيقة',
-        distance: '45 كم',
-        price: '15 جنيه',
-        rating: 4.7,
-        description: 'رحلة قصيرة ومتكررة من المنصورة إلى طنطا',
-    },
-    {
-        id: 4,
-        from: 'المنصورة',
-        to: 'زفتى',
-        duration: '30 دقيقة',
-        distance: '25 كم',
-        price: '10 جنيه',
-        rating: 4.8,
-        description: 'رحلة سريعة ومتكررة من المنصورة إلى زفتى',
-    },
-];
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchDocument } from '../utils/http';
 
 export default function RoutesPage() {
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
-    const filteredRoutes = popularRoutes.filter(route => {
+    const {
+        data: destinationsData,
+        isLoading: destinationsLoading,
+        error: destinationsDataError,
+    } = useQuery({
+        queryKey: ['destinations'],
+        queryFn: () => fetchDocument('destinations', 'mansoura'),
+    });
+
+    if (destinationsLoading) {
+        return (
+            <p className="h-screen text-center flex justify-center items-center text-6xl animate-pulse">
+                جاري التحميل
+            </p>
+        );
+    } else if (destinationsDataError) {
+        return (
+            <p className="h-screen flex items-center justify-center flex-col text-center text-red-600 text-3xl sm:text-4xl lg:text-6xl">
+                <BanIcon size={100} />
+                نعتذر، حدث خلل غير متوقع أثناء محاولة تحميل الصفحة. يرجى
+                المحاولة مرة أخرى لاحقًا.
+            </p>
+        );
+    }
+    console.log(destinationsData.microbuses.destinations);
+    const stations = destinationsData.microbuses.destinations;
+
+    // Filter stations based on search query
+    const filteredStations = stations.filter(stationObj => {
+        if (!searchQuery.trim()) return true;
+
+        const fromTo = stationObj.station?.fromTo;
+        if (!fromTo) return false;
+
+        const fromName = fromTo.from?.name || '';
+        const toName = fromTo.to?.name || '';
+        const description = `اذهب من محطة ${fromName} الي محطة ${toName}`;
+
+        const searchLower = searchQuery.toLowerCase();
         const matchesSearch =
-            route.from.includes(searchQuery) ||
-            route.to.includes(searchQuery) ||
-            route.description.includes(searchQuery);
+            fromName.toLowerCase().includes(searchLower) ||
+            toName.toLowerCase().includes(searchLower) ||
+            description.toLowerCase().includes(searchLower);
+
         return matchesSearch;
     });
 
@@ -83,92 +81,134 @@ export default function RoutesPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
-                    {filteredRoutes.map(route => (
-                        <div
-                            key={route.id}
-                            className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
-                        >
-                            <div className="p-6 border-b border-gray-100">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
-                                            <MapPin className="w-4 h-4 text-white" />
-                                        </div>
-                                        <span className="text-sm text-gray-500">
-                                            مسار {route.id}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                        <span className="text-sm font-medium">
-                                            {route.rating}
-                                        </span>
-                                    </div>
-                                </div>
+                {filteredStations.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
+                        {filteredStations.map((stationObj, index) => {
+                            console.log(stationObj.station.fromTo.to);
+                            const stationDetails = stationObj.station;
+                            const fromTo = stationObj.station.fromTo;
+                            const routeNumber = index + 1;
 
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between">
-                                        <span className="font-semibold text-gray-800">
-                                            {route.from}
-                                        </span>
-                                        <ArrowRight className="w-4 h-4 text-gray-400" />
-                                        <span className="font-semibold text-gray-800">
-                                            {route.to}
-                                        </span>
-                                    </div>
-                                    <p className="text-sm text-gray-600 leading-relaxed">
-                                        {route.description}
-                                    </p>
-                                </div>
-                            </div>
+                            const handleNavigation = () => {
+                                navigate(
+                                    `/trip/${fromTo.from.name}/${fromTo.to.name}`
+                                );
+                            };
 
-                            <div className="p-6 space-y-4">
-                                <div className="grid grid-cols-3 gap-4 text-center">
-                                    <div className="space-y-1">
-                                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto">
-                                            <Clock className="w-4 h-4 text-white" />
-                                        </div>
-                                        <div className="text-sm font-medium text-gray-800">
-                                            {route.duration}
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            المدة
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto">
-                                            <MapPin className="w-4 h-4 text-white" />
-                                        </div>
-                                        <div className="text-sm font-medium text-gray-800">
-                                            {route.distance}
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            المسافة
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto">
-                                            <div className="text-white font-bold text-sm">
-                                                ج
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
+                                >
+                                    <div className="p-6 border-b border-gray-100">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                                                    <MapPin className="w-4 h-4 text-white" />
+                                                </div>
+                                                <span className="text-sm text-gray-500">
+                                                    مسار {routeNumber}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                <span className="text-sm font-medium">
+                                                    {stationDetails.rating}
+                                                </span>
                                             </div>
                                         </div>
-                                        <div className="text-sm font-medium text-gray-800">
-                                            {route.price}
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            السعر
+
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between">
+                                                <span className="font-semibold text-gray-800">
+                                                    {fromTo.from.name}
+                                                </span>
+                                                <ArrowLeft className="w-4 h-4 text-gray-400" />
+                                                <span className="font-semibold text-gray-800">
+                                                    {fromTo.to.name}
+                                                </span>
+                                            </div>
+                                            <p className="text-sm text-gray-600 leading-relaxed">
+                                                اذهب من محطة {fromTo.from.name}{' '}
+                                                الي محطة {fromTo.to.name}
+                                            </p>
                                         </div>
                                     </div>
-                                </div>
 
-                                <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                                    عرض التفاصيل
-                                </button>
-                            </div>
+                                    <div className="p-6 space-y-4">
+                                        <div className="grid grid-cols-3 gap-4 text-center">
+                                            <div className="space-y-1">
+                                                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto">
+                                                    <Clock className="w-4 h-4 text-white" />
+                                                </div>
+                                                <div className="text-sm font-medium text-gray-800">
+                                                    {stationDetails.duration}{' '}
+                                                    دقيقة
+                                                </div>
+                                                <div className="text-xs text-gray-500">
+                                                    المدة
+                                                </div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto">
+                                                    <MapPin className="w-4 h-4 text-white" />
+                                                </div>
+                                                <div className="text-sm font-medium text-gray-800">
+                                                    {stationDetails.distance} كم
+                                                </div>
+                                                <div className="text-xs text-gray-500">
+                                                    المسافة
+                                                </div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto">
+                                                    <div className="text-white font-bold text-sm">
+                                                        ج
+                                                    </div>
+                                                </div>
+                                                <div className="text-sm font-medium text-gray-800">
+                                                    {
+                                                        destinationsData
+                                                            .microbuses.fee
+                                                    }{' '}
+                                                    ج.م
+                                                </div>
+                                                <div className="text-xs text-gray-500">
+                                                    السعر
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            onClick={handleNavigation}
+                                            className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                                        >
+                                            عرض التفاصيل
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div className="text-center py-16">
+                        <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto">
+                            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                                لم يتم العثور على نتائج
+                            </h3>
+                            <p className="text-gray-600 mb-4">
+                                لا توجد مسارات تطابق البحث: "{searchQuery}"
+                            </p>
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="text-blue-600 hover:text-blue-700 font-medium"
+                            >
+                                مسح البحث
+                            </button>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                )}
 
                 <div className="text-center mt-16 bg-white rounded-3xl p-8 shadow-lg border border-gray-100 max-w-4xl mx-auto">
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">

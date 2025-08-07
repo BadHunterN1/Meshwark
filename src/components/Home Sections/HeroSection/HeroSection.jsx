@@ -5,6 +5,10 @@ function HeroSection() {
         <div className="hero relative">
             <div className="holder p-2 sm:p-7 max-sm:min-h-[calc(100vh-60px)] flex justify-center items-center flex-col w-full min-h-[calc(100vh-72px)]">
                 <div className="main-heading">
+                    <div className="w-fit text-center rounded-2xl p-1.5 mx-auto border mb-4">
+                        <span>اهلا بك في مشوارك</span>
+                        <span className="wave-animation inline-block">👋</span>
+                    </div>
                     <h1 className="text-7xl font-bold max-w-[17ch] text-wrap text-center m-auto leading-none max-lg:text-[2rem]">
                         اكتشف أفضل طريق{' '}
                         <span className="text-[var(--h1-text-glow)]">
