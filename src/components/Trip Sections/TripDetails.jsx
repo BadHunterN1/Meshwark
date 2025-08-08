@@ -19,9 +19,8 @@ export default function TripDetails({ from, to }) {
 
     const selectedStation = (stations || []).find(
         stationObj =>
-            stationObj?.station?.fromTo?.from?.name === from &&
-            stationObj?.station?.fromTo?.to?.name === to
-    )?.station;
+            stationObj?.from?.name === from && stationObj?.to?.name === to
+    );
 
     const handleNavigateMap = () => {
         navigate(`/trip/${from}/${to}/map`);

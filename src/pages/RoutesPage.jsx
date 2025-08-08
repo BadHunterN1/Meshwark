@@ -39,11 +39,8 @@ export default function RoutesPage() {
     const filteredStations = stations.filter(stationObj => {
         if (!searchQuery.trim()) return true;
 
-        const fromTo = stationObj.station?.fromTo;
-        if (!fromTo) return false;
-
-        const fromName = fromTo.from?.name || '';
-        const toName = fromTo.to?.name || '';
+        const fromName = stationObj.from?.name || '';
+        const toName = stationObj.to?.name || '';
         const description = `اذهب من محطة ${fromName} الي محطة ${toName}`;
 
         const searchLower = searchQuery.toLowerCase();
@@ -84,14 +81,12 @@ export default function RoutesPage() {
                 {filteredStations.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
                         {filteredStations.map((stationObj, index) => {
-                            console.log(stationObj.station.fromTo.to);
-                            const stationDetails = stationObj.station;
-                            const fromTo = stationObj.station.fromTo;
+                            console.log(stationObj.to);
                             const routeNumber = index + 1;
 
                             const handleNavigation = () => {
                                 navigate(
-                                    `/trip/${fromTo.from.name}/${fromTo.to.name}`
+                                    `/trip/${stationObj.from.name}/${stationObj.to.name}`
                                 );
                             };
 
@@ -113,7 +108,7 @@ export default function RoutesPage() {
                                             <div className="flex items-center gap-1">
                                                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
                                                 <span className="text-sm font-medium">
-                                                    {stationDetails.rating}
+                                                    {stationObj.rating}
                                                 </span>
                                             </div>
                                         </div>
@@ -121,16 +116,17 @@ export default function RoutesPage() {
                                         <div className="space-y-2">
                                             <div className="flex items-center justify-between">
                                                 <span className="font-semibold text-gray-800">
-                                                    {fromTo.from.name}
+                                                    {stationObj.from.name}
                                                 </span>
                                                 <ArrowLeft className="w-4 h-4 text-gray-400" />
                                                 <span className="font-semibold text-gray-800">
-                                                    {fromTo.to.name}
+                                                    {stationObj.to.name}
                                                 </span>
                                             </div>
                                             <p className="text-sm text-gray-600 leading-relaxed">
-                                                اذهب من محطة {fromTo.from.name}{' '}
-                                                الي محطة {fromTo.to.name}
+                                                اذهب من محطة{' '}
+                                                {stationObj.from.name} الي محطة{' '}
+                                                {stationObj.to.name}
                                             </p>
                                         </div>
                                     </div>
@@ -142,8 +138,7 @@ export default function RoutesPage() {
                                                     <Clock className="w-4 h-4 text-white" />
                                                 </div>
                                                 <div className="text-sm font-medium text-gray-800">
-                                                    {stationDetails.duration}{' '}
-                                                    دقيقة
+                                                    {stationObj.duration} دقيقة
                                                 </div>
                                                 <div className="text-xs text-gray-500">
                                                     المدة
@@ -154,7 +149,7 @@ export default function RoutesPage() {
                                                     <MapPin className="w-4 h-4 text-white" />
                                                 </div>
                                                 <div className="text-sm font-medium text-gray-800">
-                                                    {stationDetails.distance} كم
+                                                    {stationObj.distance} كم
                                                 </div>
                                                 <div className="text-xs text-gray-500">
                                                     المسافة

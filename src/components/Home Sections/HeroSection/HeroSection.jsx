@@ -1,4 +1,6 @@
-import SearchBox from './SearchBox';
+import { lazy, Suspense } from 'react';
+const SearchBox = lazy(() => import('./SearchBox'));
+// import SearchBox from './SearchBox';
 
 function HeroSection() {
     return (
@@ -20,7 +22,17 @@ function HeroSection() {
                         والمواصلات المتاحة
                     </p>
                 </div>
-                <SearchBox />
+                <Suspense
+                    fallback={
+                        <div className=" w-[50%] h-[200px]">
+                            <div className="flex justify-center items-center w-full h-full bg-gray-700 animate-pulse rounded-2xl">
+                                جاري التحميل...
+                            </div>
+                        </div>
+                    }
+                >
+                    <SearchBox />
+                </Suspense>
                 <p className="hero-info mt-14 max-lg:text-center max-lg:mt-[40px] max-lg:ml-2.5 max-lg:mr-2.5">
                     ✨ أكثر من 1000+ طريق متاح | 🚌 تغطية شاملة للمنصورة | ⚡
                     نتائج فورية{' '}
