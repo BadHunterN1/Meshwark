@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import {
     fetchUsersRoutes,
     addStationToDestinations,
@@ -6,83 +7,76 @@ import {
     removeStationFromUsersRoutes,
 } from '../../utils/http';
 import { Check, X } from 'lucide-react';
+import { queryClient } from '../../config/query';
 
 export default function ReviewSuggestions() {
-    const [suggestions, setSuggestions] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [opLoadingId, setOpLoadingId] = useState(null);
-
     const USERS_ROUTES_DOC = 'routes';
     const DESTINATIONS_DOC = 'mansoura';
 
-    const load = async () => {
-        try {
-            setLoading(true);
-            setError('');
-            const data = await fetchUsersRoutes(USERS_ROUTES_DOC);
-            console.log(data.microbuses?.destinations);
+    // Query for fetching user suggestions
+    const {
+        data: suggestionsData,
+        isLoading: loading,
+        error,
+        refetch,
+    } = useQuery({
+        queryKey: ['user-suggestions', USERS_ROUTES_DOC],
+        queryFn: () => fetchUsersRoutes(USERS_ROUTES_DOC),
+        staleTime: 2 * 60 * 1000, // 2 minutes
+    });
 
-            setSuggestions(data?.microbuses?.destinations || []);
-        } catch (err) {
-            console.error(err);
-            setError('فشل في تحميل اقتراحات المستخدمين');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        load();
-    }, []);
-
-    const acceptSuggestion = async station => {
-        try {
-            setOpLoadingId(station.destinationId);
+    // Mutation for accepting a suggestion
+    const acceptSuggestionMutation = useMutation({
+        mutationFn: async station => {
             await addStationToDestinations(DESTINATIONS_DOC, station);
             await addStationDetails('station-details', station);
             await removeStationFromUsersRoutes(
                 USERS_ROUTES_DOC,
                 station.destinationId
             );
-            setSuggestions(prev =>
-                prev.filter(
-                    s =>
-                        String(s.destinationId) !==
-                        String(station.destinationId)
-                )
-            );
-        } catch (err) {
-            console.error(err);
-            setError('تعذر قبول الاقتراح');
-        } finally {
-            setOpLoadingId(null);
-        }
-    };
+        },
+        onSuccess: () => {
+            // Invalidate and refetch the suggestions query
+            queryClient.invalidateQueries({
+                queryKey: ['user-suggestions', USERS_ROUTES_DOC],
+            });
+        },
+        onError: error => {
+            console.error('Failed to accept suggestion', error);
+            alert('تعذر قبول الاقتراح');
+        },
+    });
 
-    const declineSuggestion = async station => {
-        try {
-            setOpLoadingId(station.destinationId);
-            await removeStationFromUsersRoutes(
+    // Mutation for declining a suggestion
+    const declineSuggestionMutation = useMutation({
+        mutationFn: station =>
+            removeStationFromUsersRoutes(
                 USERS_ROUTES_DOC,
                 station.destinationId
-            );
-            setSuggestions(prev =>
-                prev.filter(
-                    s =>
-                        String(s.destinationId) !==
-                        String(station.destinationId)
-                )
-            );
-        } catch (err) {
-            console.error(err);
-            setError('تعذر رفض الاقتراح');
-        } finally {
-            setOpLoadingId(null);
-        }
+            ),
+        onSuccess: () => {
+            // Invalidate and refetch the suggestions query
+            queryClient.invalidateQueries({
+                queryKey: ['user-suggestions', USERS_ROUTES_DOC],
+            });
+        },
+        onError: error => {
+            console.error('Failed to decline suggestion', error);
+            alert('تعذر رفض الاقتراح');
+        },
+    });
+
+    const acceptSuggestion = station => {
+        acceptSuggestionMutation.mutate(station);
+    };
+
+    const declineSuggestion = station => {
+        declineSuggestionMutation.mutate(station);
     };
 
     if (loading) return <div className="p-6">جاري التحميل...</div>;
+
+    const suggestions = suggestionsData?.microbuses?.destinations || [];
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
@@ -90,7 +84,7 @@ export default function ReviewSuggestions() {
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold">اقتراحات المستخدمين</h2>
                     <button
-                        onClick={load}
+                        onClick={() => refetch()}
                         className="px-3 py-2 rounded bg-blue-600 text-white"
                     >
                         تحديث
@@ -99,7 +93,7 @@ export default function ReviewSuggestions() {
 
                 {error && (
                     <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-3 mb-4">
-                        {error}
+                        {error.message || 'فشل في تحميل اقتراحات المستخدمين'}
                     </div>
                 )}
 
@@ -142,8 +136,8 @@ export default function ReviewSuggestions() {
                                             declineSuggestion(station)
                                         }
                                         disabled={
-                                            opLoadingId ===
-                                            station.destinationId
+                                            declineSuggestionMutation.isPending ||
+                                            acceptSuggestionMutation.isPending
                                         }
                                         className="p-2 rounded bg-red-600 text-white disabled:opacity-60"
                                         title="رفض"
@@ -155,8 +149,8 @@ export default function ReviewSuggestions() {
                                             acceptSuggestion(station)
                                         }
                                         disabled={
-                                            opLoadingId ===
-                                            station.destinationId
+                                            acceptSuggestionMutation.isPending ||
+                                            declineSuggestionMutation.isPending
                                         }
                                         className="p-2 rounded bg-green-600 text-white disabled:opacity-60"
                                         title="قبول"
