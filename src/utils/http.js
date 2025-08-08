@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';
 import db from '../config/firebase';
 
 export const fetchDocument = async (collectionName, documentId) => {
@@ -50,11 +50,11 @@ export const createStationObject = (formData) => {
         endCoords: formData.endCoords || 0, // Use provided coordinates
         from: {
             name: formData.from,
-            stationId: `from_${destinationId}`
+            stationId: `${destinationId}`
         },
         to: {
             name: formData.to,
-            stationId: `to_${destinationId}`
+            stationId: `${destinationId}`
         },
         rating: 4.3, // Default rating
         startCoords: formData.startCoords || 0, // Use provided coordinates

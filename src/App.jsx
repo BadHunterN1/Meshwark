@@ -56,7 +56,7 @@ const router = createBrowserRouter([
                         <StationInfo />
                     </Suspense>
                 ),
-                path: 'station-info',
+                path: 'station-info/:stationId',
             },
             {
                 element: (

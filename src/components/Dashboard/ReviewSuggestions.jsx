@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     fetchUsersRoutes,
     addStationToDestinations,
+    addStationDetails,
     removeStationFromUsersRoutes,
 } from '../../utils/http';
 import { Check, X } from 'lucide-react';
@@ -39,6 +40,7 @@ export default function ReviewSuggestions() {
         try {
             setOpLoadingId(station.destinationId);
             await addStationToDestinations(DESTINATIONS_DOC, station);
+            await addStationDetails('station-details', station);
             await removeStationFromUsersRoutes(
                 USERS_ROUTES_DOC,
                 station.destinationId
