@@ -48,19 +48,14 @@ function SearchBox() {
         const uniqueTo = new Map();
 
         stations.forEach(stationObj => {
-            const fromTo = stationObj?.station?.fromTo;
-
-            if (
-                fromTo &&
-                typeof fromTo === 'object' &&
-                fromTo.from?.name &&
-                fromTo.to?.name
-            ) {
-                if (!uniqueFrom.has(fromTo.from.name)) {
-                    uniqueFrom.set(fromTo.from.name, { ...fromTo.from });
+            if (stationObj.from?.name && stationObj.to?.name) {
+                if (!uniqueFrom.has(stationObj.from.name)) {
+                    uniqueFrom.set(stationObj.from.name, {
+                        ...stationObj.from,
+                    });
                 }
-                if (!uniqueTo.has(fromTo.to.name)) {
-                    uniqueTo.set(fromTo.to.name, { ...fromTo.to });
+                if (!uniqueTo.has(stationObj.to.name)) {
+                    uniqueTo.set(stationObj.to.name, { ...stationObj.to });
                 }
             }
         });

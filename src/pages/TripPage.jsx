@@ -25,9 +25,8 @@ export default function TripPage() {
 
     const selectedStation = (stations || []).find(
         stationObj =>
-            stationObj?.station?.fromTo?.from?.name === from &&
-            stationObj?.station?.fromTo?.to?.name === to
-    )?.station;
+            stationObj?.from?.name === from && stationObj?.to?.name === to
+    );
 
     console.log(selectedStation);
 
@@ -38,16 +37,16 @@ export default function TripPage() {
                 {!destinationsLoading && selectedStation ? (
                     <>
                         <TripSummary
-                            from={selectedStation.fromTo?.from}
-                            to={selectedStation.fromTo?.to}
+                            from={selectedStation.from}
+                            to={selectedStation.to}
                             duration={selectedStation.duration}
                             distance={selectedStation.distance}
                             fee={fee}
                             id={selectedStation.destinationId}
                         />
                         <TripDetails
-                            from={selectedStation.fromTo?.from.name}
-                            to={selectedStation.fromTo?.to.name}
+                            from={selectedStation.from.name}
+                            to={selectedStation.to.name}
                         />
                     </>
                 ) : destinationsError ||

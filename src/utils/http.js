@@ -20,14 +20,21 @@ export const updateDocument = async (collectionName, documentId, updateData) => 
 export const addStationToDestinations = async (documentId, newStation) => {
     const docRef = doc(db, 'destinations', documentId);
     await updateDoc(docRef, {
-        'microbuses.destinations': arrayUnion({ station: newStation })
+        'microbuses.destinations': arrayUnion(newStation)
     });
 };
 
 export const addStationToUsersRoutes = async (documentId, newStation) => {
     const docRef = doc(db, 'users-routes', documentId);
     await updateDoc(docRef, {
-        'microbuses.destinations': arrayUnion({ station: newStation })
+        'microbuses.destinations': arrayUnion(newStation)
+    });
+};
+
+export const addStationDetails = async (documentId, newStation) => {
+    const docRef = doc(db, 'stations', documentId);
+    await updateDoc(docRef, {
+        'stations': arrayUnion(newStation.from, newStation.to)
     });
 };
 
@@ -41,15 +48,13 @@ export const createStationObject = (formData) => {
         distance: parseInt(formData.distance),
         duration: parseInt(formData.duration),
         endCoords: formData.endCoords || 0, // Use provided coordinates
-        fromTo: {
-            from: {
-                name: formData.from,
-                stationId: `from_${destinationId}`
-            },
-            to: {
-                name: formData.to,
-                stationId: `to_${destinationId}`
-            }
+        from: {
+            name: formData.from,
+            stationId: `from_${destinationId}`
+        },
+        to: {
+            name: formData.to,
+            stationId: `to_${destinationId}`
         },
         rating: 4.3, // Default rating
         startCoords: formData.startCoords || 0, // Use provided coordinates

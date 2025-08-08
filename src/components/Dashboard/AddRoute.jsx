@@ -3,6 +3,7 @@ import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { GeoPoint } from 'firebase/firestore';
 import {
+    addStationDetails,
     addStationToDestinations,
     createStationObject,
 } from '../../utils/http';
@@ -84,6 +85,7 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
 
             // Add the station to the destinations document
             await addStationToDestinations('mansoura', newStation);
+            await addStationDetails('station-details', newStation);
 
             console.log('Station added successfully:', newStation);
             setSubmitted(true);

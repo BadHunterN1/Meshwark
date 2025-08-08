@@ -6,6 +6,7 @@ import UserContextProvider from './Context/UserContext';
 import HomePage from './pages/HomePage';
 import RootLayout from './pages/RootLayout';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
+import LoadingSpinner from './components/shared/LoadingSpinner';
 
 // Lazy load all pages except HomePage and RootLayout
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -20,13 +21,6 @@ const AboutApp = lazy(() => import('./pages/AboutApp'));
 const GoogleMap = lazy(() => import('./components/Trip Sections/Map'));
 const ManageRoutes = lazy(() => import('./components/Dashboard/ManageRoutes'));
 const AddRoute = lazy(() => import('./components/Dashboard/AddRoute'));
-
-// Loading component for Suspense fallback
-const LoadingSpinner = () => (
-    <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-    </div>
-);
 
 const router = createBrowserRouter([
     {

@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { GeoPoint } from 'firebase/firestore';
-import { addStationToUsersRoutes, createStationObject } from '../../utils/http';
+import {
+    addStationDetails,
+    addStationToUsersRoutes,
+    createStationObject,
+} from '../../utils/http';
 
 const initialCrossStation = {
     name: '',
@@ -66,6 +70,7 @@ export default function MissingRouteUserForm({
 
             // Add the station to the destinations document
             await addStationToUsersRoutes('routes', newStation);
+            await addStationDetails('station-details', newStation);
 
             console.log('Station added successfully:', newStation);
             setSubmitted(true);
