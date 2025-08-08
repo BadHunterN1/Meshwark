@@ -2,31 +2,37 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { queryClient } from './config/query';
-import UserContextProvider from './Context/UserContext';
+
 import HomePage from './pages/HomePage';
 import RootLayout from './pages/RootLayout';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
+import AdminRoute from './protectedRoute/AdminRoute';
 import LoadingSpinner from './components/shared/LoadingSpinner';
+import { AuthProvider } from './Context/authContext';
+import LoginPage from './pages/LoginPage';
 
-// Lazy load all pages except HomePage and RootLayout
+// Lazy load pages
 const ContactUs = lazy(() => import('./pages/ContactUs'));
 const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 const FavouritePage = lazy(() => import('./pages/FavouritePage'));
-const Login = lazy(() => import('./pages/LoginPage'));
 const Register = lazy(() => import('./pages/RegisterPage'));
 const RoutesPage = lazy(() => import('./pages/RoutesPage'));
 const StationInfo = lazy(() => import('./pages/StationInfo'));
 const TripPage = lazy(() => import('./pages/TripPage'));
 const AboutApp = lazy(() => import('./pages/AboutApp'));
 const GoogleMap = lazy(() => import('./components/Trip Sections/Map'));
+
+// Admin components
 const DashboardLayout = lazy(
     () => import('./components/Dashboard/DashboardLayout')
 );
+const DashBoard = lazy(() => import('./components/Dashboard/DashBoard'));
 const ManageRoutes = lazy(() => import('./components/Dashboard/ManageRoutes'));
 const AddRoute = lazy(() => import('./components/Dashboard/AddRoute'));
 const ReviewSuggestions = lazy(
     () => import('./components/Dashboard/ReviewSuggestions')
 );
+const ManageUsers = lazy(() => import('./components/Dashboard/ManageUsers'));
 
 const router = createBrowserRouter([
     {
@@ -103,11 +109,7 @@ const router = createBrowserRouter([
                 path: 'help',
             },
             {
-                element: (
-                    <Suspense fallback={<LoadingSpinner />}>
-                        <Login />
-                    </Suspense>
-                ),
+                element: <LoginPage />,
                 path: 'login',
             },
             {
@@ -120,26 +122,54 @@ const router = createBrowserRouter([
             },
         ],
     },
+
     {
-        element: <DashboardLayout />,
+        path: '/admin',
+        element: (
+            <AdminRoute>
+                <DashboardLayout />
+            </AdminRoute>
+        ),
         children: [
             {
+                index: true,
                 element: (
-                    <ProtectedRoute>
-                        <Suspense fallback={<LoadingSpinner />}>
-                            <ManageRoutes />
-                        </Suspense>
-                    </ProtectedRoute>
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <DashBoard />
+                    </Suspense>
                 ),
-                path: 'ManageRoutes',
             },
             {
-                element: <AddRoute />,
-                path: '/ManageRoutes/add-route',
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <ManageRoutes />
+                    </Suspense>
+                ),
+                path: 'manage-routes',
             },
             {
-                element: <ReviewSuggestions />,
-                path: '/ManageRoutes/review-suggestions',
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <AddRoute />
+                    </Suspense>
+                ),
+                path: 'add-route',
+            },
+            {
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <ReviewSuggestions />
+                    </Suspense>
+                ),
+                path: 'review-suggestions',
+            },
+            {
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <ManageUsers />
+                    </Suspense>
+                ),
+                path: 'manage-users',
             },
         ],
     },
@@ -147,11 +177,11 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-        <UserContextProvider>
+        <AuthProvider>
             <QueryClientProvider client={queryClient}>
                 <RouterProvider router={router} />
             </QueryClientProvider>
-        </UserContextProvider>
+        </AuthProvider>
     );
 }
 

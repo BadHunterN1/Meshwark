@@ -1,5 +1,5 @@
 import { doc, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';
-import db from '../config/firebase';
+import { db } from '../config/firebase';
 
 export const fetchDocument = async (collectionName, documentId) => {
     const docRef = doc(db, collectionName, documentId);
@@ -12,7 +12,11 @@ export const fetchDocument = async (collectionName, documentId) => {
     }
 };
 
-export const updateDocument = async (collectionName, documentId, updateData) => {
+export const updateDocument = async (
+    collectionName,
+    documentId,
+    updateData
+) => {
     const docRef = doc(db, collectionName, documentId);
     await updateDoc(docRef, updateData);
 };
@@ -20,25 +24,25 @@ export const updateDocument = async (collectionName, documentId, updateData) => 
 export const addStationToDestinations = async (documentId, newStation) => {
     const docRef = doc(db, 'destinations', documentId);
     await updateDoc(docRef, {
-        'microbuses.destinations': arrayUnion(newStation)
+        'microbuses.destinations': arrayUnion(newStation),
     });
 };
 
 export const addStationToUsersRoutes = async (documentId, newStation) => {
     const docRef = doc(db, 'users-routes', documentId);
     await updateDoc(docRef, {
-        'microbuses.destinations': arrayUnion(newStation)
+        'microbuses.destinations': arrayUnion(newStation),
     });
 };
 
 export const addStationDetails = async (documentId, newStation) => {
     const docRef = doc(db, 'stations', documentId);
     await updateDoc(docRef, {
-        'stations': arrayUnion(newStation.from, newStation.to)
+        stations: arrayUnion(newStation.from, newStation.to),
     });
 };
 
-export const createStationObject = (formData) => {
+export const createStationObject = formData => {
     // Generate a unique destination ID (you might want to implement a better ID generation)
     const destinationId = Date.now();
 
@@ -58,7 +62,7 @@ export const createStationObject = (formData) => {
         },
         rating: 4.3, // Default rating
         startCoords: formData.startCoords || 0, // Use provided coordinates
-        crossStations: formData.crossStations // Use provided cross stations
+        crossStations: formData.crossStations, // Use provided cross stations
     };
 };
 
@@ -92,8 +96,7 @@ export const updateStationInDestinations = async (
     const data = snap.data();
     const current = data?.microbuses?.destinations || [];
     const updated = current.map(station =>
-        String(station?.destinationId) ===
-            String(updatedStation?.destinationId)
+        String(station?.destinationId) === String(updatedStation?.destinationId)
             ? { ...station, ...updatedStation }
             : station
     );
@@ -120,8 +123,10 @@ export const removeStationFromUsersRoutes = async (
     const idStr = String(destinationOrStationId);
     const updated = current.filter(station => {
         const byDestinationId =
-            station?.destinationId != null && String(station.destinationId) === idStr;
-        const byFromStationId = String(station?.from?.stationId || '') === idStr;
+            station?.destinationId != null &&
+            String(station.destinationId) === idStr;
+        const byFromStationId =
+            String(station?.from?.stationId || '') === idStr;
         const byToStationId = String(station?.to?.stationId || '') === idStr;
         return !(byDestinationId || byFromStationId || byToStationId);
     });

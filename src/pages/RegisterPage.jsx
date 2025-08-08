@@ -1,15 +1,18 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { UserContext } from '../Context/UserContext';
+import { useState } from 'react';
+import {
+    doCreateUserWithEmailAndPassword,
+    createUserDocumentIfNotExists,
+} from '../config/auth';
+import { useAuth } from '../Context/authContext';
 
 export default function Register() {
-    let token = crypto.randomUUID();
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState('');
-
-    const { setUserLogin, setToken } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
+    const { currentUser } = useAuth();
 
     const formik = useFormik({
         initialValues: {
@@ -38,31 +41,38 @@ export default function Register() {
                 .oneOf([Yup.ref('password'), null], 'كلمة المرور غير متطابقة')
                 .required('تأكيد كلمة المرور مطلوب'),
         }),
-        onSubmit: values => {
-            let users =
-                JSON.parse(localStorage.getItem('userRegisterData')) || [];
-
-            const alreadyExists = users.find(
-                user =>
-                    user.email === values.email || user.phone === values.phone
-            );
-
-            if (alreadyExists) {
-                setErrorMsg('هذا الحساب مسجل بالفعل');
-                return;
+        onSubmit: async values => {
+            setErrorMsg('');
+            setLoading(true);
+            try {
+                const userCredential = await doCreateUserWithEmailAndPassword(
+                    values.email,
+                    values.password
+                );
+                await createUserDocumentIfNotExists(userCredential.user, {
+                    displayName: values.name,
+                    phone: values.phone,
+                });
+                navigate('/');
+            } catch {
+                setErrorMsg(
+                    'فشل إنشاء الحساب أو البريد الإلكتروني مستخدم بالفعل'
+                );
+            } finally {
+                setLoading(false);
             }
-
-            users.push(values);
-            localStorage.setItem('userRegisterData', JSON.stringify(users));
-            localStorage.setItem('token', `${token}`);
-            localStorage.setItem('name', `${values.name}`);
-
-            setUserLogin(values.name);
-            setToken(`${token}`);
-
-            navigate('/');
         },
     });
+
+    if (currentUser) {
+        // Check if user is admin
+        if (currentUser.email === 'admin@meshwark.com') {
+            navigate('/admin');
+        } else {
+            navigate('/');
+        }
+        return null;
+    }
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
@@ -73,13 +83,11 @@ export default function Register() {
                 <h2 className="text-2xl font-bold mb-6 text-center">
                     إنشاء حساب
                 </h2>
-
                 {errorMsg && (
                     <p className="text-red-600 text-center font-medium mb-4">
                         {errorMsg}
                     </p>
                 )}
-
                 <div className="mb-4">
                     <label
                         htmlFor="name"
@@ -102,7 +110,6 @@ export default function Register() {
                         </p>
                     )}
                 </div>
-
                 <div className="mb-4">
                     <label
                         htmlFor="email"
@@ -125,7 +132,6 @@ export default function Register() {
                         </p>
                     )}
                 </div>
-
                 <div className="mb-4">
                     <label
                         htmlFor="phone"
@@ -148,7 +154,6 @@ export default function Register() {
                         </p>
                     )}
                 </div>
-
                 <div className="mb-4">
                     <label
                         htmlFor="password"
@@ -171,7 +176,6 @@ export default function Register() {
                         </p>
                     )}
                 </div>
-
                 <div className="mb-6">
                     <label
                         htmlFor="confirmPassword"
@@ -195,10 +199,10 @@ export default function Register() {
                             </p>
                         )}
                 </div>
-
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-60"
+                    disabled={loading}
                 >
                     تسجيل
                 </button>

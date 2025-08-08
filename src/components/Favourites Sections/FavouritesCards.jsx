@@ -1,6 +1,5 @@
 import { ArrowRight, Clock, MapPin, Search, Bookmark } from 'lucide-react';
-import { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../Context/UserContext';
+import { useState, useEffect } from 'react';
 
 const initialRoutes = [
     {
@@ -36,12 +35,26 @@ const initialRoutes = [
 
 export default function FavouriteCards() {
     const [searchQuery, setSearchQuery] = useState('');
-    const { clickedBookmarks, setClickedBookmarks } = useContext(UserContext);
+    const [clickedBookmarks, setClickedBookmarks] = useState(() => {
+        const stored = localStorage.getItem('clickedBookmarks');
+        return stored ? JSON.parse(stored) : [];
+    });
+
+    // ✅ حفظ أي تغيير في localStorage
+    useEffect(() => {
+        localStorage.setItem(
+            'clickedBookmarks',
+            JSON.stringify(clickedBookmarks)
+        );
+    }, [clickedBookmarks]);
+
     const [routes, setRoutes] = useState([]);
 
     useEffect(() => {
         // ✅ عند التحميل الأول، استبعد اللي اتحذفت من clickedBookmarks
-        const filtered = initialRoutes.filter(route => !clickedBookmarks.includes(route.id));
+        const filtered = initialRoutes.filter(
+            route => !clickedBookmarks.includes(route.id)
+        );
         setRoutes(filtered);
     }, [clickedBookmarks]);
 
