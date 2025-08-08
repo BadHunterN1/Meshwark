@@ -16,10 +16,7 @@ const initialEditForm = {
     distance: '',
     duration: '',
     rating: '',
-    startLatitude: '',
-    startLongitude: '',
-    endLatitude: '',
-    endLongitude: '',
+    totalFee: '',
 };
 
 export default function ManageRoutes() {
@@ -89,10 +86,7 @@ export default function ManageRoutes() {
             distance: station?.distance ?? '',
             duration: station?.duration ?? '',
             rating: station?.rating ?? '',
-            startLatitude: station?.startCoords?.latitude || '',
-            startLongitude: station?.startCoords?.longitude || '',
-            endLatitude: station?.endCoords?.latitude || '',
-            endLongitude: station?.endCoords?.longitude || '',
+            totalFee: station?.totalFee ?? '',
         });
     };
 
@@ -109,14 +103,7 @@ export default function ManageRoutes() {
             distance: Number(editForm.distance),
             duration: Number(editForm.duration),
             rating: Number(editForm.rating),
-            startCoords: {
-                latitude: Number(editForm.startLatitude),
-                longitude: Number(editForm.startLongitude),
-            },
-            endCoords: {
-                latitude: Number(editForm.endLatitude),
-                longitude: Number(editForm.endLongitude),
-            },
+            totalFee: Number(editForm.totalFee),
         };
 
         updateStationMutation.mutate({

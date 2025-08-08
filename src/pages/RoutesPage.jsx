@@ -162,10 +162,7 @@ export default function RoutesPage() {
                                                     </div>
                                                 </div>
                                                 <div className="text-sm font-medium text-gray-800">
-                                                    {
-                                                        destinationsData
-                                                            .microbuses.fee
-                                                    }{' '}
+                                                    {stationObj.totalFee}
                                                     ج.م
                                                 </div>
                                                 <div className="text-xs text-gray-500">

@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
 export const fetchDocument = async (collectionName, documentId) => {
@@ -51,7 +51,6 @@ export const createStationObject = formData => {
         destinationId: destinationId,
         distance: parseInt(formData.distance),
         duration: parseInt(formData.duration),
-        endCoords: formData.endCoords || 0, // Use provided coordinates
         from: {
             name: formData.from,
             stationId: `${destinationId}`
@@ -60,9 +59,9 @@ export const createStationObject = formData => {
             name: formData.to,
             stationId: `${destinationId}`
         },
-        rating: 4.3, // Default rating
-        startCoords: formData.startCoords || 0, // Use provided coordinates
-        crossStations: formData.crossStations, // Use provided cross stations
+        rating: 4.3,
+        totalFee: Number(formData.totalFee),
+        crossStations: formData.crossStations,
     };
 };
 
