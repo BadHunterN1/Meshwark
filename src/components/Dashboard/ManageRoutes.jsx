@@ -6,6 +6,19 @@ import {
 } from '../../utils/http';
 import { useNavigate } from 'react-router-dom';
 import { Edit, X } from 'lucide-react';
+import EditRouteForm from './EditRouteForm';
+
+const initialEditForm = {
+    fromName: '',
+    toName: '',
+    distance: '',
+    duration: '',
+    rating: '',
+    startLatitude: '',
+    startLongitude: '',
+    endLatitude: '',
+    endLongitude: '',
+};
 
 export default function ManageRoutes() {
     const [destinationsData, setDestinationsData] = useState(null);
@@ -13,13 +26,7 @@ export default function ManageRoutes() {
     const [error, setError] = useState('');
     const [selectedDocument, setSelectedDocument] = useState('mansoura');
     const [editId, setEditId] = useState(null);
-    const [editForm, setEditForm] = useState({
-        fromName: '',
-        toName: '',
-        distance: '',
-        duration: '',
-        rating: '',
-    });
+    const [editForm, setEditForm] = useState(initialEditForm);
     const [opLoading, setOpLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -57,18 +64,16 @@ export default function ManageRoutes() {
             distance: station?.distance ?? '',
             duration: station?.duration ?? '',
             rating: station?.rating ?? '',
+            startLatitude: station?.startCoords?.latitude || '',
+            startLongitude: station?.startCoords?.longitude || '',
+            endLatitude: station?.endCoords?.latitude || '',
+            endLongitude: station?.endCoords?.longitude || '',
         });
     };
 
     const cancelEdit = () => {
         setEditId(null);
-        setEditForm({
-            fromName: '',
-            toName: '',
-            distance: '',
-            duration: '',
-            rating: '',
-        });
+        setEditForm(initialEditForm);
     };
 
     const saveEdit = async station => {
@@ -81,6 +86,14 @@ export default function ManageRoutes() {
                 distance: Number(editForm.distance),
                 duration: Number(editForm.duration),
                 rating: Number(editForm.rating),
+                startCoords: {
+                    latitude: Number(editForm.startLatitude),
+                    longitude: Number(editForm.startLongitude),
+                },
+                endCoords: {
+                    latitude: Number(editForm.endLatitude),
+                    longitude: Number(editForm.endLongitude),
+                },
             };
             await updateStationInDestinations(selectedDocument, updatedStation);
             setDestinationsData(prev => {
@@ -154,28 +167,32 @@ export default function ManageRoutes() {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto">
                 <div className="bg-white rounded-lg shadow-md p-6">
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="flex flex-wrap justify-between items-center mb-6">
                         <h1 className="text-2xl font-bold text-gray-800">
                             لوحة إدارة قاعدة البيانات
                         </h1>
-                        <button
-                            onClick={loadDestinationsData}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                        >
-                            اعادة تحميل المسارات
-                        </button>
-                        <button
-                            onClick={() => handleRoutes('add-route')}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                        >
-                            اضافة مسار
-                        </button>
-                        <button
-                            onClick={() => handleRoutes('review-suggestions')}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                        >
-                            اقتراحات المستخدمين
-                        </button>
+                        <div className="flex flex-wrap justify-between items-center gap-2">
+                            <button
+                                onClick={loadDestinationsData}
+                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                            >
+                                اعادة تحميل المسارات
+                            </button>
+                            <button
+                                onClick={() => handleRoutes('add-route')}
+                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                            >
+                                اضافة مسار
+                            </button>
+                            <button
+                                onClick={() =>
+                                    handleRoutes('review-suggestions')
+                                }
+                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                            >
+                                اقتراحات المستخدمين
+                            </button>
+                        </div>
                     </div>
 
                     {error && (
@@ -322,124 +339,26 @@ export default function ManageRoutes() {
 
                                                                 {editId ===
                                                                     station.destinationId && (
-                                                                    <div className="mt-4 p-3 bg-gray-50 rounded-lg border">
-                                                                        <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
-                                                                            <input
-                                                                                className="border rounded px-2 py-1"
-                                                                                value={
-                                                                                    editForm.fromName
-                                                                                }
-                                                                                onChange={e =>
-                                                                                    setEditForm(
-                                                                                        f => ({
-                                                                                            ...f,
-                                                                                            fromName:
-                                                                                                e
-                                                                                                    .target
-                                                                                                    .value,
-                                                                                        })
-                                                                                    )
-                                                                                }
-                                                                                placeholder="من"
-                                                                            />
-                                                                            <input
-                                                                                className="border rounded px-2 py-1"
-                                                                                value={
-                                                                                    editForm.toName
-                                                                                }
-                                                                                onChange={e =>
-                                                                                    setEditForm(
-                                                                                        f => ({
-                                                                                            ...f,
-                                                                                            toName: e
-                                                                                                .target
-                                                                                                .value,
-                                                                                        })
-                                                                                    )
-                                                                                }
-                                                                                placeholder="إلى"
-                                                                            />
-                                                                            <input
-                                                                                type="number"
-                                                                                className="border rounded px-2 py-1"
-                                                                                value={
-                                                                                    editForm.distance
-                                                                                }
-                                                                                onChange={e =>
-                                                                                    setEditForm(
-                                                                                        f => ({
-                                                                                            ...f,
-                                                                                            distance:
-                                                                                                e
-                                                                                                    .target
-                                                                                                    .value,
-                                                                                        })
-                                                                                    )
-                                                                                }
-                                                                                placeholder="المسافة"
-                                                                            />
-                                                                            <input
-                                                                                type="number"
-                                                                                className="border rounded px-2 py-1"
-                                                                                value={
-                                                                                    editForm.duration
-                                                                                }
-                                                                                onChange={e =>
-                                                                                    setEditForm(
-                                                                                        f => ({
-                                                                                            ...f,
-                                                                                            duration:
-                                                                                                e
-                                                                                                    .target
-                                                                                                    .value,
-                                                                                        })
-                                                                                    )
-                                                                                }
-                                                                                placeholder="المدة"
-                                                                            />
-                                                                            <input
-                                                                                type="number"
-                                                                                className="border rounded px-2 py-1"
-                                                                                value={
-                                                                                    editForm.rating
-                                                                                }
-                                                                                onChange={e =>
-                                                                                    setEditForm(
-                                                                                        f => ({
-                                                                                            ...f,
-                                                                                            rating: e
-                                                                                                .target
-                                                                                                .value,
-                                                                                        })
-                                                                                    )
-                                                                                }
-                                                                                placeholder="التقييم"
-                                                                            />
-                                                                        </div>
-                                                                        <div className="mt-3 flex gap-2">
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    saveEdit(
-                                                                                        station
-                                                                                    )
-                                                                                }
-                                                                                disabled={
-                                                                                    opLoading
-                                                                                }
-                                                                                className="px-3 py-1 rounded bg-blue-600 text-white disabled:opacity-60"
-                                                                            >
-                                                                                حفظ
-                                                                            </button>
-                                                                            <button
-                                                                                onClick={
-                                                                                    cancelEdit
-                                                                                }
-                                                                                className="px-3 py-1 rounded bg-gray-200"
-                                                                            >
-                                                                                إلغاء
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
+                                                                    <EditRouteForm
+                                                                        editForm={
+                                                                            editForm
+                                                                        }
+                                                                        setEditForm={
+                                                                            setEditForm
+                                                                        }
+                                                                        onSave={
+                                                                            saveEdit
+                                                                        }
+                                                                        onCancel={
+                                                                            cancelEdit
+                                                                        }
+                                                                        isLoading={
+                                                                            opLoading
+                                                                        }
+                                                                        station={
+                                                                            station
+                                                                        }
+                                                                    />
                                                                 )}
                                                             </div>
                                                             <div className="flex flex-col gap-2 items-end text-xs text-gray-400">
