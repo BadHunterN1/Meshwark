@@ -64,7 +64,7 @@ const router = createBrowserRouter([
                         <TripPage />
                     </Suspense>
                 ),
-                path: 'trip/:from/:to',
+                path: 'trip',
                 children: [
                     {
                         path: 'map',
