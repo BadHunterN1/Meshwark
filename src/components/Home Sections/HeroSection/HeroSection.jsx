@@ -25,7 +25,7 @@ function HeroSection() {
                 <Suspense
                     fallback={
                         <div className=" w-[50%] h-[200px]">
-                            <div className="flex justify-center items-center w-full h-full bg-gray-700 animate-pulse rounded-2xl">
+                            <div className="flex justify-center items-center w-full h-full bg-(--glass-bg) animate-pulse rounded-2xl">
                                 جاري التحميل...
                             </div>
                         </div>

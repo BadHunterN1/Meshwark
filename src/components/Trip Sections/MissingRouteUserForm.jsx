@@ -49,18 +49,15 @@ export default function MissingRouteUserForm({
 
         try {
             // Create cross stations with coordinates
-            const crossStations = values.crossStations.map(
-                (station, index) => ({
-                    station: {
-                        coords: new GeoPoint(
-                            parseFloat(station.latitude || 0),
-                            parseFloat(station.longitude || 0)
-                        ),
-                        name: station.name,
-                        stationId: `station_${Date.now()}_${index}`,
-                    },
-                })
-            );
+            const crossStations = values.crossStations.map(station => ({
+                station: {
+                    coords: new GeoPoint(
+                        parseFloat(station.latitude || 0),
+                        parseFloat(station.longitude || 0)
+                    ),
+                    name: station.name,
+                },
+            }));
 
             // Create the station object with the required structure
             const newStation = createStationObject({

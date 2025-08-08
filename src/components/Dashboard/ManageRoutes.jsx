@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { fetchDocument } from '../../utils/http';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+    fetchDocument,
+    removeStationFromDestinations,
+    updateStationInDestinations,
+} from '../../utils/http';
+import { useNavigate } from 'react-router-dom';
+import { Edit, X } from 'lucide-react';
 
 export default function ManageRoutes() {
     const [destinationsData, setDestinationsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [selectedDocument, setSelectedDocument] = useState('mansoura');
+    const [editId, setEditId] = useState(null);
+    const [editForm, setEditForm] = useState({
+        fromName: '',
+        toName: '',
+        distance: '',
+        duration: '',
+        rating: '',
+    });
+    const [opLoading, setOpLoading] = useState(false);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        loadDestinationsData();
-    }, [selectedDocument]);
-
-    const loadDestinationsData = async () => {
+    const loadDestinationsData = useCallback(async () => {
         setLoading(true);
         setError('');
         try {
@@ -23,10 +35,102 @@ export default function ManageRoutes() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [selectedDocument]);
+
+    useEffect(() => {
+        loadDestinationsData();
+    }, [loadDestinationsData]);
 
     const handleDocumentChange = e => {
         setSelectedDocument(e.target.value);
+    };
+
+    const handleRoutes = route => {
+        navigate(route);
+    };
+
+    const beginEdit = station => {
+        setEditId(station.destinationId);
+        setEditForm({
+            fromName: station?.from?.name || '',
+            toName: station?.to?.name || '',
+            distance: station?.distance ?? '',
+            duration: station?.duration ?? '',
+            rating: station?.rating ?? '',
+        });
+    };
+
+    const cancelEdit = () => {
+        setEditId(null);
+        setEditForm({
+            fromName: '',
+            toName: '',
+            distance: '',
+            duration: '',
+            rating: '',
+        });
+    };
+
+    const saveEdit = async station => {
+        try {
+            setOpLoading(true);
+            const updatedStation = {
+                ...station,
+                from: { ...(station.from || {}), name: editForm.fromName },
+                to: { ...(station.to || {}), name: editForm.toName },
+                distance: Number(editForm.distance),
+                duration: Number(editForm.duration),
+                rating: Number(editForm.rating),
+            };
+            await updateStationInDestinations(selectedDocument, updatedStation);
+            setDestinationsData(prev => {
+                if (!prev) return prev;
+                const updated = (prev.microbuses?.destinations || []).map(s =>
+                    String(s.destinationId) === String(station.destinationId)
+                        ? updatedStation
+                        : s
+                );
+                return {
+                    ...prev,
+                    microbuses: { ...prev.microbuses, destinations: updated },
+                };
+            });
+            cancelEdit();
+        } catch (err) {
+            console.error('Failed to update station', err);
+            setError('تعذر تعديل المسار');
+        } finally {
+            setOpLoading(false);
+        }
+    };
+
+    const deleteStation = async station => {
+        const confirmed = window.confirm('هل أنت متأكد من حذف هذا المسار؟');
+        if (!confirmed) return;
+        try {
+            setOpLoading(true);
+            await removeStationFromDestinations(
+                selectedDocument,
+                station.destinationId
+            );
+            setDestinationsData(prev => {
+                if (!prev) return prev;
+                const updated = (prev.microbuses?.destinations || []).filter(
+                    s =>
+                        String(s.destinationId) !==
+                        String(station.destinationId)
+                );
+                return {
+                    ...prev,
+                    microbuses: { ...prev.microbuses, destinations: updated },
+                };
+            });
+        } catch (err) {
+            console.error('Failed to delete station', err);
+            setError('تعذر حذف المسار');
+        } finally {
+            setOpLoading(false);
+        }
     };
 
     if (loading) {
@@ -58,7 +162,19 @@ export default function ManageRoutes() {
                             onClick={loadDestinationsData}
                             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                         >
-                            تحديث البيانات
+                            اعادة تحميل المسارات
+                        </button>
+                        <button
+                            onClick={() => handleRoutes('add-route')}
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                        >
+                            اضافة مسار
+                        </button>
+                        <button
+                            onClick={() => handleRoutes('review-suggestions')}
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                        >
+                            اقتراحات المستخدمين
                         </button>
                     </div>
 
@@ -117,10 +233,7 @@ export default function ManageRoutes() {
                                 {destinationsData?.microbuses?.destinations ? (
                                     <div className="space-y-3">
                                         {destinationsData.microbuses.destinations.map(
-                                            (stations, index) => {
-                                                const station =
-                                                    stations.station;
-
+                                            (station, index) => {
                                                 return (
                                                     <div
                                                         key={index}
@@ -131,14 +244,12 @@ export default function ManageRoutes() {
                                                                 <h3 className="font-semibold text-gray-800">
                                                                     {
                                                                         station
-                                                                            .fromTo
                                                                             ?.from
                                                                             ?.name
                                                                     }{' '}
                                                                     →{' '}
                                                                     {
                                                                         station
-                                                                            .fromTo
                                                                             ?.to
                                                                             ?.name
                                                                     }
@@ -208,12 +319,162 @@ export default function ManageRoutes() {
                                                                             )}
                                                                         </div>
                                                                     )}
+
+                                                                {editId ===
+                                                                    station.destinationId && (
+                                                                    <div className="mt-4 p-3 bg-gray-50 rounded-lg border">
+                                                                        <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
+                                                                            <input
+                                                                                className="border rounded px-2 py-1"
+                                                                                value={
+                                                                                    editForm.fromName
+                                                                                }
+                                                                                onChange={e =>
+                                                                                    setEditForm(
+                                                                                        f => ({
+                                                                                            ...f,
+                                                                                            fromName:
+                                                                                                e
+                                                                                                    .target
+                                                                                                    .value,
+                                                                                        })
+                                                                                    )
+                                                                                }
+                                                                                placeholder="من"
+                                                                            />
+                                                                            <input
+                                                                                className="border rounded px-2 py-1"
+                                                                                value={
+                                                                                    editForm.toName
+                                                                                }
+                                                                                onChange={e =>
+                                                                                    setEditForm(
+                                                                                        f => ({
+                                                                                            ...f,
+                                                                                            toName: e
+                                                                                                .target
+                                                                                                .value,
+                                                                                        })
+                                                                                    )
+                                                                                }
+                                                                                placeholder="إلى"
+                                                                            />
+                                                                            <input
+                                                                                type="number"
+                                                                                className="border rounded px-2 py-1"
+                                                                                value={
+                                                                                    editForm.distance
+                                                                                }
+                                                                                onChange={e =>
+                                                                                    setEditForm(
+                                                                                        f => ({
+                                                                                            ...f,
+                                                                                            distance:
+                                                                                                e
+                                                                                                    .target
+                                                                                                    .value,
+                                                                                        })
+                                                                                    )
+                                                                                }
+                                                                                placeholder="المسافة"
+                                                                            />
+                                                                            <input
+                                                                                type="number"
+                                                                                className="border rounded px-2 py-1"
+                                                                                value={
+                                                                                    editForm.duration
+                                                                                }
+                                                                                onChange={e =>
+                                                                                    setEditForm(
+                                                                                        f => ({
+                                                                                            ...f,
+                                                                                            duration:
+                                                                                                e
+                                                                                                    .target
+                                                                                                    .value,
+                                                                                        })
+                                                                                    )
+                                                                                }
+                                                                                placeholder="المدة"
+                                                                            />
+                                                                            <input
+                                                                                type="number"
+                                                                                className="border rounded px-2 py-1"
+                                                                                value={
+                                                                                    editForm.rating
+                                                                                }
+                                                                                onChange={e =>
+                                                                                    setEditForm(
+                                                                                        f => ({
+                                                                                            ...f,
+                                                                                            rating: e
+                                                                                                .target
+                                                                                                .value,
+                                                                                        })
+                                                                                    )
+                                                                                }
+                                                                                placeholder="التقييم"
+                                                                            />
+                                                                        </div>
+                                                                        <div className="mt-3 flex gap-2">
+                                                                            <button
+                                                                                onClick={() =>
+                                                                                    saveEdit(
+                                                                                        station
+                                                                                    )
+                                                                                }
+                                                                                disabled={
+                                                                                    opLoading
+                                                                                }
+                                                                                className="px-3 py-1 rounded bg-blue-600 text-white disabled:opacity-60"
+                                                                            >
+                                                                                حفظ
+                                                                            </button>
+                                                                            <button
+                                                                                onClick={
+                                                                                    cancelEdit
+                                                                                }
+                                                                                className="px-3 py-1 rounded bg-gray-200"
+                                                                            >
+                                                                                إلغاء
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                            <div className="text-xs text-gray-400">
-                                                                ID:{' '}
-                                                                {
-                                                                    station.destinationId
-                                                                }
+                                                            <div className="flex flex-col gap-2 items-end text-xs text-gray-400">
+                                                                <div>
+                                                                    ID:{' '}
+                                                                    {
+                                                                        station.destinationId
+                                                                    }
+                                                                </div>
+                                                                <button
+                                                                    onClick={() =>
+                                                                        deleteStation(
+                                                                            station
+                                                                        )
+                                                                    }
+                                                                    disabled={
+                                                                        opLoading
+                                                                    }
+                                                                    className="bg-gradient-to-r from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
+                                                                >
+                                                                    <X className="size-4" />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() =>
+                                                                        beginEdit(
+                                                                            station
+                                                                        )
+                                                                    }
+                                                                    disabled={
+                                                                        opLoading
+                                                                    }
+                                                                    className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 rounded-xl disabled:opacity-60"
+                                                                >
+                                                                    <Edit className="size-4" />
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -247,8 +508,7 @@ export default function ManageRoutes() {
                                             {destinationsData?.microbuses?.destinations?.reduce(
                                                 (sum, station) =>
                                                     sum +
-                                                    (station.station
-                                                        .crossStations
+                                                    (station.crossStations
                                                         ?.length || 0),
                                                 0
                                             ) || 0}
@@ -262,8 +522,7 @@ export default function ManageRoutes() {
                                             {(
                                                 destinationsData?.microbuses?.destinations?.reduce(
                                                     (sum, station) =>
-                                                        sum +
-                                                        station.station.rating,
+                                                        sum + station.rating,
                                                     0
                                                 ) /
                                                 (destinationsData?.microbuses
