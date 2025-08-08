@@ -41,25 +41,48 @@ function SearchBox() {
         for (let i = 0; i < pathsData.length; i++) {
             if (pathsData[i].from === from && pathsData[i].to === to) {
                 setSelectedPath(pathsData[i]);
-                handleNavigation();
+                handleNavigation(pathsData[i].id);
                 found = true;
                 break;
             } else if (pathsData[i].from === to && pathsData[i].to === from) {
                 console.log('reverse', pathsData[i]);
+                let objData = pathsData[i];
+                let newFrom = objData.to;
+                objData.to = objData.from;
+                objData.from = newFrom;
+                objData.stops = pathsData[i].stops.reverse();
+
+                setSelectedPath(objData);
+                handleNavigation(objData.id);
                 found = true;
                 break;
             } else if (from === pathsData[i].from || from === pathsData[i].to) {
                 let otherStops = pathsData[i].stops;
                 for(let j = 0; j < otherStops.length; j++) {
+                    console.log("other stops", otherStops[j], "original", pathsData[i]);
                     if (otherStops[j] === pathsData[i].from) {
-                        found = true;
                         console.log("(to) founded in other stops");
-                        console.log(pathsData[i]);
+                        found = true;
+                        let objData = pathsData[i];
+                        objData.from = otherStops[j];
+                        objData.stops = pathsData[i].stops.reverse();
+
+                        setSelectedPath(objData);
+                        handleNavigation(objData.id);
+                        found = true;
                         break;
                     } else if (otherStops[j] === pathsData[i].to) {
                         found = true;
                         console.log("(to) founded in other stops reverse");
-                        console.log(pathsData[i]);
+                        let objData = pathsData[i];
+                        let newFrom = otherStops[j];
+                        objData.to = objData.from;
+                        objData.from = newFrom;
+                        objData.stops = pathsData[i].stops.reverse();
+
+                        setSelectedPath(objData);
+                        handleNavigation(objData.id);
+                        found = true;
                         break;
                     }
                 }
@@ -91,7 +114,7 @@ function SearchBox() {
     }
 
     const navigate = useNavigate();
-    const handleNavigation = () => {
+    const handleNavigation = (lin) => {
         navigate(`/trip`);
     };
 
