@@ -1,14 +1,14 @@
 import { Footprints, MapPin, Bus } from 'lucide-react';
 import Button from '../UI/Button';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 export default function TripDetails(props) {
     const { from, to, crossStations } = props;
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const handleNavigateMap = () => {
-        navigate(`/trip/${from}/${to}/map`);
-    };
+    // const handleNavigateMap = () => {
+    //     navigate(`/trip/${from}/${to}/map`);
+    // };
 
     return (
         <section className="container p-2">
