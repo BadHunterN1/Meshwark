@@ -17,6 +17,8 @@ function InputField(props) {
                     name={props.name}
                     id={props.name}
                     autoComplete="off"
+                    value={props.value}
+                    onChange={props.onChange}
                 />
             </div>
         </div>
