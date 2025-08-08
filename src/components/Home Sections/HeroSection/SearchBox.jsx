@@ -1,16 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { SearchIcon } from '../../../assets/Images/Icons';
 import InputField from './InputField';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../../assets/data/paths';
+import { PathContext } from '../../../Context/PathContext';
 
 function SearchBox() {
+    const { setSelectedPath } = useContext(PathContext);
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
     const [warning, setWarning] = useState('');
     const [pathsData, setPathsData] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
     const [activeField, setActiveField] = useState('');
+    if(!setSelectedPath) {
+        console.log(setSelectedPath)
+    }
 
     useEffect(() => {
         setPathsData(paths.mansoura);
@@ -32,9 +37,11 @@ function SearchBox() {
 
     function searchForPath() {
         let found = false;
+
         for (let i = 0; i < pathsData.length; i++) {
             if (pathsData[i].from === from && pathsData[i].to === to) {
-                console.log(pathsData[i]);
+                setSelectedPath(pathsData[i]);
+                handleNavigation();
                 found = true;
                 break;
             } else if (pathsData[i].from === to && pathsData[i].to === from) {
