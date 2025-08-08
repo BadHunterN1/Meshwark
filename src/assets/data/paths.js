@@ -131,6 +131,28 @@ export const paths = {
             cost: 25,
             stationName: "محطة القطار",
             category: "سريعة"
+        },
+        {
+            id: "S3",
+            from: "الموقف الجديد",
+            to: "كفر الشيخ",
+            stops: ["الموقف الجديد", "بيلا"],
+            estimatedTime: "60 - 90 دقيقة",
+            nearest: ["مستشفى ميت غمر العام", "محطة القطار ميت غمر"],
+            cost: 25,
+            stationName: "محطة القطار",
+            category: "ريفية"
+        },
+        {
+            id: "S3",
+            from: "الجامعه",
+            to: "الموقف الجديد",
+            stops: ["طلخا", "الصينيه"],
+            estimatedTime: "60 - 90 دقيقة",
+            nearest: ["مستشفى ميت غمر العام", "محطة القطار ميت غمر"],
+            cost: 25,
+            stationName: "محطة القطار",
+            category: "ريفية"
         }
     ]
 };
