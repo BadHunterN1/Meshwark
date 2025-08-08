@@ -158,6 +158,33 @@
             transform: rotate(0);
         }
     }
+        .destination-highlight {
+            position: relative;
+            display: inline-block;
+            animation: highlight 1.7s infinite forwards;
+            font-weight: bold;
+        }
+    
+        @keyframes highlight {
+            0% {
+                background-color: transparent;
+                color: var(--main-color);
+            }
+    
+            50% {
+                background-color: var(--highlight-color);
+                color: white;
+                /* Contrast with highlight */
+                padding: 0 4px;
+                border-radius: 4px;
+            }
+    
+            100% {
+                background-color: transparent;
+                color: var(--secondary-color);
+                border-radius: 0;
+            }
+        }
 }
 
 @layer utilities {
