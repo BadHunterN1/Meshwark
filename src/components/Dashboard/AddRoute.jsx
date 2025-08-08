@@ -38,7 +38,6 @@ const validationSchema = Yup.object().shape({
     startLongitude: Yup.number().required('خط الطول للبداية مطلوب'),
     endLatitude: Yup.number().required('خط العرض للنهاية مطلوب'),
     endLongitude: Yup.number().required('خط الطول للنهاية مطلوب'),
-    notes: Yup.string(),
 });
 
 export default function AddRoute({ fromDefault = '', toDefault = '' }) {
@@ -62,18 +61,15 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
             );
 
             // Create cross stations with coordinates
-            const crossStations = values.crossStations.map(
-                (station, index) => ({
-                    station: {
-                        coords: new GeoPoint(
-                            parseFloat(station.latitude),
-                            parseFloat(station.longitude)
-                        ),
-                        name: station.name,
-                        stationId: `station_${Date.now()}_${index}`,
-                    },
-                })
-            );
+            const crossStations = values.crossStations.map(station => ({
+                station: {
+                    coords: new GeoPoint(
+                        parseFloat(station.latitude),
+                        parseFloat(station.longitude)
+                    ),
+                    name: station.name,
+                },
+            }));
 
             // Create the station object with the required structure
             const newStation = createStationObject({
@@ -420,19 +416,6 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
                                         )}
                                     </ErrorMessage>
                                 </div>
-                            </div>
-
-                            <div>
-                                <label className="block mb-2 font-semibold text-gray-700">
-                                    ملاحظات إضافية (اختياري)
-                                </label>
-                                <Field
-                                    as="textarea"
-                                    name="notes"
-                                    className="w-full bg-white border border-gray-300 rounded-xl p-4 text-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition placeholder-gray-400 hover:border-blue-400 resize-none"
-                                    rows={2}
-                                    placeholder="أي تفاصيل إضافية عن المسار..."
-                                />
                             </div>
 
                             <button

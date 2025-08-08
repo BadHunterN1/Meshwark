@@ -61,3 +61,70 @@ export const createStationObject = (formData) => {
         crossStations: formData.crossStations // Use provided cross stations
     };
 };
+
+// Delete a specific station from destinations by destinationId
+export const removeStationFromDestinations = async (
+    documentId,
+    destinationId
+) => {
+    const docRef = doc(db, 'destinations', documentId);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) throw new Error('Document not found');
+
+    const data = snap.data();
+    const current = data?.microbuses?.destinations || [];
+    const updated = current.filter(
+        station => String(station?.destinationId) !== String(destinationId)
+    );
+
+    await updateDoc(docRef, { 'microbuses.destinations': updated });
+};
+
+// Update a specific station in destinations by destinationId
+export const updateStationInDestinations = async (
+    documentId,
+    updatedStation
+) => {
+    const docRef = doc(db, 'destinations', documentId);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) throw new Error('Document not found');
+
+    const data = snap.data();
+    const current = data?.microbuses?.destinations || [];
+    const updated = current.map(station =>
+        String(station?.destinationId) ===
+            String(updatedStation?.destinationId)
+            ? { ...station, ...updatedStation }
+            : station
+    );
+
+    await updateDoc(docRef, { 'microbuses.destinations': updated });
+};
+
+// Get all user-suggested routes
+export const fetchUsersRoutes = async documentId => {
+    return fetchDocument('users-routes', documentId);
+};
+
+// Remove a suggested route from users-routes by destinationId
+export const removeStationFromUsersRoutes = async (
+    documentId,
+    destinationOrStationId
+) => {
+    const docRef = doc(db, 'users-routes', documentId);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) throw new Error('Document not found');
+
+    const data = snap.data();
+    const current = data?.microbuses?.destinations || [];
+    const idStr = String(destinationOrStationId);
+    const updated = current.filter(station => {
+        const byDestinationId =
+            station?.destinationId != null && String(station.destinationId) === idStr;
+        const byFromStationId = String(station?.from?.stationId || '') === idStr;
+        const byToStationId = String(station?.to?.stationId || '') === idStr;
+        return !(byDestinationId || byFromStationId || byToStationId);
+    });
+
+    await updateDoc(docRef, { 'microbuses.destinations': updated });
+};

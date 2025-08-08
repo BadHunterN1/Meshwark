@@ -3,7 +3,6 @@ import TripDetails from '../components/Trip Sections/TripDetails';
 import TripSummary from '../components/Trip Sections/TripSummary';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../utils/http';
-import AddRoute from '../components/Dashboard/AddRoute';
 import MissingRouteUserForm from '../components/Trip Sections/MissingRouteUserForm';
 export default function TripPage() {
     const { from, to } = useParams();
@@ -56,7 +55,10 @@ export default function TripPage() {
                             <p className="text-4xl">
                                 لم يتم العثور على المسار المطلوب
                             </p>
-                            <AddRoute fromDefault={from} toDefault={to} />
+                            <MissingRouteUserForm
+                                fromDefault={from}
+                                toDefault={to}
+                            />
                         </div>
                     </div>
                 ) : (

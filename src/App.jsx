@@ -19,8 +19,14 @@ const StationInfo = lazy(() => import('./pages/StationInfo'));
 const TripPage = lazy(() => import('./pages/TripPage'));
 const AboutApp = lazy(() => import('./pages/AboutApp'));
 const GoogleMap = lazy(() => import('./components/Trip Sections/Map'));
+const DashboardLayout = lazy(
+    () => import('./components/Dashboard/DashboardLayout')
+);
 const ManageRoutes = lazy(() => import('./components/Dashboard/ManageRoutes'));
 const AddRoute = lazy(() => import('./components/Dashboard/AddRoute'));
+const ReviewSuggestions = lazy(
+    () => import('./components/Dashboard/ReviewSuggestions')
+);
 
 const router = createBrowserRouter([
     {
@@ -115,14 +121,27 @@ const router = createBrowserRouter([
         ],
     },
     {
-        element: (
-            <ProtectedRoute>
-                <Suspense fallback={<LoadingSpinner />}>
-                    <ManageRoutes />
-                </Suspense>
-            </ProtectedRoute>
-        ),
-        path: 'ManageRoutes',
+        element: <DashboardLayout />,
+        children: [
+            {
+                element: (
+                    <ProtectedRoute>
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <ManageRoutes />
+                        </Suspense>
+                    </ProtectedRoute>
+                ),
+                path: 'ManageRoutes',
+            },
+            {
+                element: <AddRoute />,
+                path: '/ManageRoutes/add-route',
+            },
+            {
+                element: <ReviewSuggestions />,
+                path: '/ManageRoutes/review-suggestions',
+            },
+        ],
     },
 ]);
 
