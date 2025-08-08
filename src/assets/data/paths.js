@@ -1,4 +1,4 @@
-export const data = {
+export const paths = {
     mansoura: [
         {
             id: "M1",
