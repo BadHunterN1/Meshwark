@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TrafficAlert from './TraficAlert';
 import {
     Clock,
     MapPin,
@@ -8,7 +9,8 @@ import {
     MoveLeft,
 } from 'lucide-react';
 
-const TripSummary = ({ from, to, duration, distance, fee }) => {
+const TripSummary = ({ from, to, duration, distance, fee, stops, category }) => {
+    console.log("cat: ",category)
     const [isFilled, setIsFilled] = useState(false);
     const handleIconClick = () => {
         setIsFilled(!isFilled);
@@ -34,8 +36,14 @@ const TripSummary = ({ from, to, duration, distance, fee }) => {
                         </div>
                         <div className="text-sm text-gray-600 flex items-center gap-1">
                             <MapPin className="w-5 h-5 text-[var(--main-color)]" />
-                            <span>{from?.name}</span>
-                            <MoveLeft className="w-4 h-4 text-gray-400" />
+                            {stops.map((ele, index) => (
+                                <React.Fragment key={index}>
+                                    <span className={ele === from.name || ele === to.name ? 'destination-highlight' : ''}>
+                                        {ele}
+                                    </span>
+                                    <MoveLeft className="w-4 h-4 text-gray-400" />
+                                </React.Fragment>
+                            ))}
                             <span className="cursor-pointer">{to?.name}</span>
                         </div>
                     </div>
@@ -88,10 +96,7 @@ const TripSummary = ({ from, to, duration, distance, fee }) => {
                     </div>
                 </div>
             </div>
-            <div className="mt-4 bg-yellow-50 border border-yellow-200  text-yellow-800 rounded-lg p-3 flex gap-4 items-center text-sm">
-                <AlertTriangle className="w-4 h-4" />
-                <span>ازدحام مروري متوقع في منطقة وسط البلد</span>
-            </div>
+            <TrafficAlert category={category} />
         </div>
     );
 };
