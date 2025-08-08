@@ -1,69 +1,44 @@
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import TripDetails from '../components/Trip Sections/TripDetails';
 import TripSummary from '../components/Trip Sections/TripSummary';
-import { useQuery } from '@tanstack/react-query';
-import { fetchDocument } from '../utils/http';
 import AddRoute from '../components/Dashboard/AddRoute';
-import MissingRouteUserForm from '../components/Trip Sections/MissingRouteUserForm';
+import { useContext } from 'react';
+import { PathContext } from '../Context/PathContext';
+
 export default function TripPage() {
-    const { from, to } = useParams();
-    console.log(`${from} ${to}`);
-
-    const {
-        data: destinationsData,
-        isLoading: destinationsLoading,
-        error: destinationsError,
-    } = useQuery({
-        queryKey: ['destinations'],
-        queryFn: () => fetchDocument('destinations', 'mansoura'),
-        retry: 3,
-    });
-
-    const stations = destinationsData?.microbuses?.destinations;
-    const fee = destinationsData?.microbuses.fee;
-    console.log(stations);
-
-    const selectedStation = (stations || []).find(
-        stationObj =>
-            stationObj?.station?.fromTo?.from?.name === from &&
-            stationObj?.station?.fromTo?.to?.name === to
-    )?.station;
-
-    console.log(selectedStation);
+    const { selectedPath } = useContext(PathContext);
+    console.log(selectedPath)
 
     return (
         <section className="p-4">
-            <Outlet context={{ selectedStation }} />
+            <Outlet context={{ selectedPath }} />
             <div>
-                {!destinationsLoading && selectedStation ? (
+                {selectedPath ? (
                     <>
                         <TripSummary
-                            from={selectedStation.fromTo?.from}
-                            to={selectedStation.fromTo?.to}
-                            duration={selectedStation.duration}
-                            distance={selectedStation.distance}
-                            fee={fee}
-                            id={selectedStation.destinationId}
+                            from={{ name: selectedPath.from }}
+                            to={{ name: selectedPath.to }}
+                            duration={selectedPath.estimatedTime}
+                            distance={selectedPath.distance}
+                            fee={selectedPath.cost}
+                            id={selectedPath.id}
+                            stops={selectedPath.stops}
+                            category={selectedPath.category}
                         />
                         <TripDetails
-                            from={selectedStation.fromTo?.from.name}
-                            to={selectedStation.fromTo?.to.name}
+                            from={selectedPath.from}
+                            to={selectedPath.to}
+                            crossStations={selectedPath.stops}
+                            num={selectedPath.cost}
                         />
                     </>
-                ) : destinationsError ||
-                  (!selectedStation && !destinationsLoading) ? (
+                ) : (
                     <div className="container py-8">
                         <div className="text-center text-gray-600">
                             <p className="text-4xl">
                                 لم يتم العثور على المسار المطلوب
                             </p>
-                            <AddRoute fromDefault={from} toDefault={to} />
-                        </div>
-                    </div>
-                ) : (
-                    <div className="container h-screen w-full text-4xl py-8">
-                        <div className="text-center animate-pulse text-gray-600">
-                            <p>جاري تحميل المسار الرجاء الانتظار...</p>
+                            <AddRoute />
                         </div>
                     </div>
                 )}
