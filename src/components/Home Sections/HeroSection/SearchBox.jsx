@@ -48,19 +48,14 @@ function SearchBox() {
         const uniqueTo = new Map();
 
         stations.forEach(stationObj => {
-            const fromTo = stationObj?.station?.fromTo;
-
-            if (
-                fromTo &&
-                typeof fromTo === 'object' &&
-                fromTo.from?.name &&
-                fromTo.to?.name
-            ) {
-                if (!uniqueFrom.has(fromTo.from.name)) {
-                    uniqueFrom.set(fromTo.from.name, { ...fromTo.from });
+            if (stationObj.from?.name && stationObj.to?.name) {
+                if (!uniqueFrom.has(stationObj.from.name)) {
+                    uniqueFrom.set(stationObj.from.name, {
+                        ...stationObj.from,
+                    });
                 }
-                if (!uniqueTo.has(fromTo.to.name)) {
-                    uniqueTo.set(fromTo.to.name, { ...fromTo.to });
+                if (!uniqueTo.has(stationObj.to.name)) {
+                    uniqueTo.set(stationObj.to.name, { ...stationObj.to });
                 }
             }
         });
@@ -71,16 +66,8 @@ function SearchBox() {
         };
     }, [destinationsData]);
 
-    const isFromValid =
-        selectedOptions.from &&
-        uniqueDestinations.uniqueFrom.some(
-            dest => dest.name === selectedOptions.from
-        );
-    const isToValid =
-        selectedOptions.to &&
-        uniqueDestinations.uniqueTo.some(
-            dest => dest.name === selectedOptions.to
-        );
+    const isFromValid = selectedOptions.from;
+    const isToValid = selectedOptions.to;
     const isFormValid = isFromValid && isToValid;
 
     console.log(uniqueDestinations);
@@ -94,6 +81,7 @@ function SearchBox() {
                         setStation={handleChange}
                         p="من؟"
                         name="from"
+                        placeHolder="المنصورة"
                         destination={uniqueDestinations.uniqueFrom}
                         isDisabled={destinationsLoading || destinationsError}
                     />
@@ -101,6 +89,7 @@ function SearchBox() {
                         station={selectedOptions.to}
                         setStation={handleChange}
                         p="الي؟"
+                        placeHolder="طنطا"
                         name="to"
                         destination={uniqueDestinations.uniqueTo}
                         isDisabled={destinationsLoading || destinationsError}
@@ -121,7 +110,13 @@ function SearchBox() {
                         ? 'جاري تحميل المحطات'
                         : destinationsError
                           ? 'لم نستطع تحميل المحطات الرجاء المحاولة مره اخري'
-                          : null}
+                          : !isFromValid && !isToValid
+                            ? 'الرجاء اختيار المحطات من قائمة الاختيارات'
+                            : !isFromValid
+                              ? 'الرجاء اختيار محطة من'
+                              : !isToValid
+                                ? 'الرجاء اختيار محطة الي'
+                                : null}
                 </p>
             </form>
         </div>
