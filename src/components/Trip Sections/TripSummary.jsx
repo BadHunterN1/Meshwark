@@ -55,7 +55,9 @@ const TripSummary = ({ from, to, duration, distance, fee }) => {
                         <Clock className="w-5 h-5 text-[var(--main-color)]" />
                         <div>
                             <div className="text-gray-800 font-medium">
-                                <span>{duration} دقيقة</span>
+                                {duration >= 60
+                                    ? `${Math.floor(duration / 60)} ساعة ${duration % 60 ? (duration % 60) + ' دقيقة' : ''}`
+                                    : `${duration} دقيقة`}
                             </div>
                             <div className="text-sm text-gray-500">
                                 إجمالي الوقت

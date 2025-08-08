@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import {
     fetchDocument,
     removeStationFromDestinations,
@@ -7,6 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Edit, X } from 'lucide-react';
 import EditRouteForm from './EditRouteForm';
+import { queryClient } from '../../config/query';
 
 const initialEditForm = {
     fromName: '',
@@ -14,39 +16,59 @@ const initialEditForm = {
     distance: '',
     duration: '',
     rating: '',
-    startLatitude: '',
-    startLongitude: '',
-    endLatitude: '',
-    endLongitude: '',
+    totalFee: '',
 };
 
 export default function ManageRoutes() {
-    const [destinationsData, setDestinationsData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
     const [selectedDocument, setSelectedDocument] = useState('mansoura');
     const [editId, setEditId] = useState(null);
     const [editForm, setEditForm] = useState(initialEditForm);
-    const [opLoading, setOpLoading] = useState(false);
     const navigate = useNavigate();
 
-    const loadDestinationsData = useCallback(async () => {
-        setLoading(true);
-        setError('');
-        try {
-            const data = await fetchDocument('destinations', selectedDocument);
-            setDestinationsData(data);
-        } catch (err) {
-            setError('فشل في تحميل البيانات');
-            console.error('Error loading data:', err);
-        } finally {
-            setLoading(false);
-        }
-    }, [selectedDocument]);
+    // Query for fetching destinations data
+    const {
+        data: destinationsData,
+        isLoading: loading,
+        error,
+        refetch,
+    } = useQuery({
+        queryKey: ['destinations', selectedDocument],
+        queryFn: () => fetchDocument('destinations', selectedDocument),
+        staleTime: 5 * 60 * 1000, // 5 minutes
+    });
 
-    useEffect(() => {
-        loadDestinationsData();
-    }, [loadDestinationsData]);
+    // Mutation for updating a station
+    const updateStationMutation = useMutation({
+        mutationFn: ({ documentId, updatedStation }) =>
+            updateStationInDestinations(documentId, updatedStation),
+        onSuccess: () => {
+            // Invalidate and refetch the destinations query
+            queryClient.invalidateQueries({
+                queryKey: ['destinations', selectedDocument],
+            });
+            cancelEdit();
+        },
+        onError: error => {
+            console.error('Failed to update station', error);
+            alert('تعذر تعديل المسار');
+        },
+    });
+
+    // Mutation for deleting a station
+    const deleteStationMutation = useMutation({
+        mutationFn: ({ documentId, destinationId }) =>
+            removeStationFromDestinations(documentId, destinationId),
+        onSuccess: () => {
+            // Invalidate and refetch the destinations query
+            queryClient.invalidateQueries({
+                queryKey: ['destinations', selectedDocument],
+            });
+        },
+        onError: error => {
+            console.error('Failed to delete station', error);
+            alert('تعذر حذف المسار');
+        },
+    });
 
     const handleDocumentChange = e => {
         setSelectedDocument(e.target.value);
@@ -64,10 +86,7 @@ export default function ManageRoutes() {
             distance: station?.distance ?? '',
             duration: station?.duration ?? '',
             rating: station?.rating ?? '',
-            startLatitude: station?.startCoords?.latitude || '',
-            startLongitude: station?.startCoords?.longitude || '',
-            endLatitude: station?.endCoords?.latitude || '',
-            endLongitude: station?.endCoords?.longitude || '',
+            totalFee: station?.totalFee ?? '',
         });
     };
 
@@ -77,73 +96,30 @@ export default function ManageRoutes() {
     };
 
     const saveEdit = async station => {
-        try {
-            setOpLoading(true);
-            const updatedStation = {
-                ...station,
-                from: { ...(station.from || {}), name: editForm.fromName },
-                to: { ...(station.to || {}), name: editForm.toName },
-                distance: Number(editForm.distance),
-                duration: Number(editForm.duration),
-                rating: Number(editForm.rating),
-                startCoords: {
-                    latitude: Number(editForm.startLatitude),
-                    longitude: Number(editForm.startLongitude),
-                },
-                endCoords: {
-                    latitude: Number(editForm.endLatitude),
-                    longitude: Number(editForm.endLongitude),
-                },
-            };
-            await updateStationInDestinations(selectedDocument, updatedStation);
-            setDestinationsData(prev => {
-                if (!prev) return prev;
-                const updated = (prev.microbuses?.destinations || []).map(s =>
-                    String(s.destinationId) === String(station.destinationId)
-                        ? updatedStation
-                        : s
-                );
-                return {
-                    ...prev,
-                    microbuses: { ...prev.microbuses, destinations: updated },
-                };
-            });
-            cancelEdit();
-        } catch (err) {
-            console.error('Failed to update station', err);
-            setError('تعذر تعديل المسار');
-        } finally {
-            setOpLoading(false);
-        }
+        const updatedStation = {
+            ...station,
+            from: { ...(station.from || {}), name: editForm.fromName },
+            to: { ...(station.to || {}), name: editForm.toName },
+            distance: Number(editForm.distance),
+            duration: Number(editForm.duration),
+            rating: Number(editForm.rating),
+            totalFee: Number(editForm.totalFee),
+        };
+
+        updateStationMutation.mutate({
+            documentId: selectedDocument,
+            updatedStation,
+        });
     };
 
     const deleteStation = async station => {
         const confirmed = window.confirm('هل أنت متأكد من حذف هذا المسار؟');
         if (!confirmed) return;
-        try {
-            setOpLoading(true);
-            await removeStationFromDestinations(
-                selectedDocument,
-                station.destinationId
-            );
-            setDestinationsData(prev => {
-                if (!prev) return prev;
-                const updated = (prev.microbuses?.destinations || []).filter(
-                    s =>
-                        String(s.destinationId) !==
-                        String(station.destinationId)
-                );
-                return {
-                    ...prev,
-                    microbuses: { ...prev.microbuses, destinations: updated },
-                };
-            });
-        } catch (err) {
-            console.error('Failed to delete station', err);
-            setError('تعذر حذف المسار');
-        } finally {
-            setOpLoading(false);
-        }
+
+        deleteStationMutation.mutate({
+            documentId: selectedDocument,
+            destinationId: station.destinationId,
+        });
     };
 
     if (loading) {
@@ -173,7 +149,7 @@ export default function ManageRoutes() {
                         </h1>
                         <div className="flex flex-wrap justify-between items-center gap-2">
                             <button
-                                onClick={loadDestinationsData}
+                                onClick={() => refetch()}
                                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                             >
                                 اعادة تحميل المسارات
@@ -198,7 +174,7 @@ export default function ManageRoutes() {
                     {error && (
                         <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 mb-6">
                             <p className="font-semibold">خطأ:</p>
-                            <p>{error}</p>
+                            <p>{error.message || 'فشل في تحميل البيانات'}</p>
                         </div>
                     )}
 
@@ -353,7 +329,7 @@ export default function ManageRoutes() {
                                                                             cancelEdit
                                                                         }
                                                                         isLoading={
-                                                                            opLoading
+                                                                            updateStationMutation.isPending
                                                                         }
                                                                         station={
                                                                             station
@@ -375,7 +351,7 @@ export default function ManageRoutes() {
                                                                         )
                                                                     }
                                                                     disabled={
-                                                                        opLoading
+                                                                        deleteStationMutation.isPending
                                                                     }
                                                                     className="bg-gradient-to-r from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
                                                                 >
@@ -388,7 +364,7 @@ export default function ManageRoutes() {
                                                                         )
                                                                     }
                                                                     disabled={
-                                                                        opLoading
+                                                                        updateStationMutation.isPending
                                                                     }
                                                                     className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 rounded-xl disabled:opacity-60"
                                                                 >

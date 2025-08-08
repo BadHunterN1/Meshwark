@@ -51,18 +51,17 @@ export const createStationObject = formData => {
         destinationId: destinationId,
         distance: parseInt(formData.distance),
         duration: parseInt(formData.duration),
-        endCoords: formData.endCoords || 0, // Use provided coordinates
         from: {
             name: formData.from,
-            stationId: `from_${destinationId}`,
+            stationId: `${destinationId}`
         },
         to: {
             name: formData.to,
-            stationId: `to_${destinationId}`,
+            stationId: `${destinationId}`
         },
-        rating: 4.3, // Default rating
-        startCoords: formData.startCoords || 0, // Use provided coordinates
-        crossStations: formData.crossStations, // Use provided cross stations
+        rating: 4.3,
+        totalFee: Number(formData.totalFee),
+        crossStations: formData.crossStations,
     };
 };
 

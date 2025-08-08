@@ -62,7 +62,7 @@ const router = createBrowserRouter([
                         <StationInfo />
                     </Suspense>
                 ),
-                path: 'station-info',
+                path: 'station-info/:stationId',
             },
             {
                 element: (
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
                 path: 'trip/:from/:to',
                 children: [
                     {
-                        path: 'map',
+                        path: 'map/:cLatitude/:cLongitude/:nLatitude/:nLongitude/:index',
                         element: (
                             <Suspense fallback={<LoadingSpinner />}>
                                 <GoogleMap />

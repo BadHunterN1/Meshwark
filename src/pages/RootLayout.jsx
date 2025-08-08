@@ -1,5 +1,5 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
-import Header from '../components/shared/Header';
+import Header from '../components/shared/Header/Header';
 import Footer from '../components/shared/Footer';
 
 function RootLayout() {

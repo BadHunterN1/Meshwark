@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react';
 const SearchBox = lazy(() => import('./SearchBox'));
-// import SearchBox from './SearchBox';
 
 function HeroSection() {
     return (
