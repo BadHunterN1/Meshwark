@@ -1,80 +1,34 @@
-import { Clock, MapPin, Search, Bookmark, ArrowLeft } from 'lucide-react';
+import { ArrowRight, Clock, MapPin, Search, Bookmark } from 'lucide-react';
 import MotionFadeIn from '../UI/MotionFadeIn';
 import { useState, useEffect } from 'react';
 
-const initialRoutes = [
-    {
-        id: 1,
-        from: 'المنصورة',
-        to: 'القاهرة',
-        duration: '2 ساعة',
-        distance: '120 كم',
-        price: '25 جنيه',
-        description:
-            'طريق سريع ومريح من المنصورة إلى القاهرة عبر الطريق الزراعي',
-    },
-    {
-        id: 2,
-        from: 'المنصورة',
-        to: 'الإسكندرية',
-        duration: '3 ساعة',
-        distance: '180 كم',
-        price: '35 جنيه',
-        description:
-            'رحلة مريحة من المنصورة إلى الإسكندرية عبر طريق القاهرة الإسكندرية',
-    },
-    {
-        id: 3,
-        from: 'المنصورة',
-        to: 'طنطا',
-        duration: '45 دقيقة',
-        distance: '45 كم',
-        price: '15 جنيه',
-        description: 'رحلة قصيرة ومتكررة من المنصورة إلى طنطا',
-    },
-];
-
 export default function FavouriteCards() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [clickedBookmarks, setClickedBookmarks] = useState(() => {
-        const stored = localStorage.getItem('clickedBookmarks');
-        return stored ? JSON.parse(stored) : [];
-    });
+    const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
-        localStorage.setItem(
-            'clickedBookmarks',
-            JSON.stringify(clickedBookmarks)
-        );
-    }, [clickedBookmarks]);
+        const saved = JSON.parse(localStorage.getItem("favourites")) || [];
+        setFavourites(saved);
+    }, []);
 
-    const [routes, setRoutes] = useState([]);
-
-    useEffect(() => {
-        const filtered = initialRoutes.filter(
-            route => !clickedBookmarks.includes(route.id)
-        );
-        setRoutes(filtered);
-    }, [clickedBookmarks]);
-
-    const handleBookmarkClick = id => {
-        if (!clickedBookmarks.includes(id)) {
-            setClickedBookmarks(prev => [...prev, id]);
-        }
-    };
-
-    const filteredRoutes = routes.filter(route => {
+    const filteredRoutes = favourites.filter(route => {
         const matchesSearch =
-            route.from.includes(searchQuery) ||
-            route.to.includes(searchQuery) ||
-            route.description.includes(searchQuery);
+            route.from?.name?.includes(searchQuery) ||
+            route.to?.name?.includes(searchQuery) ||
+            route.description?.includes(searchQuery);
         return matchesSearch;
     });
+
+    const removeFavourite = (id) => {
+        const updated = favourites.filter(route => route.id !== id);
+        setFavourites(updated);
+        localStorage.setItem("favourites", JSON.stringify(updated));
+    };
 
     return (
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen text-base md:text-lg">
             <div className="container mx-auto px-6 py-20">
-                <MotionFadeIn className="text-center mb-24">
+                <div className="text-center mb-24">
                     <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-6 p-4">
                         قائمة المفضلة
                     </h1>
@@ -94,7 +48,7 @@ export default function FavouriteCards() {
                             />
                         </div>
                     </div>
-                </MotionFadeIn>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-7xl mx-auto mb-20">
                     {filteredRoutes.length > 0 &&
@@ -115,19 +69,13 @@ export default function FavouriteCards() {
                                             </span>
                                         </div>
                                         <button
-                                            onClick={() =>
-                                                handleBookmarkClick(route.id)
-                                            }
+                                            onClick={() => removeFavourite(route.id)}
                                             className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
                                         >
                                             <Bookmark
-                                                className={`w-7 h-7 transition-all duration-300 ${
-                                                    clickedBookmarks.includes(
-                                                        route.id
-                                                    )
-                                                        ? 'text-white stroke-blue-600 fill-white'
-                                                        : 'text-blue-600 fill-blue-600'
-                                                }`}
+                                                className="w-7 h-7"
+                                                fill="hsl(213, 98%, 60%)"
+                                                stroke="hsl(213, 98%, 60%)"
                                             />
                                         </button>
                                     </div>
@@ -135,16 +83,18 @@ export default function FavouriteCards() {
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between text-lg font-semibold">
                                             <span className="text-gray-800">
-                                                {route.from}
+                                                {route.from?.name}
                                             </span>
                                             <ArrowLeft className="w-5 h-5 text-gray-400" />
                                             <span className="text-gray-800">
-                                                {route.to}
+                                                {route.to?.name}
                                             </span>
                                         </div>
-                                        <p className="text-base text-gray-600 leading-relaxed">
-                                            {route.description}
-                                        </p>
+                                        {route.description && (
+                                            <p className="text-base text-gray-600 leading-relaxed">
+                                                {route.description}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -179,7 +129,7 @@ export default function FavouriteCards() {
                                                 </div>
                                             </div>
                                             <div className="text-base font-medium text-gray-800">
-                                                {route.price}
+                                                {route.fee}
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 السعر
@@ -191,8 +141,13 @@ export default function FavouriteCards() {
                                         عرض التفاصيل
                                     </button>
                                 </div>
-                            </MotionFadeIn>
-                        ))}
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500 col-span-3">
+                            لا توجد مفضلات حالياً
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
