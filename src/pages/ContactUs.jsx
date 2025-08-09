@@ -19,14 +19,7 @@ export default function ContactUs() {
             subject: '',
             message: '',
         },
-        // validate: values => {
-        //     const errors = {};
-        //     if (!values.name) errors.name = 'الاسم مطلوب';
-        //     if (!values.email) errors.email = 'البريد الإلكتروني مطلوب';
-        //     if (!values.subject) errors.subject = 'الموضوع مطلوب';
-        //     if (!values.message) errors.message = 'الرسالة مطلوبة';
-        //     return errors;
-        // },
+
         validationSchema: Yup.object({
             name: Yup.string().required('الاسم مطلوب'),
             email: Yup.string()

@@ -6,7 +6,6 @@ const SearchBox = lazy(() => import('./SearchBox'));
 function HeroSection() {
     return (
         <div className="hero relative">
-            {/* Preload hero background image with high priority without affecting layout */}
             <img
                 src={heroBg}
                 fetchPriority="high"

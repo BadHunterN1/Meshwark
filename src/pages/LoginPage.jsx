@@ -17,10 +17,8 @@ export default function Login() {
     const [errorMsg, setErrorMsg] = useState('');
     const [formLoading, setFormLoading] = useState(false);
 
-    // Redirect if user is already logged in
     useEffect(() => {
         if (currentUser && userLoggedIn && !loading) {
-            // Check if user is admin
             if (currentUser.email === 'admin@meshwark.com') {
                 navigate('/admin');
             } else {
@@ -72,10 +70,8 @@ export default function Login() {
         }
     };
 
-    // Show loading spinner while auth is initializing
     if (loading) return <LoadingSpinner />;
 
-    // Don't render login form if user is already logged in
     if (currentUser && userLoggedIn) {
         return null;
     }

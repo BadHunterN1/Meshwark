@@ -49,7 +49,6 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
         setError('');
 
         try {
-            // Create cross stations with coordinates
             const { GeoPoint } = await import('firebase/firestore');
             const crossStations = values.crossStations.map(station => ({
                 station: {
@@ -61,17 +60,14 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
                 },
             }));
 
-            // Create the station object with the required structure
             const newStation = createStationObject({
                 ...values,
                 crossStations,
             });
 
-            // Add the station to the destinations document
             await addStationToDestinations('mansoura', newStation);
             await addStationDetails('station-details', newStation);
 
-            console.log('Station added successfully:', newStation);
             setSubmitted(true);
             resetForm();
         } catch (err) {

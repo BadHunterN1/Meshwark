@@ -6,7 +6,6 @@ import { fetchDocument } from '../utils/http';
 import MissingRouteUserForm from '../components/Trip Sections/MissingRouteUserForm';
 export default function TripPage() {
     const { from, to } = useParams();
-    console.log(`${from} ${to}`);
 
     const {
         data: destinationsData,
@@ -19,14 +18,11 @@ export default function TripPage() {
     });
 
     const stations = destinationsData?.microbuses?.destinations;
-    console.log(stations);
 
     const selectedStation = (stations || []).find(
         stationObj =>
             stationObj?.from?.name === from && stationObj?.to?.name === to
     );
-
-    console.log(selectedStation);
 
     return (
         <section className="p-4">

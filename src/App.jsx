@@ -11,18 +11,15 @@ import LoadingSpinner from './components/shared/LoadingSpinner';
 import { AuthProvider } from './Context/authContext/AuthProvider';
 import LoginPage from './pages/LoginPage';
 
-// Lazy load pages
 const ContactUs = lazy(() => import('./pages/ContactUs'));
 const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 const FavouritePage = lazy(() => import('./pages/FavouritePage'));
 const Register = lazy(() => import('./pages/RegisterPage'));
 const RoutesPage = lazy(() => import('./pages/RoutesPage'));
-// const StationInfo = lazy(() => import('./pages/StationInfo'));
 const TripPage = lazy(() => import('./pages/TripPage'));
 const AboutApp = lazy(() => import('./pages/AboutApp'));
 const GoogleMap = lazy(() => import('./components/Trip Sections/Map'));
 
-// Admin components
 const DashboardLayout = lazy(
     () => import('./components/Dashboard/DashboardLayout')
 );
@@ -56,14 +53,7 @@ const router = createBrowserRouter([
                     </Suspense>
                 ),
             },
-            // {
-            //     element: (
-            //         <Suspense fallback={<LoadingSpinner />}>
-            //             <StationInfo />
-            //         </Suspense>
-            //     ),
-            //     path: 'station-info/:stationId',
-            // },
+
             {
                 element: (
                     <Suspense fallback={<LoadingSpinner />}>

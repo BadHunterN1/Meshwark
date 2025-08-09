@@ -11,7 +11,6 @@ const EditRouteForm = ({
     return (
         <div className="mt-4 p-3 bg-gray-50 rounded-lg border">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {/* Basic Route Info */}
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
                         من محطة

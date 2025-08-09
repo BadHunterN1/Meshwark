@@ -12,8 +12,6 @@ function SearchBox() {
         to: null,
     });
 
-    console.log(selectedOptions);
-
     const handleNavigation = () => {
         navigate(`/trip/${selectedOptions.from}/${selectedOptions.to}`);
     };
@@ -70,8 +68,6 @@ function SearchBox() {
     const isFromValid = selectedOptions.from;
     const isToValid = selectedOptions.to;
     const isFormValid = isFromValid && isToValid;
-
-    console.log(uniqueDestinations);
 
     return (
         <div className="search-box p-5 bg-(--glass-bg) rounded-2xl max-lg:w-[80%]">

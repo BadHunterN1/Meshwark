@@ -13,7 +13,6 @@ export default function ReviewSuggestions() {
     const USERS_ROUTES_DOC = 'routes';
     const DESTINATIONS_DOC = 'mansoura';
 
-    // Query for fetching user suggestions
     const {
         data: suggestionsData,
         isLoading: loading,
@@ -22,10 +21,9 @@ export default function ReviewSuggestions() {
     } = useQuery({
         queryKey: ['user-suggestions', USERS_ROUTES_DOC],
         queryFn: () => fetchUsersRoutes(USERS_ROUTES_DOC),
-        staleTime: 2 * 60 * 1000, // 2 minutes
+        staleTime: 2 * 60 * 1000,
     });
 
-    // Mutation for accepting a suggestion
     const acceptSuggestionMutation = useMutation({
         mutationFn: async station => {
             await addStationToDestinations(DESTINATIONS_DOC, station);
@@ -36,18 +34,15 @@ export default function ReviewSuggestions() {
             );
         },
         onSuccess: () => {
-            // Invalidate and refetch the suggestions query
             queryClient.invalidateQueries({
                 queryKey: ['user-suggestions', USERS_ROUTES_DOC],
             });
         },
-        onError: error => {
-            console.error('Failed to accept suggestion', error);
+        onError: () => {
             alert('تعذر قبول الاقتراح');
         },
     });
 
-    // Mutation for declining a suggestion
     const declineSuggestionMutation = useMutation({
         mutationFn: station =>
             removeStationFromUsersRoutes(
@@ -55,13 +50,11 @@ export default function ReviewSuggestions() {
                 station.destinationId
             ),
         onSuccess: () => {
-            // Invalidate and refetch the suggestions query
             queryClient.invalidateQueries({
                 queryKey: ['user-suggestions', USERS_ROUTES_DOC],
             });
         },
-        onError: error => {
-            console.error('Failed to decline suggestion', error);
+        onError: () => {
             alert('تعذر رفض الاقتراح');
         },
     });

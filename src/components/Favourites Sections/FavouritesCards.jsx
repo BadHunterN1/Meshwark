@@ -41,7 +41,6 @@ export default function FavouriteCards() {
         return stored ? JSON.parse(stored) : [];
     });
 
-    // ✅ حفظ أي تغيير في localStorage
     useEffect(() => {
         localStorage.setItem(
             'clickedBookmarks',
@@ -52,7 +51,6 @@ export default function FavouriteCards() {
     const [routes, setRoutes] = useState([]);
 
     useEffect(() => {
-        // ✅ عند التحميل الأول، استبعد اللي اتحذفت من clickedBookmarks
         const filtered = initialRoutes.filter(
             route => !clickedBookmarks.includes(route.id)
         );

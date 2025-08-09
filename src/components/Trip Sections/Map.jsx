@@ -105,7 +105,6 @@ function Directions({ origin, destination }) {
         setDirectionService(service);
         setDirectionRenderer(renderer);
 
-        // Cleanup previous renderer on unmount to remove old polylines/markers
         return () => {
             renderer.setMap(null);
         };
@@ -114,7 +113,6 @@ function Directions({ origin, destination }) {
     useEffect(() => {
         if (!directionRenderer || !directionService) return;
 
-        // Clear existing directions before drawing new ones
         directionRenderer.set('directions', null);
 
         directionService

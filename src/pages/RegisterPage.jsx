@@ -66,7 +66,6 @@ export default function Register() {
     });
 
     if (currentUser) {
-        // Check if user is admin
         if (currentUser.email === 'admin@meshwark.com') {
             navigate('/admin');
         } else {
