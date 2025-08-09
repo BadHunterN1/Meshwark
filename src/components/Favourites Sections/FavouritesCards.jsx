@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, MapPin, Search, Bookmark } from 'lucide-react';
+import { ArrowLeft, Clock, MapPin, Search, Bookmark } from 'lucide-react';
 import MotionFadeIn from '../UI/MotionFadeIn';
 import { useState, useEffect } from 'react';
 
@@ -7,7 +7,7 @@ export default function FavouriteCards() {
     const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem("favourites")) || [];
+        const saved = JSON.parse(localStorage.getItem('favourites')) || [];
         setFavourites(saved);
     }, []);
 
@@ -19,10 +19,10 @@ export default function FavouriteCards() {
         return matchesSearch;
     });
 
-    const removeFavourite = (id) => {
+    const removeFavourite = id => {
         const updated = favourites.filter(route => route.id !== id);
         setFavourites(updated);
-        localStorage.setItem("favourites", JSON.stringify(updated));
+        localStorage.setItem('favourites', JSON.stringify(updated));
     };
 
     return (
@@ -51,7 +51,7 @@ export default function FavouriteCards() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-7xl mx-auto mb-20">
-                    {filteredRoutes.length > 0 &&
+                    {filteredRoutes.length > 0 ? (
                         filteredRoutes.map((route, index) => (
                             <MotionFadeIn
                                 delay={0.15 + index * 0.2}
@@ -69,7 +69,9 @@ export default function FavouriteCards() {
                                             </span>
                                         </div>
                                         <button
-                                            onClick={() => removeFavourite(route.id)}
+                                            onClick={() =>
+                                                removeFavourite(route.id)
+                                            }
                                             className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
                                         >
                                             <Bookmark
@@ -141,7 +143,7 @@ export default function FavouriteCards() {
                                         عرض التفاصيل
                                     </button>
                                 </div>
-                            </div>
+                            </MotionFadeIn>
                         ))
                     ) : (
                         <p className="text-center text-gray-500 col-span-3">
