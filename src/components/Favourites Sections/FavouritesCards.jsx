@@ -1,6 +1,6 @@
 import { ArrowRight, Clock, MapPin, Search, Bookmark } from 'lucide-react';
-import { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../Context/UserContext';
+import MotionFadeIn from '../UI/MotionFadeIn';
+import { useState, useEffect } from 'react';
 
 const initialRoutes = [
     {
@@ -36,12 +36,26 @@ const initialRoutes = [
 
 export default function FavouriteCards() {
     const [searchQuery, setSearchQuery] = useState('');
-    const { clickedBookmarks, setClickedBookmarks } = useContext(UserContext);
+    const [clickedBookmarks, setClickedBookmarks] = useState(() => {
+        const stored = localStorage.getItem('clickedBookmarks');
+        return stored ? JSON.parse(stored) : [];
+    });
+
+    // ✅ حفظ أي تغيير في localStorage
+    useEffect(() => {
+        localStorage.setItem(
+            'clickedBookmarks',
+            JSON.stringify(clickedBookmarks)
+        );
+    }, [clickedBookmarks]);
+
     const [routes, setRoutes] = useState([]);
 
     useEffect(() => {
         // ✅ عند التحميل الأول، استبعد اللي اتحذفت من clickedBookmarks
-        const filtered = initialRoutes.filter(route => !clickedBookmarks.includes(route.id));
+        const filtered = initialRoutes.filter(
+            route => !clickedBookmarks.includes(route.id)
+        );
         setRoutes(filtered);
     }, [clickedBookmarks]);
 
@@ -62,7 +76,7 @@ export default function FavouriteCards() {
     return (
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen text-base md:text-lg">
             <div className="container mx-auto px-6 py-20">
-                <div className="text-center mb-24 animate-fade-in-up">
+                <MotionFadeIn className="text-center mb-24">
                     <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-6 p-4">
                         قائمة المفضلة
                     </h1>
@@ -82,12 +96,13 @@ export default function FavouriteCards() {
                             />
                         </div>
                     </div>
-                </div>
+                </MotionFadeIn>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-7xl mx-auto mb-20">
                     {filteredRoutes.length > 0 &&
-                        filteredRoutes.map(route => (
-                            <div
+                        filteredRoutes.map((route, index) => (
+                            <MotionFadeIn
+                                delay={0.6 + index * 0.2}
                                 key={route.id}
                                 className="flex flex-col justify-between bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                             >
@@ -178,7 +193,7 @@ export default function FavouriteCards() {
                                         عرض التفاصيل
                                     </button>
                                 </div>
-                            </div>
+                            </MotionFadeIn>
                         ))}
                 </div>
             </div>

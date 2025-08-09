@@ -1,4 +1,5 @@
 import { Eye, Lightbulb, Star, Users, Zap } from 'lucide-react';
+import MotionFadeIn from '../components/UI/MotionFadeIn';
 
 export default function AboutApp() {
     const values = [
@@ -29,11 +30,18 @@ export default function AboutApp() {
 
     return (
         <>
+            <title>عن التطبيق | مشوارك</title>
+            <meta
+                name="description"
+                content="تعرف على رؤيتنا وقيمنا الأساسية وخطتنا لبناء مستقبل النقل الذكي في المنصورة ومصر."
+            />
             <div className="bg-gradient-to-tr from-blue-100 to-green-100 px-4 py-16">
                 <div className="container flex flex-col items-center justify-start">
-                    <h2 className="text-6xl text-blue-400 font-bold mb-20 mt-4">
-                        عن التطبيق
-                    </h2>
+                    <MotionFadeIn>
+                        <h2 className="text-6xl text-blue-400 font-bold mb-20 mt-4">
+                            عن التطبيق
+                        </h2>
+                    </MotionFadeIn>
 
                     <div className="max-w-4xl w-full bg-white shadow-md rounded-xl p-4 md:p-8 flex flex-col-reverse md:flex-row-reverse items-center justify-between gap-4 md:gap-8">
                         <div className="text-center md:text-right md:flex-1">
@@ -46,25 +54,30 @@ export default function AboutApp() {
                             </p>
                         </div>
 
-                        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-blue-500 to-green-400 rounded-full mb-4">
-                            <Eye className="w-10 h-10 text-white" />
-                        </div>
+                        <MotionFadeIn>
+                            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-blue-500 to-green-400 rounded-full mb-4">
+                                <Eye className="w-10 h-10 text-white" />
+                            </div>
+                        </MotionFadeIn>
                     </div>
                 </div>
             </div>
 
             <section className="bg-gradient-to-tr from-blue-50 to-green-50 py-20 px-4 text-center">
                 <div className="container">
-                    <h2 className="text-3xl md:text-4xl font-bold text-blue-400 mb-4">
-                        قيمنا الأساسية
-                    </h2>
+                    <MotionFadeIn>
+                        <h2 className="text-3xl md:text-4xl font-bold text-blue-400 mb-4">
+                            قيمنا الأساسية
+                        </h2>
+                    </MotionFadeIn>
                     <p className="text-gray-600 text-lg mb-12">
                         المبادئ التي نؤمن بها ونسير عليها في رحلتنا نحو التميز
                     </p>
 
                     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto">
                         {values.map((value, index) => (
-                            <div
+                            <MotionFadeIn
+                                delay={0.6 + index * 0.2}
                                 key={index}
                                 className="bg-white shadow-md rounded-xl flex flex-col items-center text-center p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10
   								transition-all duration-300 hover:-translate-y-2 hover:shadow-lg group"
@@ -78,22 +91,28 @@ export default function AboutApp() {
                                 <p className="text-gray-600">
                                     {value.description}
                                 </p>
-                            </div>
+                            </MotionFadeIn>
                         ))}
                     </div>
                 </div>
             </section>
             <div className="py-20 px-4 flex flex-col items-center justify-start bg-gradient-to-tr from-blue-100 to-green-100">
-                <div className="inline-flex items-center justify-center w-25 h-25 bg-gradient-to-tr from-blue-500 to-green-400 rounded-full mb-4">
-                    <Star className="w-15 h-15 text-white" />
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-blue-400 mb-4">
-                    انضم إلينا في رحلة التميز
-                </h2>
-                <p className="text-gray-600 text-lg mb-12">
-                    كن جزءاً من مستقبل النقل الذكي واستمتع بتجربة فريدة تجمع بين
-                    الابتكار والجودة
-                </p>
+                <MotionFadeIn>
+                    <div className="inline-flex items-center justify-center w-25 h-25 bg-gradient-to-tr from-blue-500 to-green-400 rounded-full mb-4">
+                        <Star className="w-15 h-15 text-white" />
+                    </div>
+                </MotionFadeIn>
+                <MotionFadeIn>
+                    <h2 className="text-3xl md:text-4xl font-bold text-blue-400 mb-4">
+                        انضم إلينا في رحلة التميز
+                    </h2>
+                </MotionFadeIn>
+                <MotionFadeIn>
+                    <p className="text-gray-600 text-lg mb-12">
+                        كن جزءاً من مستقبل النقل الذكي واستمتع بتجربة فريدة تجمع
+                        بين الابتكار والجودة
+                    </p>
+                </MotionFadeIn>
             </div>
         </>
     );

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { GeoPoint } from 'firebase/firestore';
 import {
     addStationDetails,
     addStationToUsersRoutes,
@@ -33,6 +32,10 @@ const validationSchema = Yup.object().shape({
         .min(0, 'يجب أن تكون المدة أكبر من أو تساوي صفر')
         .required('هذا الحقل مطلوب'),
     notes: Yup.string(),
+    totalFee: Yup.number()
+        .typeError('يجب أن يكون رقمًا')
+        .min(0, 'يجب أن تكون الأجرة أكبر من أو تساوي صفر')
+        .required('هذا الحقل مطلوب'),
 });
 
 export default function MissingRouteUserForm({
@@ -49,6 +52,7 @@ export default function MissingRouteUserForm({
 
         try {
             // Create cross stations with coordinates
+            const { GeoPoint } = await import('firebase/firestore');
             const crossStations = values.crossStations.map(station => ({
                 station: {
                     coords: new GeoPoint(
@@ -110,11 +114,7 @@ export default function MissingRouteUserForm({
                         crossStations: [{ ...initialCrossStation }],
                         distance: '',
                         duration: '',
-                        startLatitude: '',
-                        startLongitude: '',
-                        endLatitude: '',
-                        endLongitude: '',
-                        notes: '',
+                        totalFee: '',
                     }}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
@@ -268,6 +268,24 @@ export default function MissingRouteUserForm({
                                         placeholder="مثال: 30"
                                     />
                                     <ErrorMessage name="duration">
+                                        {msg => (
+                                            <div className="text-red-500 text-sm mt-1">
+                                                {msg}
+                                            </div>
+                                        )}
+                                    </ErrorMessage>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block mb-2 font-semibold text-gray-700">
+                                        الأجرة الكلية (جنيه)
+                                    </label>
+                                    <Field
+                                        name="totalFee"
+                                        type="number"
+                                        className="w-full bg-white border border-gray-300 rounded-xl p-4 text-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition placeholder-gray-400 hover:border-blue-400"
+                                        placeholder="مثال: 15"
+                                    />
+                                    <ErrorMessage name="totalFee">
                                         {msg => (
                                             <div className="text-red-500 text-sm mt-1">
                                                 {msg}

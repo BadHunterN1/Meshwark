@@ -8,6 +8,7 @@ import {
     Send,
 } from 'lucide-react';
 import { useFormik } from 'formik';
+import MotionFadeIn from '../components/UI/MotionFadeIn';
 
 export default function ContactUs() {
     const formik = useFormik({
@@ -62,8 +63,13 @@ export default function ContactUs() {
     ];
     return (
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen">
+            <title>تواصل معنا | مشوارك</title>
+            <meta
+                name="description"
+                content="تواصل مع فريق مشوارك للدعم والاستفسارات والاقتراحات. نحن هنا لخدمتك."
+            />
             <div className="container mx-auto px-4 py-16">
-                <div className="text-center mb-20 animate-fade-in-up">
+                <MotionFadeIn className="text-center mb-20">
                     <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-4 p-2">
                         تواصل معنا
                     </h1>
@@ -71,12 +77,13 @@ export default function ContactUs() {
                         نحن هنا لمساعدتك! تواصل معنا لأي استفسار أو اقتراح حول
                         خدماتنا
                     </p>
-                </div>
+                </MotionFadeIn>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 max-w-7xl mx-auto">
                     {contactInfo.map((info, index) => (
-                        <div
+                        <MotionFadeIn
+                            delay={0.6 + index * 0.2}
                             key={index}
-                            className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 animate-fade-in-up"
+                            className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
                             style={{ animationDelay: `${index * 150}ms` }}
                         >
                             <div
@@ -90,11 +97,11 @@ export default function ContactUs() {
                             <p className="text-gray-600 text-center text-sm leading-relaxed">
                                 {info.value}
                             </p>
-                        </div>
+                        </MotionFadeIn>
                     ))}
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
-                    <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 animate-fade-in-right">
+                    <MotionFadeIn className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
                         <div className="flex items-center gap-3 mb-8">
                             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
                                 <MessageCircle className="w-6 h-6 text-white" />
@@ -214,9 +221,9 @@ export default function ContactUs() {
                                 </button>
                             </form>
                         )}
-                    </div>
-                    <div className="space-y-8 animate-fade-in-left">
-                        <div className="bg-gradient-to-br from-blue-600 to-green-500 rounded-3xl p-8 text-white">
+                    </MotionFadeIn>
+                    <div className="space-y-8">
+                        <MotionFadeIn className="bg-gradient-to-br from-blue-600 to-green-500 rounded-3xl p-8 text-white">
                             <h3 className="text-2xl font-bold mb-6">
                                 لماذا تتواصل معنا؟
                             </h3>
@@ -263,8 +270,8 @@ export default function ContactUs() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+                        </MotionFadeIn>
+                        <MotionFadeIn className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
                             <h3 className="text-xl font-bold text-gray-800 mb-6">
                                 الأسئلة الشائعة
                             </h3>
@@ -299,7 +306,7 @@ export default function ContactUs() {
                                     </div>
                                 </details>
                             </div>
-                        </div>
+                        </MotionFadeIn>
                     </div>
                 </div>
             </div>

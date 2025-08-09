@@ -1,7 +1,7 @@
 import { LogOut, User } from 'lucide-react';
-import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserContext } from '../../../Context/UserContext';
+import { useAuth } from '../../../Context/authContext';
+import { doSignOut } from '../../../config/auth';
 
 const mobileNavigationItems = [
     { to: '/', label: 'الرئيسية' },
@@ -12,14 +12,15 @@ const mobileNavigationItems = [
 ];
 
 export default function MobileMenu({ isOpen, onClose }) {
-    const { userLogin, token, setUserLogin, setToken } =
-        useContext(UserContext);
+    const { currentUser, userLoggedIn } = useAuth();
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
-        setUserLogin('');
-        onClose();
+    const handleLogout = async () => {
+        try {
+            await doSignOut();
+            onClose();
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
     };
 
     return (
@@ -59,14 +60,15 @@ export default function MobileMenu({ isOpen, onClose }) {
                 </ul>
 
                 <div className="border-t border-gray-200 px-4 py-4">
-                    {token ? (
+                    {currentUser && userLoggedIn ? (
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 px-4 py-3 bg-blue-50 rounded-lg">
                                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                                     <User className="w-4 h-4 text-white" />
                                 </div>
                                 <span className="text-gray-700 font-semibold text-sm">
-                                    {userLogin}
+                                    {currentUser.displayName ||
+                                        currentUser.email}
                                 </span>
                             </div>
                             <button

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { GeoPoint } from 'firebase/firestore';
 import {
     addStationDetails,
     addStationToDestinations,
@@ -34,10 +33,10 @@ const validationSchema = Yup.object().shape({
         .typeError('يجب أن يكون رقمًا')
         .min(0, 'يجب أن تكون المدة أكبر من أو تساوي صفر')
         .required('هذا الحقل مطلوب'),
-    startLatitude: Yup.number().required('خط العرض للبداية مطلوب'),
-    startLongitude: Yup.number().required('خط الطول للبداية مطلوب'),
-    endLatitude: Yup.number().required('خط العرض للنهاية مطلوب'),
-    endLongitude: Yup.number().required('خط الطول للنهاية مطلوب'),
+    totalFee: Yup.number()
+        .typeError('يجب أن يكون رقمًا')
+        .min(0, 'يجب أن تكون الأجرة أكبر من أو تساوي صفر')
+        .required('هذا الحقل مطلوب'),
 });
 
 export default function AddRoute({ fromDefault = '', toDefault = '' }) {
@@ -50,17 +49,8 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
         setError('');
 
         try {
-            // Create GeoPoint objects for coordinates
-            const startCoords = new GeoPoint(
-                parseFloat(values.startLatitude),
-                parseFloat(values.startLongitude)
-            );
-            const endCoords = new GeoPoint(
-                parseFloat(values.endLatitude),
-                parseFloat(values.endLongitude)
-            );
-
             // Create cross stations with coordinates
+            const { GeoPoint } = await import('firebase/firestore');
             const crossStations = values.crossStations.map(station => ({
                 station: {
                     coords: new GeoPoint(
@@ -74,8 +64,6 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
             // Create the station object with the required structure
             const newStation = createStationObject({
                 ...values,
-                startCoords,
-                endCoords,
                 crossStations,
             });
 
@@ -124,10 +112,7 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
                         crossStations: [{ ...initialCrossStation }],
                         distance: '',
                         duration: '',
-                        startLatitude: '',
-                        startLongitude: '',
-                        endLatitude: '',
-                        endLongitude: '',
+                        totalFee: '',
                         notes: '',
                     }}
                     validationSchema={validationSchema}
@@ -171,93 +156,6 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
                                             </div>
                                         )}
                                     </ErrorMessage>
-                                </div>
-                            </div>
-
-                            {/* Coordinates Section */}
-                            <div className="bg-gray-50 rounded-lg p-4">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                                    إحداثيات المسار
-                                </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block mb-2 font-semibold text-gray-700">
-                                            إحداثيات البداية
-                                        </label>
-                                        <div className="grid grid-cols-2 gap-2">
-                                            <div>
-                                                <Field
-                                                    name="startLatitude"
-                                                    type="number"
-                                                    step="any"
-                                                    className="w-full bg-white border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                                    placeholder="خط العرض"
-                                                />
-                                                <ErrorMessage name="startLatitude">
-                                                    {msg => (
-                                                        <div className="text-red-500 text-xs mt-1">
-                                                            {msg}
-                                                        </div>
-                                                    )}
-                                                </ErrorMessage>
-                                            </div>
-                                            <div>
-                                                <Field
-                                                    name="startLongitude"
-                                                    type="number"
-                                                    step="any"
-                                                    className="w-full bg-white border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                                    placeholder="خط الطول"
-                                                />
-                                                <ErrorMessage name="startLongitude">
-                                                    {msg => (
-                                                        <div className="text-red-500 text-xs mt-1">
-                                                            {msg}
-                                                        </div>
-                                                    )}
-                                                </ErrorMessage>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="block mb-2 font-semibold text-gray-700">
-                                            إحداثيات النهاية
-                                        </label>
-                                        <div className="grid grid-cols-2 gap-2">
-                                            <div>
-                                                <Field
-                                                    name="endLatitude"
-                                                    type="number"
-                                                    step="any"
-                                                    className="w-full bg-white border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                                    placeholder="خط العرض"
-                                                />
-                                                <ErrorMessage name="endLatitude">
-                                                    {msg => (
-                                                        <div className="text-red-500 text-xs mt-1">
-                                                            {msg}
-                                                        </div>
-                                                    )}
-                                                </ErrorMessage>
-                                            </div>
-                                            <div>
-                                                <Field
-                                                    name="endLongitude"
-                                                    type="number"
-                                                    step="any"
-                                                    className="w-full bg-white border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                                    placeholder="خط الطول"
-                                                />
-                                                <ErrorMessage name="endLongitude">
-                                                    {msg => (
-                                                        <div className="text-red-500 text-xs mt-1">
-                                                            {msg}
-                                                        </div>
-                                                    )}
-                                                </ErrorMessage>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -409,6 +307,24 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
                                         placeholder="مثال: 30"
                                     />
                                     <ErrorMessage name="duration">
+                                        {msg => (
+                                            <div className="text-red-500 text-sm mt-1">
+                                                {msg}
+                                            </div>
+                                        )}
+                                    </ErrorMessage>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block mb-2 font-semibold text-gray-700">
+                                        الأجرة الكلية (جنيه)
+                                    </label>
+                                    <Field
+                                        name="totalFee"
+                                        type="number"
+                                        className="w-full bg-white border border-gray-300 rounded-xl p-4 text-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition placeholder-gray-400 hover:border-blue-400"
+                                        placeholder="مثال: 15"
+                                    />
+                                    <ErrorMessage name="totalFee">
                                         {msg => (
                                             <div className="text-red-500 text-sm mt-1">
                                                 {msg}

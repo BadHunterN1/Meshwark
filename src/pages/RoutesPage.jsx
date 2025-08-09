@@ -3,6 +3,7 @@ import { ArrowLeft, BanIcon, Clock, MapPin, Search, Star } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchDocument } from '../utils/http';
+import MotionFadeIn from '../components/UI/MotionFadeIn';
 
 export default function RoutesPage() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -54,8 +55,13 @@ export default function RoutesPage() {
 
     return (
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen">
+            <title>المسارات | مشوارك</title>
+            <meta
+                name="description"
+                content="اكتشف أفضل مسارات الميكروباص في المنصورة وضواحيها مع معلومات دقيقة عن المدة والمسافة والتكلفة."
+            />
             <div className="container mx-auto px-4 py-16">
-                <div className="text-center mb-20 animate-fade-in-up">
+                <MotionFadeIn className="text-center mb-20">
                     <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-4 p-2">
                         اكتشف أفضل المسارات
                     </h1>
@@ -63,7 +69,6 @@ export default function RoutesPage() {
                         اختر من مئات المسارات المتاحة في المنصورة وضواحيها. نقدم
                         لك أفضل الطرق وأسرعها مع معلومات دقيقة ومحدثة
                     </p>
-
                     <div className="max-w-2xl mx-auto">
                         <div className="relative">
                             <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -76,7 +81,7 @@ export default function RoutesPage() {
                             />
                         </div>
                     </div>
-                </div>
+                </MotionFadeIn>
 
                 {filteredStations.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
@@ -91,7 +96,8 @@ export default function RoutesPage() {
                             };
 
                             return (
-                                <div
+                                <MotionFadeIn
+                                    delay={0.6 + index * 0.2}
                                     key={index}
                                     className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                                 >
@@ -162,10 +168,7 @@ export default function RoutesPage() {
                                                     </div>
                                                 </div>
                                                 <div className="text-sm font-medium text-gray-800">
-                                                    {
-                                                        destinationsData
-                                                            .microbuses.fee
-                                                    }{' '}
+                                                    {stationObj.totalFee}
                                                     ج.م
                                                 </div>
                                                 <div className="text-xs text-gray-500">
@@ -181,7 +184,7 @@ export default function RoutesPage() {
                                             عرض التفاصيل
                                         </button>
                                     </div>
-                                </div>
+                                </MotionFadeIn>
                             );
                         })}
                     </div>
@@ -205,21 +208,23 @@ export default function RoutesPage() {
                     </div>
                 )}
 
-                <div className="text-center mt-16 bg-white rounded-3xl p-8 shadow-lg border border-gray-100 max-w-4xl mx-auto">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                        لم تجد المسار الذي تبحث عنه؟
-                    </h2>
-                    <p className="text-lg text-gray-600 mb-8">
-                        استخدم محرك البحث في الصفحة الرئيسية للعثور على أي مسار
-                        في المنصورة
-                    </p>
-                    <Link
-                        to="/"
-                        className="inline-block bg-gradient-to-r from-blue-600 to-green-500 text-white px-8 py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                    >
-                        العودة للصفحة الرئيسية
-                    </Link>
-                </div>
+                <MotionFadeIn>
+                    <div className="text-center mt-16 bg-white rounded-3xl p-8 shadow-lg border border-gray-100 max-w-4xl mx-auto">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                            لم تجد المسار الذي تبحث عنه؟
+                        </h2>
+                        <p className="text-lg text-gray-600 mb-8">
+                            استخدم محرك البحث في الصفحة الرئيسية للعثور على أي
+                            مسار في المنصورة
+                        </p>
+                        <Link
+                            to="/"
+                            className="inline-block bg-gradient-to-r from-blue-600 to-green-500 text-white px-8 py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                        >
+                            العودة للصفحة الرئيسية
+                        </Link>
+                    </div>
+                </MotionFadeIn>
             </div>
         </div>
     );

@@ -2,25 +2,19 @@ import { useEffect, useState } from 'react';
 import {
     APIProvider,
     Map,
-    AdvancedMarker,
-    Pin,
     InfoWindow,
     useMap,
     useMapsLibrary,
 } from '@vis.gl/react-google-maps';
-import { useParams, useOutletContext } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function GoogleMap() {
-    const { from } = useParams();
-    const { selectedStation } = useOutletContext();
-    console.log('Outlet context:', selectedStation);
-    const [open, setOpen] = useState(false);
+    const { cLatitude, cLongitude, nLatitude, nLongitude, index } = useParams();
     const [center, setCenter] = useState({
         lat: 31.0425,
         lng: 31.38,
     });
     const [hasUserLocation, setHasUserLocation] = useState(false);
-    const [shouldCenter, setShouldCenter] = useState(false);
 
     useEffect(() => {
         let watchId;
@@ -33,8 +27,6 @@ export default function GoogleMap() {
 
                     if (!hasUserLocation) {
                         setCenter(newPosition);
-                        setShouldCenter(true);
-                        setTimeout(() => setShouldCenter(false), 300);
                     }
 
                     setHasUserLocation(true);
@@ -61,94 +53,40 @@ export default function GoogleMap() {
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
             <div className="h-screen w-full relative">
                 <Map
-                    {...(shouldCenter
-                        ? { center: center }
-                        : { defaultCenter: center })}
-                    mapId={'1b9264908eb0cb167d4824e0'}
+                    defaultCenter={center}
+                    mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
                     defaultZoom={20}
                     gestureHandling={'greedy'}
                     className="w-full h-full"
                 >
-                    {selectedStation?.crossStations?.map(
-                        (stationObj, index) => {
-                            const lat = stationObj.station.coords?.latitude;
-                            const lng = stationObj.station.coords?.longitude;
-                            {
-                                return (
-                                    <AdvancedMarker
-                                        key={index}
-                                        position={{ lat, lng }}
-                                    >
-                                        <Pin
-                                            background={'#FF6B35'}
-                                            borderColor={'#E55A2B'}
-                                            glyphColor={'white'}
-                                        />
-                                    </AdvancedMarker>
-                                );
-                            }
+                    <Directions
+                        origin={
+                            Number(index) === 1
+                                ? center
+                                : {
+                                      lat: Number(cLatitude),
+                                      lng: Number(cLongitude),
+                                  }
                         }
-                    )}
-                    {selectedStation?.endCoords?.latitude &&
-                        selectedStation?.endCoords?.longitude && (
-                            <AdvancedMarker
-                                position={{
-                                    lat: selectedStation.endCoords.latitude,
-                                    lng: selectedStation.endCoords.longitude,
-                                }}
-                            >
-                                <Pin
-                                    background={'#2196F3'}
-                                    borderColor={'#1976D2'}
-                                    glyphColor={'white'}
-                                />
-                            </AdvancedMarker>
-                        )}
-
-                    {open && (
-                        <InfoWindow
-                            position={center}
-                            onCloseClick={() => setOpen(false)}
-                        >
-                            <p>Your current location</p>
-                        </InfoWindow>
-                    )}
-                    {selectedStation?.startCoords?.latitude &&
-                        selectedStation?.startCoords?.longitude && (
-                            <>
-                                <Directions
-                                    user={center}
-                                    from={from}
-                                    destination={{
-                                        lat: selectedStation.startCoords
-                                            .latitude,
-                                        lng: selectedStation.startCoords
-                                            .longitude,
-                                    }}
-                                />
-                                <Directions
-                                    user={{
-                                        lat: selectedStation.startCoords
-                                            .latitude,
-                                        lng: selectedStation.startCoords
-                                            .longitude,
-                                    }}
-                                    from={from}
-                                    destination={{
-                                        lat: selectedStation.endCoords.latitude,
-                                        lng: selectedStation.endCoords
-                                            .longitude,
-                                    }}
-                                />
-                            </>
-                        )}
+                        destination={
+                            Number(index) === 1
+                                ? {
+                                      lat: Number(cLatitude),
+                                      lng: Number(cLongitude),
+                                  }
+                                : {
+                                      lat: Number(nLatitude),
+                                      lng: Number(nLongitude),
+                                  }
+                        }
+                    />
                 </Map>
             </div>
         </APIProvider>
     );
 }
 
-function Directions({ user, destination, from }) {
+function Directions({ origin, destination }) {
     const map = useMap();
     const routesLibrary = useMapsLibrary('routes');
     const [directionService, setDirectionService] = useState();
@@ -161,16 +99,27 @@ function Directions({ user, destination, from }) {
     useEffect(() => {
         if (!routesLibrary || !map) return;
 
-        setDirectionService(new routesLibrary.DirectionsService());
-        setDirectionRenderer(new routesLibrary.DirectionsRenderer({ map }));
+        const service = new routesLibrary.DirectionsService();
+        const renderer = new routesLibrary.DirectionsRenderer({ map });
+
+        setDirectionService(service);
+        setDirectionRenderer(renderer);
+
+        // Cleanup previous renderer on unmount to remove old polylines/markers
+        return () => {
+            renderer.setMap(null);
+        };
     }, [routesLibrary, map]);
 
     useEffect(() => {
         if (!directionRenderer || !directionService) return;
 
+        // Clear existing directions before drawing new ones
+        directionRenderer.set('directions', null);
+
         directionService
             .route({
-                origin: user,
+                origin: origin,
                 destination: destination,
                 travelMode: routesLibrary.TravelMode.WALKING,
                 provideRouteAlternatives: true,
@@ -179,7 +128,14 @@ function Directions({ user, destination, from }) {
                 directionRenderer.setDirections(response);
                 setRoutes(response.routes);
             });
-    }, [directionService, directionRenderer]);
+    }, [
+        directionService,
+        directionRenderer,
+        routesLibrary,
+        origin,
+        destination,
+        map,
+    ]);
 
     useEffect(() => {
         if (!directionRenderer) return;
@@ -196,10 +152,6 @@ function Directions({ user, destination, from }) {
                 <p className="text-xs text-gray-500">
                     {leg.start_address?.split(',')[0]}
                 </p>
-            </div>
-            <div className="mb-2.5">
-                <p className="font-bold text-blue-500">🎯 محطة الركوب</p>
-                <p className="text-sm text-gray-500">{from}</p>
             </div>
             <p>مسافة: {leg.distance?.text}</p>
             <p>مدة: {leg.duration?.text} سيرا على الأقدام</p>

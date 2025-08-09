@@ -140,9 +140,6 @@
     .hero .holder .search-inputs .input:focus-within {
         outline: 3px solid hsl(var(--blue-color));
     }
-    .hero .holder .search-inputs .input svg {
-        color: hsl(var(--muted-foreground));
-    }
     .wave-animation {
         animation: wave 0.7s infinite;
     }

@@ -19,7 +19,6 @@ export default function TripPage() {
     });
 
     const stations = destinationsData?.microbuses?.destinations;
-    const fee = destinationsData?.microbuses.fee;
     console.log(stations);
 
     const selectedStation = (stations || []).find(
@@ -31,7 +30,20 @@ export default function TripPage() {
 
     return (
         <section className="p-4">
-            <Outlet context={{ selectedStation }} />
+            <title>
+                {selectedStation
+                    ? `رحلة ${selectedStation.from.name} إلى ${selectedStation.to.name} | مشوارك`
+                    : `تفاصيل الرحلة | مشوارك`}
+            </title>
+            <meta
+                name="description"
+                content={
+                    selectedStation
+                        ? `المسار من ${selectedStation.from.name} إلى ${selectedStation.to.name}، المدة ${selectedStation.duration} دقيقة، المسافة ${selectedStation.distance} كم، والسعر ${selectedStation.totalFee} ج.م.`
+                        : 'تفاصيل الرحلة في مشوارك.'
+                }
+            />
+            <Outlet />
             <div>
                 {!destinationsLoading && selectedStation ? (
                     <>
@@ -40,7 +52,7 @@ export default function TripPage() {
                             to={selectedStation.to}
                             duration={selectedStation.duration}
                             distance={selectedStation.distance}
-                            fee={fee}
+                            fee={selectedStation.totalFee}
                             id={selectedStation.destinationId}
                         />
                         <TripDetails
