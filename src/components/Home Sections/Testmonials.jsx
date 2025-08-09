@@ -1,5 +1,6 @@
 import TestmonialCard from './TestmonialCard';
 import Record from './Record';
+import MotionFadeIn from '../UI/MotionFadeIn';
 
 const testmonialsArray = [
     {
@@ -44,15 +45,21 @@ const recordsArray = [
 const Testmonials = () => {
     return (
         <section className="testmonials text-center p-8 text-white">
-            <h2 className=" text-4xl font-bold">ماذا يقول طلاب المنصورة؟</h2>
-            <p className="my-3">
-                اراء حقيقية من طلاب جامعة المنصورة الذين يستخدمون التطبيق يوميا
-            </p>
+            <MotionFadeIn>
+                <h2 className=" text-4xl font-bold">
+                    ماذا يقول طلاب المنصورة؟
+                </h2>
+                <p className="my-3">
+                    اراء حقيقية من طلاب جامعة المنصورة الذين يستخدمون التطبيق
+                    يوميا
+                </p>
+            </MotionFadeIn>
             <main className="container">
                 <div className="testmonial-cards flex flex-col lg:flex-row p-3">
-                    {testmonialsArray.map(testmonial => {
+                    {testmonialsArray.map((testmonial, index) => {
                         return (
                             <TestmonialCard
+                                index={index}
                                 key={testmonial.name}
                                 p={testmonial.p}
                                 emoji={testmonial.emoji}
@@ -63,9 +70,10 @@ const Testmonials = () => {
                     })}
                 </div>
                 <div className="records lg:flex p-8 justify-around sm:grid grid-rows-2 grid-flow-col">
-                    {recordsArray.map(record => {
+                    {recordsArray.map((record, index) => {
                         return (
                             <Record
+                                index={index}
                                 key={record.h4}
                                 h4={record.h4}
                                 p={record.p}
