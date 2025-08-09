@@ -9,7 +9,7 @@ function HeroSection() {
             {/* Preload hero background image with high priority without affecting layout */}
             <img
                 src={heroBg}
-                fetchpriority="high"
+                fetchPriority="high"
                 alt=""
                 aria-hidden="true"
                 className="hidden"

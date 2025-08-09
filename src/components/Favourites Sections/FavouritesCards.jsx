@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, MapPin, Search, Bookmark } from 'lucide-react';
+import { Clock, MapPin, Search, Bookmark, ArrowLeft } from 'lucide-react';
 import MotionFadeIn from '../UI/MotionFadeIn';
 import { useState, useEffect } from 'react';
 
@@ -102,7 +102,7 @@ export default function FavouriteCards() {
                     {filteredRoutes.length > 0 &&
                         filteredRoutes.map((route, index) => (
                             <MotionFadeIn
-                                delay={0.6 + index * 0.2}
+                                delay={0.15 + index * 0.2}
                                 key={route.id}
                                 className="flex flex-col justify-between bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                             >
@@ -139,7 +139,7 @@ export default function FavouriteCards() {
                                             <span className="text-gray-800">
                                                 {route.from}
                                             </span>
-                                            <ArrowRight className="w-5 h-5 text-gray-400" />
+                                            <ArrowLeft className="w-5 h-5 text-gray-400" />
                                             <span className="text-gray-800">
                                                 {route.to}
                                             </span>
@@ -189,7 +189,7 @@ export default function FavouriteCards() {
                                         </div>
                                     </div>
 
-                                    <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-2xl text-lg font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                    <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-2xl cursor-pointer text-lg font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                         عرض التفاصيل
                                     </button>
                                 </div>

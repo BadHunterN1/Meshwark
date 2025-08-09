@@ -85,7 +85,7 @@ export default function ReviewSuggestions() {
                     <h2 className="text-xl font-bold">اقتراحات المستخدمين</h2>
                     <button
                         onClick={() => refetch()}
-                        className="px-3 py-2 rounded bg-blue-600 text-white"
+                        className="px-3 cursor-pointer py-2 rounded bg-blue-600 text-white"
                     >
                         تحديث
                     </button>

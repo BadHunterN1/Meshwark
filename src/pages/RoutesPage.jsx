@@ -97,7 +97,7 @@ export default function RoutesPage() {
 
                             return (
                                 <MotionFadeIn
-                                    delay={0.6 + index * 0.2}
+                                    delay={0.15 + index * 0.2}
                                     key={index}
                                     className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                                 >

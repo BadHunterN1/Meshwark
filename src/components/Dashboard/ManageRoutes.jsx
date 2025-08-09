@@ -144,7 +144,7 @@ export default function ManageRoutes() {
                         <div className="flex flex-wrap justify-between items-center gap-2">
                             <button
                                 onClick={() => refetch()}
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                                className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                             >
                                 اعادة تحميل المسارات
                             </button>
@@ -333,7 +333,7 @@ export default function ManageRoutes() {
                                                                     disabled={
                                                                         deleteStationMutation.isPending
                                                                     }
-                                                                    className="bg-gradient-to-r from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
+                                                                    className="bg-gradient-to-r cursor-pointer from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
                                                                 >
                                                                     <X className="size-4" />
                                                                 </button>
@@ -346,7 +346,7 @@ export default function ManageRoutes() {
                                                                     disabled={
                                                                         updateStationMutation.isPending
                                                                     }
-                                                                    className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 rounded-xl disabled:opacity-60"
+                                                                    className="bg-gradient-to-r cursor-pointer from-blue-500 to-blue-600 p-2 rounded-xl disabled:opacity-60"
                                                                 >
                                                                     <Edit className="size-4" />
                                                                 </button>

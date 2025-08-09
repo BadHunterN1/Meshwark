@@ -12,7 +12,7 @@ const TestmonialCard = ({
     index,
 }) => {
     return (
-        <MotionFadeIn delay={0.6 + index * 0.2}>
+        <MotionFadeIn delay={0.15 + index * 0.2}>
             <div className="testmonial-card p-2 rounded-lg bg-white/30 backdrop-invert backdrop-opacity-10 my-2 mx-4">
                 <Quote
                     size={40}
