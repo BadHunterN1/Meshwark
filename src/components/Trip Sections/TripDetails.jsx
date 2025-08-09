@@ -84,9 +84,9 @@ const Box = ({ station, fromTo, num, lastStep, nextStation }) => {
                         <h3 className="font-bold flex flex-wrap items-center gap-2 mb-2">
                             {num === lastStep
                                 ? `انت الان في ${station.name} لقد وصلت وجهتك النهائيه`
-                                : num > 1
+                                : num >= 1
                                   ? `انت الان في ${station.name} اركب منه للموقف القادم (${nextStation.name})`
-                                  : `اذهب إلى ${station.name}`}
+                                  : null}
                         </h3>
                         {num === lastStep ? null : (
                             <p className="bg-[var(--secondary-color)] text-sm w-fit p-2 rounded-2xl">
