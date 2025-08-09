@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../../../utils/http';
 import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import MotionFadeIn from '../../UI/MotionFadeIn';
 function SearchBox() {
     const navigate = useNavigate();
     const [selectedOptions, setSelectedOptions] = useState({
@@ -74,51 +75,57 @@ function SearchBox() {
 
     return (
         <div className="search-box p-5 bg-(--glass-bg) rounded-2xl max-lg:w-[80%]">
-            <form>
-                <div className="search-inputs mb-6 flex flex-col md:flex-row gap-4">
-                    <InputField
-                        station={selectedOptions.from}
-                        setStation={handleChange}
-                        p="من؟"
-                        name="from"
-                        placeHolder="المنصورة"
-                        destination={uniqueDestinations.uniqueFrom}
-                        isDisabled={destinationsLoading || destinationsError}
-                    />
-                    <InputField
-                        station={selectedOptions.to}
-                        setStation={handleChange}
-                        p="الي؟"
-                        placeHolder="طنطا"
-                        name="to"
-                        destination={uniqueDestinations.uniqueTo}
-                        isDisabled={destinationsLoading || destinationsError}
-                    />
-                </div>
-                <button
-                    onClick={handleNavigation}
-                    disabled={!isFormValid}
-                    className="search disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
-                >
-                    <Search className="ml-2" />
-                    <span>ابحث عن افضل طريق</span>
-                </button>
-                <p
-                    className={`text-center font-bold text-lg pt-2 ${destinationsError ? 'text-red-700' : null}`}
-                >
-                    {destinationsLoading
-                        ? 'جاري تحميل المحطات'
-                        : destinationsError
-                          ? 'لم نستطع تحميل المحطات الرجاء المحاولة مره اخري'
-                          : !isFromValid && !isToValid
-                            ? 'الرجاء اختيار المحطات من قائمة الاختيارات'
-                            : !isFromValid
-                              ? 'الرجاء اختيار محطة من'
-                              : !isToValid
-                                ? 'الرجاء اختيار محطة الي'
-                                : null}
-                </p>
-            </form>
+            <MotionFadeIn>
+                <form>
+                    <div className="search-inputs mb-6 flex flex-col md:flex-row gap-4">
+                        <InputField
+                            station={selectedOptions.from}
+                            setStation={handleChange}
+                            p="من؟"
+                            name="from"
+                            placeHolder="المنصورة"
+                            destination={uniqueDestinations.uniqueFrom}
+                            isDisabled={
+                                destinationsLoading || destinationsError
+                            }
+                        />
+                        <InputField
+                            station={selectedOptions.to}
+                            setStation={handleChange}
+                            p="الي؟"
+                            placeHolder="طنطا"
+                            name="to"
+                            destination={uniqueDestinations.uniqueTo}
+                            isDisabled={
+                                destinationsLoading || destinationsError
+                            }
+                        />
+                    </div>
+                    <button
+                        onClick={handleNavigation}
+                        disabled={!isFormValid}
+                        className="search disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
+                    >
+                        <Search className="ml-2" />
+                        <span>ابحث عن افضل طريق</span>
+                    </button>
+                    <p
+                        className={`text-center font-bold text-lg pt-2 ${destinationsError ? 'text-red-700' : null}`}
+                    >
+                        {destinationsLoading
+                            ? 'جاري تحميل المحطات'
+                            : destinationsError
+                              ? 'لم نستطع تحميل المحطات الرجاء المحاولة مره اخري'
+                              : !isFromValid && !isToValid
+                                ? 'الرجاء اختيار المحطات من قائمة الاختيارات'
+                                : !isFromValid
+                                  ? 'الرجاء اختيار محطة من'
+                                  : !isToValid
+                                    ? 'الرجاء اختيار محطة الي'
+                                    : null}
+                    </p>
+                </form>
+            </MotionFadeIn>
         </div>
     );
 }
