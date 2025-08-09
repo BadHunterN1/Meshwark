@@ -1,4 +1,4 @@
-import { MapPin, Bus, ArrowDown, ArrowDownCircleIcon } from 'lucide-react';
+import { MapPin, Bus, ArrowDownCircleIcon } from 'lucide-react';
 import Button from '../UI/Button';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../../utils/http';
@@ -96,10 +96,10 @@ const Box = ({ station, fromTo, num, lastStep, nextStation }) => {
                     </div>
                 </div>
                 {/* {num === lastStep ? null : (
-                    // <Button onClick={handleNavigateMap}>
-                    //     <MapPin />
-                    //     عرض على الخريطة
-                    // </Button>
+                    <Button onClick={handleNavigateMap}>
+                        <MapPin />
+                        عرض على الخريطة
+                    </Button>
                 )} */}
             </div>
         </>

@@ -1,30 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import {Clock,MapPin,DollarSign,Bookmark, AlertTriangle,MoveLeft,} from 'lucide-react';
+import {
+    Clock,
+    MapPin,
+    DollarSign,
+    Bookmark,
+    AlertTriangle,
+    MoveLeft,
+} from 'lucide-react';
 
-const TripSummary = ({ id, from, to, duration, distance, fee, description }) => {
+const TripSummary = ({
+    id,
+    from,
+    to,
+    duration,
+    distance,
+    fee,
+    description,
+}) => {
     const [isFilled, setIsFilled] = useState(false);
 
-
     useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem("favourites")) || [];
+        const saved = JSON.parse(localStorage.getItem('favourites')) || [];
         const exists = saved.some(route => route.id === id);
         setIsFilled(exists);
     }, [id]);
 
-    
     const handleIconClick = () => {
-        const saved = JSON.parse(localStorage.getItem("favourites")) || [];
+        const saved = JSON.parse(localStorage.getItem('favourites')) || [];
 
         if (isFilled) {
-           
             const updated = saved.filter(route => route.id !== id);
-            localStorage.setItem("favourites", JSON.stringify(updated));
+            localStorage.setItem('favourites', JSON.stringify(updated));
             setIsFilled(false);
         } else {
-           
-            const newCard = { id, from, to, duration, distance, fee, description };
+            const newCard = {
+                id,
+                from,
+                to,
+                duration,
+                distance,
+                fee,
+                description,
+            };
             const updated = [...saved, newCard];
-            localStorage.setItem("favourites", JSON.stringify(updated));
+            localStorage.setItem('favourites', JSON.stringify(updated));
             setIsFilled(true);
         }
     };
@@ -47,8 +66,10 @@ const TripSummary = ({ id, from, to, duration, distance, fee, description }) => 
                             <span>{to?.name}</span>
                         </div>
                     </div>
-                    <button onClick={handleIconClick} 
-                  className="transition-all duration-300 transform hover:scale-110 hover:rotate-1">
+                    <button
+                        onClick={handleIconClick}
+                        className="transition-all duration-300 transform hover:scale-110 hover:rotate-1"
+                    >
                         <Bookmark
                             style={{
                                 color: isFilled ? filledColor : 'gray',
@@ -66,9 +87,13 @@ const TripSummary = ({ id, from, to, duration, distance, fee, description }) => 
                         <Clock className="w-5 h-5 text-[var(--main-color)]" />
                         <div>
                             <div className="text-gray-800 font-medium">
-                                {duration}
+                                {duration >= 60
+                                    ? `${Math.floor(duration / 60)} ساعة ${duration % 60 ? (duration % 60) + ' دقيقة' : ''}`
+                                    : `${duration} دقيقة`}
                             </div>
-                            <div className="text-sm text-gray-500">إجمالي الوقت</div>
+                            <div className="text-sm text-gray-500">
+                                إجمالي الوقت
+                            </div>
                         </div>
                     </div>
 
@@ -78,7 +103,9 @@ const TripSummary = ({ id, from, to, duration, distance, fee, description }) => 
                             <div className="text-gray-800 font-medium">
                                 {distance} كم
                             </div>
-                            <div className="text-sm text-gray-500">إجمالي المسافة</div>
+                            <div className="text-sm text-gray-500">
+                                إجمالي المسافة
+                            </div>
                         </div>
                     </div>
 
@@ -88,7 +115,9 @@ const TripSummary = ({ id, from, to, duration, distance, fee, description }) => 
                             <div className="text-gray-800 font-medium">
                                 {fee} جنيه
                             </div>
-                            <div className="text-sm text-gray-500">إجمالي التكلفة</div>
+                            <div className="text-sm text-gray-500">
+                                إجمالي التكلفة
+                            </div>
                         </div>
                     </div>
                 </div>

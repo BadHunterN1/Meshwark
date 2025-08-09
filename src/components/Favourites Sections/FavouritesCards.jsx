@@ -65,7 +65,7 @@ export default function FavouriteCards() {
                                                 <MapPin className="w-5 h-5 text-white" />
                                             </div>
                                             <span className="text-base text-gray-500 font-medium">
-                                                مسار {route.id}
+                                                مسار {index}
                                             </span>
                                         </div>
                                         <button
@@ -107,7 +107,7 @@ export default function FavouriteCards() {
                                                 <Clock className="w-5 h-5 text-white" />
                                             </div>
                                             <div className="text-base font-medium text-gray-800">
-                                                {route.duration}
+                                                {route.duration} دقيقة
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 المدة
@@ -118,7 +118,7 @@ export default function FavouriteCards() {
                                                 <MapPin className="w-5 h-5 text-white" />
                                             </div>
                                             <div className="text-base font-medium text-gray-800">
-                                                {route.distance}
+                                                {route.distance} كم
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 المسافة
@@ -131,7 +131,7 @@ export default function FavouriteCards() {
                                                 </div>
                                             </div>
                                             <div className="text-base font-medium text-gray-800">
-                                                {route.fee}
+                                                {route.fee} ج.م
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 السعر
