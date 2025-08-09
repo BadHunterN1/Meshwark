@@ -139,7 +139,7 @@ export default function ReviewSuggestions() {
                                             declineSuggestionMutation.isPending ||
                                             acceptSuggestionMutation.isPending
                                         }
-                                        className="p-2 rounded bg-red-600 text-white disabled:opacity-60"
+                                        className="p-2 cursor-pointer rounded bg-red-600 text-white disabled:opacity-60"
                                         title="رفض"
                                     >
                                         <X className="size-4" />
@@ -152,7 +152,7 @@ export default function ReviewSuggestions() {
                                             acceptSuggestionMutation.isPending ||
                                             declineSuggestionMutation.isPending
                                         }
-                                        className="p-2 rounded bg-green-600 text-white disabled:opacity-60"
+                                        className="p-2 cursor-pointer rounded bg-green-600 text-white disabled:opacity-60"
                                         title="قبول"
                                     >
                                         <Check className="size-4" />

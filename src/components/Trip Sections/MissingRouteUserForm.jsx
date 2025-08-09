@@ -297,7 +297,7 @@ export default function MissingRouteUserForm({
 
                             <button
                                 type="submit"
-                                className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition shadow-md mt-2 disabled:opacity-60"
+                                className="w-full cursor-pointer bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition shadow-md mt-2 disabled:opacity-60"
                                 disabled={isSubmitting || formikSubmitting}
                             >
                                 {isSubmitting

@@ -220,7 +220,7 @@ export default function ManageRoutes() {
                                                                             ?.from
                                                                             ?.name
                                                                     }{' '}
-                                                                    →{' '}
+                                                                    ←{' '}
                                                                     {
                                                                         station
                                                                             ?.to

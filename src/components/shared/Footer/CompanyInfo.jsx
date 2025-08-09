@@ -4,12 +4,10 @@ export default function CompanyInfo() {
     return (
         <div className="pr-4 md:pr-6 space-y-4">
             <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-sky-400 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-4 h-4 text-white" />
-                </div>
-                <h3 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 to-sky-300 bg-clip-text text-transparent">
+                <img className="h-14" src="/logo.webp" alt="logo" />
+                <span className="font-semibold text-[var(--main-color)] text-sm sm:text-base lg:text-lg">
                     مشوارك
-                </h3>
+                </span>
             </div>
 
             <p className="text-sm lg:text-base text-gray-300 leading-relaxed">

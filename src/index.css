@@ -45,6 +45,7 @@
 
     html {
         font-family: 'Cairo', system-ui, sans-serif;
+        overflow-x: hidden !important;
         @apply scroll-smooth;
     }
 
