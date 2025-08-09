@@ -63,6 +63,11 @@ export default function ContactUs() {
     ];
     return (
         <div className="bg-gradient-to-tr from-blue-50 via-white to-green-50 min-h-screen">
+            <title>تواصل معنا | مشوارك</title>
+            <meta
+                name="description"
+                content="تواصل مع فريق مشوارك للدعم والاستفسارات والاقتراحات. نحن هنا لخدمتك."
+            />
             <div className="container mx-auto px-4 py-16">
                 <MotionFadeIn className="text-center mb-20">
                     <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 mb-4 p-2">
@@ -76,6 +81,7 @@ export default function ContactUs() {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 max-w-7xl mx-auto">
                     {contactInfo.map((info, index) => (
                         <MotionFadeIn
+                            delay={0.6 + index * 0.2}
                             key={index}
                             className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
                             style={{ animationDelay: `${index * 150}ms` }}

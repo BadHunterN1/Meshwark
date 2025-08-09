@@ -32,10 +32,10 @@ export default function Register() {
                 .matches(/^01[0-2,5]{1}[0-9]{8}$/, 'رقم غير صحيح')
                 .required('رقم الهاتف مطلوب'),
             password: Yup.string()
-                .min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل')
+                .min(8, 'كلمة المرور يجب ألا يقل طولها عن 8 رموز')
                 .matches(
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                    'كلمة المرور ضعيفة'
+                    'يجب ان تحتوي كلمة المرور حرف كبير و رقم و رمز خاص مثال: P@ssw0rd123'
                 )
                 .required('كلمة المرور مطلوبة'),
             confirmPassword: Yup.string()
@@ -77,6 +77,11 @@ export default function Register() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
+            <title>إنشاء حساب | مشوارك</title>
+            <meta
+                name="description"
+                content="أنشئ حسابًا جديدًا في مشوارك لإدارة المسارات وإضافة المفضلة وتجربة أفضل."
+            />
             <form
                 onSubmit={formik.handleSubmit}
                 className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
@@ -101,6 +106,7 @@ export default function Register() {
                             id="name"
                             type="text"
                             name="name"
+                            placeholder="اكتب اسمك الكامل"
                             value={formik.values.name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -123,6 +129,7 @@ export default function Register() {
                             id="email"
                             type="email"
                             name="email"
+                            placeholder="أدخل بريدك الإلكتروني"
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -145,6 +152,7 @@ export default function Register() {
                             id="phone"
                             type="text"
                             name="phone"
+                            placeholder="أدخل رقم هاتفك (11 رقمًا)"
                             value={formik.values.phone}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -167,6 +175,7 @@ export default function Register() {
                             id="password"
                             type="password"
                             name="password"
+                            placeholder="أدخل كلمة المرور"
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -189,6 +198,7 @@ export default function Register() {
                             id="confirmPassword"
                             type="password"
                             name="confirmPassword"
+                            placeholder="أعد إدخال كلمة المرور"
                             value={formik.values.confirmPassword}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}

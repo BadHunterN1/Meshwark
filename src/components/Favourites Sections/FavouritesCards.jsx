@@ -100,8 +100,9 @@ export default function FavouriteCards() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-7xl mx-auto mb-20">
                     {filteredRoutes.length > 0 &&
-                        filteredRoutes.map(route => (
+                        filteredRoutes.map((route, index) => (
                             <MotionFadeIn
+                                delay={0.6 + index * 0.2}
                                 key={route.id}
                                 className="flex flex-col justify-between bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                             >

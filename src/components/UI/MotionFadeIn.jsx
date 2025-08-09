@@ -1,10 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-/**
- * Lightweight enter animation wrapper that lazy-loads framer-motion.
- * - No framer-motion in initial chunk; loaded on first use.
- * - Falls back to a simple CSS fade if the motion chunk hasn't loaded yet.
- */
 export default function MotionFadeIn({
     children,
     className = '',

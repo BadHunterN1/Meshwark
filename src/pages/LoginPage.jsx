@@ -82,6 +82,11 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+            <title>تسجيل الدخول | مشوارك</title>
+            <meta
+                name="description"
+                content="سجّل دخولك إلى مشوارك للوصول إلى المفضلة وإدارة المسارات بسهولة."
+            />
             <form
                 onSubmit={formik.handleSubmit}
                 className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
@@ -108,6 +113,7 @@ export default function Login() {
                             id="email"
                             type="email"
                             name="email"
+                            placeholder="أدخل بريدك الإلكتروني"
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -130,6 +136,7 @@ export default function Login() {
                             id="password"
                             type="password"
                             name="password"
+                            placeholder="أدخل كلمة المرور"
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
