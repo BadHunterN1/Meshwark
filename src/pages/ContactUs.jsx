@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useFormik } from 'formik';
 import MotionFadeIn from '../components/UI/MotionFadeIn';
+import * as Yup from 'yup';
 
 export default function ContactUs() {
     const formik = useFormik({
@@ -18,14 +19,14 @@ export default function ContactUs() {
             subject: '',
             message: '',
         },
-        validate: values => {
-            const errors = {};
-            if (!values.name) errors.name = 'الاسم مطلوب';
-            if (!values.email) errors.email = 'البريد الإلكتروني مطلوب';
-            if (!values.subject) errors.subject = 'الموضوع مطلوب';
-            if (!values.message) errors.message = 'الرسالة مطلوبة';
-            return errors;
-        },
+
+        validationSchema: Yup.object({
+            name: Yup.string().required('الاسم مطلوب'),
+            email: Yup.string()
+                .email('الإيميل غير صحيح')
+                .required('الإيميل مطلوب'),
+            subject: Yup.string().required('الموضوع مطلوب'),
+        }),
         onSubmit: (values, { resetForm, setSubmitting, setStatus }) => {
             setStatus('submitted');
             setTimeout(() => {
@@ -81,7 +82,7 @@ export default function ContactUs() {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 max-w-7xl mx-auto">
                     {contactInfo.map((info, index) => (
                         <MotionFadeIn
-                            delay={0.6 + index * 0.2}
+                            delay={0.15 + index * 0.2}
                             key={index}
                             className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
                             style={{ animationDelay: `${index * 150}ms` }}
@@ -213,7 +214,7 @@ export default function ContactUs() {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-blue-700 hover:to-green-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-3 group"
+                                    className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-blue-700 hover:to-green-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-3 group"
                                     disabled={formik.isSubmitting}
                                 >
                                     <span>إرسال الرسالة</span>

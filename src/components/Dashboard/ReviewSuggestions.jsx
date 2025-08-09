@@ -13,7 +13,6 @@ export default function ReviewSuggestions() {
     const USERS_ROUTES_DOC = 'routes';
     const DESTINATIONS_DOC = 'mansoura';
 
-    // Query for fetching user suggestions
     const {
         data: suggestionsData,
         isLoading: loading,
@@ -22,10 +21,9 @@ export default function ReviewSuggestions() {
     } = useQuery({
         queryKey: ['user-suggestions', USERS_ROUTES_DOC],
         queryFn: () => fetchUsersRoutes(USERS_ROUTES_DOC),
-        staleTime: 2 * 60 * 1000, // 2 minutes
+        staleTime: 2 * 60 * 1000,
     });
 
-    // Mutation for accepting a suggestion
     const acceptSuggestionMutation = useMutation({
         mutationFn: async station => {
             await addStationToDestinations(DESTINATIONS_DOC, station);
@@ -36,18 +34,15 @@ export default function ReviewSuggestions() {
             );
         },
         onSuccess: () => {
-            // Invalidate and refetch the suggestions query
             queryClient.invalidateQueries({
                 queryKey: ['user-suggestions', USERS_ROUTES_DOC],
             });
         },
-        onError: error => {
-            console.error('Failed to accept suggestion', error);
+        onError: () => {
             alert('تعذر قبول الاقتراح');
         },
     });
 
-    // Mutation for declining a suggestion
     const declineSuggestionMutation = useMutation({
         mutationFn: station =>
             removeStationFromUsersRoutes(
@@ -55,13 +50,11 @@ export default function ReviewSuggestions() {
                 station.destinationId
             ),
         onSuccess: () => {
-            // Invalidate and refetch the suggestions query
             queryClient.invalidateQueries({
                 queryKey: ['user-suggestions', USERS_ROUTES_DOC],
             });
         },
-        onError: error => {
-            console.error('Failed to decline suggestion', error);
+        onError: () => {
             alert('تعذر رفض الاقتراح');
         },
     });
@@ -85,7 +78,7 @@ export default function ReviewSuggestions() {
                     <h2 className="text-xl font-bold">اقتراحات المستخدمين</h2>
                     <button
                         onClick={() => refetch()}
-                        className="px-3 py-2 rounded bg-blue-600 text-white"
+                        className="px-3 cursor-pointer py-2 rounded bg-blue-600 text-white"
                     >
                         تحديث
                     </button>
@@ -139,7 +132,7 @@ export default function ReviewSuggestions() {
                                             declineSuggestionMutation.isPending ||
                                             acceptSuggestionMutation.isPending
                                         }
-                                        className="p-2 rounded bg-red-600 text-white disabled:opacity-60"
+                                        className="p-2 cursor-pointer rounded bg-red-600 text-white disabled:opacity-60"
                                         title="رفض"
                                     >
                                         <X className="size-4" />
@@ -152,7 +145,7 @@ export default function ReviewSuggestions() {
                                             acceptSuggestionMutation.isPending ||
                                             declineSuggestionMutation.isPending
                                         }
-                                        className="p-2 rounded bg-green-600 text-white disabled:opacity-60"
+                                        className="p-2 cursor-pointer rounded bg-green-600 text-white disabled:opacity-60"
                                         title="قبول"
                                     >
                                         <Check className="size-4" />

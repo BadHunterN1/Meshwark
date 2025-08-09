@@ -21,8 +21,6 @@ export default function TripDetails({ from, to }) {
             stationObj?.from?.name === from && stationObj?.to?.name === to
     );
 
-    console.log(selectedStation);
-
     return (
         <section className="container p-2">
             <div className="shadow-2xl p-2 rounded-2xl ">
@@ -50,8 +48,6 @@ export default function TripDetails({ from, to }) {
 
 const Box = ({ station, fromTo, num, lastStep, nextStation }) => {
     const navigate = useNavigate();
-    console.log('Current station:', station._lat);
-    console.log('Next station:', nextStation);
 
     const handleNavigateMap = () => {
         const baseUrl = `/trip/${fromTo.from}/${fromTo.to}/map/${station.coords?.latitude}/${station.coords?.longitude}`;
@@ -99,12 +95,12 @@ const Box = ({ station, fromTo, num, lastStep, nextStation }) => {
                         )}
                     </div>
                 </div>
-                {/* {num === lastStep ? null : (
-                    <Button onClick={handleNavigateMap}>
-                        <MapPin />
-                        عرض على الخريطة
-                    </Button>
-                )} */}
+                {num === lastStep ? null : (
+                    // <Button onClick={handleNavigateMap}>
+                    //     <MapPin />
+                    //     عرض على الخريطة
+                    // </Button>
+                )}
             </div>
         </>
     );

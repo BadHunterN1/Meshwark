@@ -61,7 +61,7 @@ export default function SocialSection() {
                             className="bg-transparent text-white placeholder-gray-300 px-4 py-3 w-full focus:outline-none text-right focus:bg-white/5 transition-all duration-300 text-sm"
                         />
                     </div>
-                    <button className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-sky-400 text-white px-3 py-1 rounded-md text-xs hover:from-blue-600 hover:to-sky-500 transition-all duration-300">
+                    <button className="absolute cursor-pointer left-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-sky-400 text-white px-3 py-1 rounded-md text-xs hover:from-blue-600 hover:to-sky-500 transition-all duration-300">
                         اشتراك
                     </button>
                 </div>

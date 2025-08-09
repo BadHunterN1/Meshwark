@@ -1,5 +1,3 @@
-// Lazy-load Firestore and db when needed to keep initial bundle small
-
 export const fetchDocument = async (collectionName, documentId) => {
     const [{ doc, getDoc }, { db }] = await Promise.all([
         import('firebase/firestore'),
@@ -58,10 +56,8 @@ export const addStationDetails = async (documentId, newStation) => {
 };
 
 export const createStationObject = formData => {
-    // Generate a unique destination ID (you might want to implement a better ID generation)
     const destinationId = Date.now();
 
-    // Create the station object with the structure you specified
     return {
         destinationId: destinationId,
         distance: parseInt(formData.distance),
@@ -80,7 +76,6 @@ export const createStationObject = formData => {
     };
 };
 
-// Delete a specific station from destinations by destinationId
 export const removeStationFromDestinations = async (
     documentId,
     destinationId
@@ -102,7 +97,6 @@ export const removeStationFromDestinations = async (
     await updateDoc(docRef, { 'microbuses.destinations': updated });
 };
 
-// Update a specific station in destinations by destinationId
 export const updateStationInDestinations = async (
     documentId,
     updatedStation
@@ -126,12 +120,10 @@ export const updateStationInDestinations = async (
     await updateDoc(docRef, { 'microbuses.destinations': updated });
 };
 
-// Get all user-suggested routes
 export const fetchUsersRoutes = async documentId => {
     return fetchDocument('users-routes', documentId);
 };
 
-// Remove a suggested route from users-routes by destinationId
 export const removeStationFromUsersRoutes = async (
     documentId,
     destinationOrStationId

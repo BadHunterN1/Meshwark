@@ -23,7 +23,6 @@ export default function ManageRoutes() {
     const [editId, setEditId] = useState(null);
     const [editForm, setEditForm] = useState(initialEditForm);
 
-    // Query for fetching destinations data
     const {
         data: destinationsData,
         isLoading: loading,
@@ -32,15 +31,13 @@ export default function ManageRoutes() {
     } = useQuery({
         queryKey: ['destinations', selectedDocument],
         queryFn: () => fetchDocument('destinations', selectedDocument),
-        staleTime: 5 * 60 * 1000, // 5 minutes
+        staleTime: 5 * 60 * 1000,
     });
 
-    // Mutation for updating a station
     const updateStationMutation = useMutation({
         mutationFn: ({ documentId, updatedStation }) =>
             updateStationInDestinations(documentId, updatedStation),
         onSuccess: () => {
-            // Invalidate and refetch the destinations query
             queryClient.invalidateQueries({
                 queryKey: ['destinations', selectedDocument],
             });
@@ -52,18 +49,15 @@ export default function ManageRoutes() {
         },
     });
 
-    // Mutation for deleting a station
     const deleteStationMutation = useMutation({
         mutationFn: ({ documentId, destinationId }) =>
             removeStationFromDestinations(documentId, destinationId),
         onSuccess: () => {
-            // Invalidate and refetch the destinations query
             queryClient.invalidateQueries({
                 queryKey: ['destinations', selectedDocument],
             });
         },
-        onError: error => {
-            console.error('Failed to delete station', error);
+        onError: () => {
             alert('تعذر حذف المسار');
         },
     });
@@ -144,7 +138,7 @@ export default function ManageRoutes() {
                         <div className="flex flex-wrap justify-between items-center gap-2">
                             <button
                                 onClick={() => refetch()}
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                                className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                             >
                                 اعادة تحميل المسارات
                             </button>
@@ -168,7 +162,6 @@ export default function ManageRoutes() {
                             className="w-full md:w-64 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         >
                             <option value="mansoura">المنصورة</option>
-                            {/* Add more document options as needed */}
                         </select>
                     </div>
 
@@ -220,7 +213,7 @@ export default function ManageRoutes() {
                                                                             ?.from
                                                                             ?.name
                                                                     }{' '}
-                                                                    →{' '}
+                                                                    ←{' '}
                                                                     {
                                                                         station
                                                                             ?.to
@@ -333,7 +326,7 @@ export default function ManageRoutes() {
                                                                     disabled={
                                                                         deleteStationMutation.isPending
                                                                     }
-                                                                    className="bg-gradient-to-r from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
+                                                                    className="bg-gradient-to-r cursor-pointer from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
                                                                 >
                                                                     <X className="size-4" />
                                                                 </button>
@@ -346,7 +339,7 @@ export default function ManageRoutes() {
                                                                     disabled={
                                                                         updateStationMutation.isPending
                                                                     }
-                                                                    className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 rounded-xl disabled:opacity-60"
+                                                                    className="bg-gradient-to-r cursor-pointer from-blue-500 to-blue-600 p-2 rounded-xl disabled:opacity-60"
                                                                 >
                                                                     <Edit className="size-4" />
                                                                 </button>

@@ -33,7 +33,6 @@ export default function RoutesPage() {
             </p>
         );
     }
-    console.log(destinationsData.microbuses.destinations);
     const stations = destinationsData.microbuses.destinations;
 
     // Filter stations based on search query
@@ -86,7 +85,6 @@ export default function RoutesPage() {
                 {filteredStations.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
                         {filteredStations.map((stationObj, index) => {
-                            console.log(stationObj.to);
                             const routeNumber = index + 1;
 
                             const handleNavigation = () => {
@@ -97,7 +95,7 @@ export default function RoutesPage() {
 
                             return (
                                 <MotionFadeIn
-                                    delay={0.6 + index * 0.2}
+                                    delay={0.15 + index * 0.2}
                                     key={index}
                                     className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden"
                                 >

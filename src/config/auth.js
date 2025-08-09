@@ -1,5 +1,3 @@
-// Convert to lazy, on-demand imports to reduce initial bundle size
-
 export const doCreateUserWithEmailAndPassword = async (email, password) => {
     const [{ createUserWithEmailAndPassword }, { auth }] = await Promise.all([
         import('firebase/auth'),

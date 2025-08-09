@@ -70,7 +70,7 @@ export default function DashBoard() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
                         <div className="flex items-center space-x-4 space-x-reverse">
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-500 rounded-lg flex items-center justify-center">
+                            <div className="w-10 h-10 ml-2 bg-gradient-to-r from-blue-600 to-green-500 rounded-lg flex items-center justify-center">
                                 <MapPin className="w-6 h-6 text-white" />
                             </div>
                             <div>

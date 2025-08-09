@@ -28,7 +28,6 @@ export default function MotionFadeIn({
     );
 
     if (!fm) {
-        // Fallback: simple CSS fade-in without JS observers
         return (
             <div
                 className={`opacity-0 data-[inview=true]:opacity-100 data-[inview=true]:translate-y-0 translate-y-3 ${className}`}

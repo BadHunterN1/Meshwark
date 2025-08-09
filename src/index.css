@@ -45,6 +45,7 @@
 
     html {
         font-family: 'Cairo', system-ui, sans-serif;
+        overflow-x: hidden !important;
         @apply scroll-smooth;
     }
 
@@ -109,7 +110,6 @@
         transform: scale(1.1);
     }
 
-    /* hero section */
     .hero {
         background-image: url('assets/Images/HomePage/background.webp');
         background-size: cover;

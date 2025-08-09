@@ -17,10 +17,8 @@ export default function Login() {
     const [errorMsg, setErrorMsg] = useState('');
     const [formLoading, setFormLoading] = useState(false);
 
-    // Redirect if user is already logged in
     useEffect(() => {
         if (currentUser && userLoggedIn && !loading) {
-            // Check if user is admin
             if (currentUser.email === 'admin@meshwark.com') {
                 navigate('/admin');
             } else {
@@ -72,10 +70,8 @@ export default function Login() {
         }
     };
 
-    // Show loading spinner while auth is initializing
     if (loading) return <LoadingSpinner />;
 
-    // Don't render login form if user is already logged in
     if (currentUser && userLoggedIn) {
         return null;
     }
@@ -158,7 +154,7 @@ export default function Login() {
                     <button
                         type="button"
                         onClick={handleGoogleLogin}
-                        className="w-full bg-white text-gray-700 py-2 px-4 rounded border border-gray-300 hover:bg-gray-50 mt-4 disabled:opacity-60 flex items-center justify-center gap-2"
+                        className="w-full cursor-pointer bg-white text-gray-700 py-2 px-4 rounded border border-gray-300 hover:bg-gray-50 mt-4 disabled:opacity-60 flex items-center justify-center gap-2"
                         disabled={formLoading}
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -185,7 +181,7 @@ export default function Login() {
                         ليس لديك حساب ؟{' '}
                         <Link
                             to="/register"
-                            className="text-blue-600 hover:underline p-2"
+                            className="text-blue-600 cursor-pointer hover:underline p-2"
                         >
                             سجل من هنا
                         </Link>

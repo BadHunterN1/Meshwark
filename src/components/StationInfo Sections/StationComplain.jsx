@@ -18,7 +18,6 @@ export default function StationComplain() {
                 .required('الرسالة مطلوبة'),
         }),
         onSubmit: (values, { resetForm }) => {
-            // Handle form submission (e.g., send to API or show success message)
             alert('تم إرسال الشكوى بنجاح!');
             resetForm();
         },

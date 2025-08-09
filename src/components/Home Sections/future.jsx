@@ -43,7 +43,7 @@ function Future() {
             <div className="grid lg:grid-cols-3  grid-cols-1 gap-15  place-items-center xl:px-30">
                 {futureItems.map((item, index) => (
                     <MotionFadeIn
-                        delay={0.5 + index * 0.2}
+                        delay={0.15 + index * 0.2}
                         key={index}
                         className=" h-full w-full bg-white py-7 px-[30px] rounded-lg shadow-md  transition  ease-in-out duration-800 hover:scale-[1.1]  hover:bg-gradient-to-b from-[#EAF4FF] to-[#eaf7ff] hover:shadow-xl group"
                     >
