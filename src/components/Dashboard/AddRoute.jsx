@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { GeoPoint } from 'firebase/firestore';
 import {
     addStationDetails,
     addStationToDestinations,
@@ -51,6 +50,7 @@ export default function AddRoute({ fromDefault = '', toDefault = '' }) {
 
         try {
             // Create cross stations with coordinates
+            const { GeoPoint } = await import('firebase/firestore');
             const crossStations = values.crossStations.map(station => ({
                 station: {
                     coords: new GeoPoint(

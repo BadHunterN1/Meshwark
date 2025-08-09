@@ -1,4 +1,4 @@
-import { SearchIcon } from '../../../assets/Images/Icons';
+import { Search } from 'lucide-react';
 
 function InputField(props) {
     const listId = `${props.name}-list`;
@@ -10,7 +10,7 @@ function InputField(props) {
             <div
                 className={`input ${props.isDisabled ? 'opacity-40' : null} w-full flex mt-1.5`}
             >
-                <SearchIcon />
+                <Search className="text-[hsl(var(--muted-foreground))] ml-2" />
                 <input
                     className="text-gray-900 font-bold w-full"
                     value={props.station || ''}

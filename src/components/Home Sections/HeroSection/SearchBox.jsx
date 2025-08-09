@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { SearchIcon } from '../../../assets/Images/Icons';
 import InputField from './InputField';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDocument } from '../../../utils/http';
 import { useNavigate } from 'react-router-dom';
+import { Search } from 'lucide-react';
 function SearchBox() {
     const navigate = useNavigate();
     const [selectedOptions, setSelectedOptions] = useState({
@@ -98,9 +98,9 @@ function SearchBox() {
                 <button
                     onClick={handleNavigation}
                     disabled={!isFormValid}
-                    className="search disabled:opacity-50 disabled:cursor-not-allowed w-full disabled:opacity-30 flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
+                    className="search disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
                 >
-                    <SearchIcon className="search-icon" />
+                    <Search className="ml-2" />
                     <span>ابحث عن افضل طريق</span>
                 </button>
                 <p

@@ -1,9 +1,18 @@
 import { lazy, Suspense } from 'react';
+import heroBg from '../../../assets/Images/HomePage/background.webp';
 const SearchBox = lazy(() => import('./SearchBox'));
 
 function HeroSection() {
     return (
         <div className="hero relative">
+            {/* Preload hero background image with high priority without affecting layout */}
+            <img
+                src={heroBg}
+                fetchpriority="high"
+                alt=""
+                aria-hidden="true"
+                className="hidden"
+            />
             <div className="holder p-2 sm:p-7 max-sm:min-h-[calc(100vh-60px)] flex justify-center items-center flex-col w-full min-h-[calc(100vh-72px)]">
                 <div className="main-heading">
                     <div className="w-fit text-center rounded-2xl p-1.5 mx-auto border mb-4">

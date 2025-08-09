@@ -8,7 +8,7 @@ import RootLayout from './pages/RootLayout';
 import ProtectedRoute from './protectedRoute/ProtectedRoute';
 import AdminRoute from './protectedRoute/AdminRoute';
 import LoadingSpinner from './components/shared/LoadingSpinner';
-import { AuthProvider } from './Context/authContext';
+import { AuthProvider } from './Context/authContext/AuthProvider';
 import LoginPage from './pages/LoginPage';
 
 // Lazy load pages

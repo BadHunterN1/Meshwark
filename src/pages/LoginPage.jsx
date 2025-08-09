@@ -8,6 +8,7 @@ import {
     createUserDocumentIfNotExists,
 } from '../config/auth';
 import { useAuth } from '../Context/authContext';
+import LoadingSpinner from '../components/shared/LoadingSpinner';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -71,13 +72,7 @@ export default function Login() {
     };
 
     // Show loading spinner while auth is initializing
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-            </div>
-        );
-    }
+    if (loading) return <LoadingSpinner />;
 
     // Don't render login form if user is already logged in
     if (currentUser && userLoggedIn) {

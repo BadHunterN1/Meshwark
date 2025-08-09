@@ -1,17 +1,12 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../Context/authContext';
+import LoadingSpinner from '../components/shared/LoadingSpinner';
 
 export default function AdminRoute({ children }) {
     const { currentUser, userLoggedIn, loading } = useAuth();
 
     // Show loading spinner while auth is initializing
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-            </div>
-        );
-    }
+    if (loading) return <LoadingSpinner />;
 
     // Check if user is logged in and is admin
     const isAdmin = currentUser?.email === 'admin@meshwark.com';

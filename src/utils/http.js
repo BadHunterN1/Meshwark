@@ -1,7 +1,10 @@
-import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { db } from '../config/firebase';
+// Lazy-load Firestore and db when needed to keep initial bundle small
 
 export const fetchDocument = async (collectionName, documentId) => {
+    const [{ doc, getDoc }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, collectionName, documentId);
     const docSnap = await getDoc(docRef);
 
@@ -12,16 +15,20 @@ export const fetchDocument = async (collectionName, documentId) => {
     }
 };
 
-export const updateDocument = async (
-    collectionName,
-    documentId,
-    updateData
-) => {
+export const updateDocument = async (collectionName, documentId, updateData) => {
+    const [{ doc, updateDoc }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, collectionName, documentId);
     await updateDoc(docRef, updateData);
 };
 
 export const addStationToDestinations = async (documentId, newStation) => {
+    const [{ doc, updateDoc, arrayUnion }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, 'destinations', documentId);
     await updateDoc(docRef, {
         'microbuses.destinations': arrayUnion(newStation),
@@ -29,6 +36,10 @@ export const addStationToDestinations = async (documentId, newStation) => {
 };
 
 export const addStationToUsersRoutes = async (documentId, newStation) => {
+    const [{ doc, updateDoc, arrayUnion }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, 'users-routes', documentId);
     await updateDoc(docRef, {
         'microbuses.destinations': arrayUnion(newStation),
@@ -36,6 +47,10 @@ export const addStationToUsersRoutes = async (documentId, newStation) => {
 };
 
 export const addStationDetails = async (documentId, newStation) => {
+    const [{ doc, updateDoc, arrayUnion }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, 'stations', documentId);
     await updateDoc(docRef, {
         stations: arrayUnion(newStation.from, newStation.to),
@@ -70,6 +85,10 @@ export const removeStationFromDestinations = async (
     documentId,
     destinationId
 ) => {
+    const [{ doc, getDoc, updateDoc }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, 'destinations', documentId);
     const snap = await getDoc(docRef);
     if (!snap.exists()) throw new Error('Document not found');
@@ -88,6 +107,10 @@ export const updateStationInDestinations = async (
     documentId,
     updatedStation
 ) => {
+    const [{ doc, getDoc, updateDoc }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, 'destinations', documentId);
     const snap = await getDoc(docRef);
     if (!snap.exists()) throw new Error('Document not found');
@@ -113,6 +136,10 @@ export const removeStationFromUsersRoutes = async (
     documentId,
     destinationOrStationId
 ) => {
+    const [{ doc, getDoc, updateDoc }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
     const docRef = doc(db, 'users-routes', documentId);
     const snap = await getDoc(docRef);
     if (!snap.exists()) throw new Error('Document not found');

@@ -5,7 +5,6 @@ import {
     removeStationFromDestinations,
     updateStationInDestinations,
 } from '../../utils/http';
-import { useNavigate } from 'react-router-dom';
 import { Edit, X } from 'lucide-react';
 import EditRouteForm from './EditRouteForm';
 import { queryClient } from '../../config/query';
@@ -23,7 +22,6 @@ export default function ManageRoutes() {
     const [selectedDocument, setSelectedDocument] = useState('mansoura');
     const [editId, setEditId] = useState(null);
     const [editForm, setEditForm] = useState(initialEditForm);
-    const navigate = useNavigate();
 
     // Query for fetching destinations data
     const {
@@ -72,10 +70,6 @@ export default function ManageRoutes() {
 
     const handleDocumentChange = e => {
         setSelectedDocument(e.target.value);
-    };
-
-    const handleRoutes = route => {
-        navigate(route);
     };
 
     const beginEdit = station => {
@@ -153,20 +147,6 @@ export default function ManageRoutes() {
                                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                             >
                                 اعادة تحميل المسارات
-                            </button>
-                            <button
-                                onClick={() => handleRoutes('add-route')}
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                            >
-                                اضافة مسار
-                            </button>
-                            <button
-                                onClick={() =>
-                                    handleRoutes('review-suggestions')
-                                }
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                            >
-                                اقتراحات المستخدمين
                             </button>
                         </div>
                     </div>
