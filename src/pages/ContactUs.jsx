@@ -26,6 +26,7 @@ export default function ContactUs() {
                 .email('الإيميل غير صحيح')
                 .required('الإيميل مطلوب'),
             subject: Yup.string().required('الموضوع مطلوب'),
+            message: Yup.string().required('من فضلك ادخل رسالتك'),
         }),
         onSubmit: (values, { resetForm, setSubmitting, setStatus }) => {
             setStatus('submitted');
