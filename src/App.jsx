@@ -1,6 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense} from 'react';
 import { queryClient } from './config/query';
 
 import HomePage from './pages/HomePage';
@@ -166,20 +166,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    // Defer loading global CSS to after first paint, avoiding render-blocking
-    useEffect(() => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '/src/index.css';
-        link.media = 'print';
-        link.onload = () => {
-            link.media = 'all';
-        };
-        document.head.appendChild(link);
-        return () => {
-            document.head.removeChild(link);
-        };
-    }, []);
+    
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
