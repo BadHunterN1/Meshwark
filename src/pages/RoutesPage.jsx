@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, BanIcon, Clock, MapPin, Search, Star } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchDocument } from '../utils/http';
 import MotionFadeIn from '../components/UI/MotionFadeIn';
 
 export default function RoutesPage() {
     const [searchQuery, setSearchQuery] = useState('');
-    const navigate = useNavigate();
 
     const {
         data: destinationsData,
@@ -86,12 +85,6 @@ export default function RoutesPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
                         {filteredStations.map((stationObj, index) => {
                             const routeNumber = index + 1;
-
-                            const handleNavigation = () => {
-                                navigate(
-                                    `/trip/${stationObj.from.name}/${stationObj.to.name}`
-                                );
-                            };
 
                             return (
                                 <MotionFadeIn
@@ -175,12 +168,12 @@ export default function RoutesPage() {
                                             </div>
                                         </div>
 
-                                        <button
-                                            onClick={handleNavigation}
-                                            className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                                        <Link
+                                            to={`/trip/${stationObj.from.name}/${stationObj.to.name}`}
+                                            className="block text-center cursor-pointer bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                                         >
                                             عرض التفاصيل
-                                        </button>
+                                        </Link>
                                     </div>
                                 </MotionFadeIn>
                             );

@@ -1,6 +1,7 @@
 import { ArrowLeft, Clock, MapPin, Search, Bookmark } from 'lucide-react';
 import MotionFadeIn from '../UI/MotionFadeIn';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FavouriteCards() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -65,7 +66,7 @@ export default function FavouriteCards() {
                                                 <MapPin className="w-5 h-5 text-white" />
                                             </div>
                                             <span className="text-base text-gray-500 font-medium">
-                                                مسار {index}
+                                                مسار {index + 1}
                                             </span>
                                         </div>
                                         <button
@@ -139,9 +140,12 @@ export default function FavouriteCards() {
                                         </div>
                                     </div>
 
-                                    <button className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-2xl cursor-pointer text-lg font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                    <Link
+                                        to={`/trip/${route.from?.name}/${route.to?.name}`}
+                                        className="block text-center bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-2xl cursor-pointer text-lg font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                                    >
                                         عرض التفاصيل
-                                    </button>
+                                    </Link>
                                 </div>
                             </MotionFadeIn>
                         ))
