@@ -67,7 +67,8 @@ function SearchBox() {
 
     const isFromValid = selectedOptions.from;
     const isToValid = selectedOptions.to;
-    const isFormValid = isFromValid && isToValid;
+    const isFormSame = selectedOptions.from === selectedOptions.to;
+    const isFormValid = isFromValid && isToValid && !isFormSame;
 
     return (
         <div className="search-box p-5 bg-(--glass-bg) rounded-2xl max-lg:w-[80%]">
@@ -118,7 +119,9 @@ function SearchBox() {
                                   ? 'الرجاء اختيار محطة من'
                                   : !isToValid
                                     ? 'الرجاء اختيار محطة الي'
-                                    : null}
+                                    : isFormSame
+                                      ? 'يجب اختيار وجهات مختلفة'
+                                      : null}
                     </p>
                 </form>
             </MotionFadeIn>
