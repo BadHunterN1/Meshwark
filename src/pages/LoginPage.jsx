@@ -146,7 +146,7 @@ export default function Login() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-60"
+                        className="w-full cursor-pointer bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-60"
                         disabled={formLoading}
                     >
                         دخول
