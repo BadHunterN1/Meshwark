@@ -101,7 +101,7 @@ export default function ReviewSuggestions() {
                             >
                                 <div className="flex-1">
                                     <div className="font-semibold text-gray-800">
-                                        {station?.from?.name} →{' '}
+                                        {station?.from?.name} ←{' '}
                                         {station?.to?.name}
                                     </div>
                                     <div className="text-sm text-gray-600 mt-1">

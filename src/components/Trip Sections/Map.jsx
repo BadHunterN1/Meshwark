@@ -119,7 +119,7 @@ function Directions({ origin, destination }) {
             .route({
                 origin: origin,
                 destination: destination,
-                travelMode: routesLibrary.TravelMode.WALKING,
+                travelMode: routesLibrary.TravelMode.DRIVING,
                 provideRouteAlternatives: true,
             })
             .then(response => {
