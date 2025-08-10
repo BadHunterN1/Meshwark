@@ -95,12 +95,12 @@ const Box = ({ station, fromTo, num, lastStep, nextStation }) => {
                         )}
                     </div>
                 </div>
-                {/* {num === lastStep ? null : (
+                {num === lastStep ? null : (
                     <Button onClick={handleNavigateMap}>
                         <MapPin />
                         عرض على الخريطة
                     </Button>
-                )} */}
+                )}
             </div>
         </>
     );
