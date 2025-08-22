@@ -1,6 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { lazy, Suspense} from 'react';
+import { lazy, Suspense } from 'react';
 import { queryClient } from './config/query';
 
 import HomePage from './pages/HomePage';
@@ -9,11 +9,11 @@ import ProtectedRoute from './protectedRoute/ProtectedRoute';
 import AdminRoute from './protectedRoute/AdminRoute';
 import LoadingSpinner from './components/shared/LoadingSpinner';
 import { AuthProvider } from './Context/authContext/AuthProvider';
-import LoginPage from './pages/LoginPage';
 
 const ContactUs = lazy(() => import('./pages/ContactUs'));
 const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 const FavouritePage = lazy(() => import('./pages/FavouritePage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
 const Register = lazy(() => import('./pages/RegisterPage'));
 const RoutesPage = lazy(() => import('./pages/RoutesPage'));
 const TripPage = lazy(() => import('./pages/TripPage'));
@@ -99,7 +99,11 @@ const router = createBrowserRouter([
                 path: 'help',
             },
             {
-                element: <LoginPage />,
+                element: (
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <LoginPage />
+                    </Suspense>
+                ),
                 path: 'login',
             },
             {
@@ -166,7 +170,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
