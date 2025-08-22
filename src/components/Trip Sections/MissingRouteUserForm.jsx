@@ -68,7 +68,7 @@ export default function MissingRouteUserForm({
             });
 
             await addStationToUsersRoutes('routes', newStation);
-            await addStationDetails('station-details', newStation);
+            // await addStationDetails('station-details', newStation);
 
             setSubmitted(true);
             resetForm();

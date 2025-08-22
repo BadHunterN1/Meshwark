@@ -34,8 +34,9 @@ export default function RoutesPage() {
     }
     const stations = destinationsData.microbuses.destinations;
 
-    // Filter stations based on search query
     const filteredStations = stations.filter(stationObj => {
+        if (stationObj.available === false) return false;
+
         if (!searchQuery.trim()) return true;
 
         const fromName = stationObj.from?.name || '';

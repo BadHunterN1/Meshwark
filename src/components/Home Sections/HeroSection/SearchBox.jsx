@@ -43,10 +43,14 @@ function SearchBox() {
             return { uniqueFrom: [], uniqueTo: [] };
         }
 
+        const availableStations = stations.filter(
+            stationObj => stationObj.available !== false
+        );
+
         const uniqueFrom = new Map();
         const uniqueTo = new Map();
 
-        stations.forEach(stationObj => {
+        availableStations.forEach(stationObj => {
             if (stationObj.from?.name && stationObj.to?.name) {
                 if (!uniqueFrom.has(stationObj.from.name)) {
                     uniqueFrom.set(stationObj.from.name, {

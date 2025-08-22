@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import {
     fetchDocument,
-    removeStationFromDestinations,
     updateStationInDestinations,
+    toggleStationAvailability,
 } from '../../utils/http';
-import { Edit, X } from 'lucide-react';
+import { Edit, Eye, EyeOff } from 'lucide-react';
 import EditRouteForm from './EditRouteForm';
 import { queryClient } from '../../config/query';
 
@@ -49,16 +49,16 @@ export default function ManageRoutes() {
         },
     });
 
-    const deleteStationMutation = useMutation({
+    const suspendStationMutation = useMutation({
         mutationFn: ({ documentId, destinationId }) =>
-            removeStationFromDestinations(documentId, destinationId),
+            toggleStationAvailability(documentId, destinationId),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['destinations', selectedDocument],
             });
         },
         onError: () => {
-            alert('تعذر حذف المسار');
+            alert('تعذر تعليق/إلغاء تعليق المسار');
         },
     });
 
@@ -100,11 +100,15 @@ export default function ManageRoutes() {
         });
     };
 
-    const deleteStation = async station => {
-        const confirmed = window.confirm('هل أنت متأكد من حذف هذا المسار؟');
+    const suspendStation = async station => {
+        const isAvailable = station.available !== false;
+        const action = isAvailable ? 'تعليق' : 'إلغاء تعليق';
+        const confirmed = window.confirm(
+            `هل أنت متأكد من ${action} هذا المسار؟`
+        );
         if (!confirmed) return;
 
-        deleteStationMutation.mutate({
+        suspendStationMutation.mutate({
             documentId: selectedDocument,
             destinationId: station.destinationId,
         });
@@ -203,8 +207,19 @@ export default function ManageRoutes() {
                                                 return (
                                                     <div
                                                         key={index}
-                                                        className="bg-white rounded-lg p-4 border border-gray-200"
+                                                        className={`bg-white rounded-lg p-4 border ${
+                                                            station.available ===
+                                                            false
+                                                                ? 'border-red-200 bg-red-50'
+                                                                : 'border-gray-200'
+                                                        }`}
                                                     >
+                                                        {station.available ===
+                                                            false && (
+                                                            <div className="mb-2 px-2 py-1 bg-red-100 text-red-700 text-xs rounded-md inline-block">
+                                                                معلق
+                                                            </div>
+                                                        )}
                                                         <div className="flex justify-between items-start">
                                                             <div className="flex-1">
                                                                 <h3 className="font-semibold text-gray-800">
@@ -310,7 +325,7 @@ export default function ManageRoutes() {
                                                                     />
                                                                 )}
                                                             </div>
-                                                            <div className="flex flex-col gap-2 items-end text-xs text-gray-400">
+                                                            <div className="flex flex-col gap-2 items-end text-xs text-gray-700">
                                                                 <div>
                                                                     ID:{' '}
                                                                     {
@@ -319,16 +334,32 @@ export default function ManageRoutes() {
                                                                 </div>
                                                                 <button
                                                                     onClick={() =>
-                                                                        deleteStation(
+                                                                        suspendStation(
                                                                             station
                                                                         )
                                                                     }
                                                                     disabled={
-                                                                        deleteStationMutation.isPending
+                                                                        suspendStationMutation.isPending
                                                                     }
-                                                                    className="bg-gradient-to-r cursor-pointer from-red-500 to-red-600 p-2 rounded-xl disabled:opacity-60"
+                                                                    className={`bg-gradient-to-r cursor-pointer p-2 rounded-xl disabled:opacity-60 ${
+                                                                        station.available !==
+                                                                        false
+                                                                            ? 'from-orange-500 to-orange-600'
+                                                                            : 'from-green-500 to-green-600'
+                                                                    }`}
+                                                                    title={
+                                                                        station.available !==
+                                                                        false
+                                                                            ? 'تعليق المسار'
+                                                                            : 'إلغاء تعليق المسار'
+                                                                    }
                                                                 >
-                                                                    <X className="size-4" />
+                                                                    {station.available !==
+                                                                    false ? (
+                                                                        <EyeOff className="size-4" />
+                                                                    ) : (
+                                                                        <Eye className="size-4" />
+                                                                    )}
                                                                 </button>
                                                                 <button
                                                                     onClick={() =>
@@ -361,7 +392,7 @@ export default function ManageRoutes() {
                                 <h2 className="text-lg font-semibold text-blue-800 mb-4">
                                     إحصائيات سريعة
                                 </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                     <div className="bg-white rounded-lg p-3 text-center">
                                         <div className="text-2xl font-bold text-blue-600">
                                             {destinationsData?.microbuses
@@ -369,6 +400,17 @@ export default function ManageRoutes() {
                                         </div>
                                         <div className="text-sm text-gray-600">
                                             إجمالي المسارات
+                                        </div>
+                                    </div>
+                                    <div className="bg-white rounded-lg p-3 text-center">
+                                        <div className="text-2xl font-bold text-red-600">
+                                            {destinationsData?.microbuses?.destinations?.filter(
+                                                station =>
+                                                    station.available === false
+                                            ).length || 0}
+                                        </div>
+                                        <div className="text-sm text-gray-600">
+                                            المسارات المعلقة
                                         </div>
                                     </div>
                                     <div className="bg-white rounded-lg p-3 text-center">

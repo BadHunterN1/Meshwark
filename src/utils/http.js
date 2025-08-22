@@ -73,6 +73,7 @@ export const createStationObject = formData => {
         rating: 4.3,
         totalFee: Number(formData.totalFee),
         crossStations: formData.crossStations,
+        available: true, // Default to available
     };
 };
 
@@ -92,6 +93,29 @@ export const removeStationFromDestinations = async (
     const current = data?.microbuses?.destinations || [];
     const updated = current.filter(
         station => String(station?.destinationId) !== String(destinationId)
+    );
+
+    await updateDoc(docRef, { 'microbuses.destinations': updated });
+};
+
+export const toggleStationAvailability = async (
+    documentId,
+    destinationId
+) => {
+    const [{ doc, getDoc, updateDoc }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../config/firebase'),
+    ]);
+    const docRef = doc(db, 'destinations', documentId);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) throw new Error('Document not found');
+
+    const data = snap.data();
+    const current = data?.microbuses?.destinations || [];
+    const updated = current.map(station =>
+        String(station?.destinationId) === String(destinationId)
+            ? { ...station, available: !(station.available !== false) }
+            : station
     );
 
     await updateDoc(docRef, { 'microbuses.destinations': updated });
