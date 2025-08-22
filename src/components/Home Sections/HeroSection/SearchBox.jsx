@@ -12,7 +12,8 @@ function SearchBox() {
         to: null,
     });
 
-    const handleNavigation = () => {
+    const handleNavigation = e => {
+        e.preventDefault(); // Prevent form submission
         navigate(`/trip/${selectedOptions.from}/${selectedOptions.to}`);
     };
 
@@ -77,7 +78,7 @@ function SearchBox() {
     return (
         <div className="search-box p-5 bg-(--glass-bg) rounded-2xl max-lg:w-[80%]">
             <MotionFadeIn>
-                <form>
+                <form onSubmit={handleNavigation}>
                     <div className="search-inputs mb-6 flex flex-col md:flex-row gap-4">
                         <InputField
                             station={selectedOptions.from}
@@ -103,7 +104,7 @@ function SearchBox() {
                         />
                     </div>
                     <button
-                        onClick={handleNavigation}
+                        type="submit"
                         disabled={!isFormValid}
                         className="search disabled:opacity-50 disabled:cursor-not-allowed w-full flex items-center justify-center bg-[var(--hero-button-main-color)] rounded-md px-[5px] py-[10px] font-bold cursor-pointer transition duration-500 hover:scale-[1.05] hover:bg-[var(--hero-button-glow-color)]"
                     >
